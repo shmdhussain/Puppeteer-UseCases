@@ -1,0 +1,252 @@
+[
+  {
+    "title": "home-section",
+    "MainComponents": [
+      "FEATURED",
+      "HYBRID",
+      "FEATURED",
+      "HYBRID",
+      "VIDEO_WIDGET",
+      "TOPSTORIES",
+      "TOPSTORIES",
+      "TOPSTORIES",
+      "TOPSTORIES",
+      "TOPSTORIES",
+      "TOPSTORIES"
+    ],
+    "sidebarComponents": [
+      "VIDEO_WIDGET",
+      "CUSTOMHTML",
+      "BLOGS",
+      "EPISODES",
+      "POPULAR_STORIES",
+      "POLLS"
+    ]
+  },
+  {
+    "title": "middleEast-section",
+    "MainComponents": [
+      "FEATURED",
+      "FEATURED",
+      "TOPSTORIES",
+      "COMPACT",
+      "COMPACT",
+      "COMPACT"
+    ],
+    "sidebarComponents": [
+      "CUSTOMHTML",
+      "POPULAR_STORIES"
+    ]
+  },
+  {
+    "title": "world-section",
+    "MainComponents": [
+      "FEATURED",
+      "FEATURED",
+      "TOPSTORIES",
+      "COMPACT",
+      "COMPACT",
+      "COMPACT"
+    ],
+    "sidebarComponents": [
+      "POPULAR_STORIES"
+    ]
+  },
+  {
+    "title": "sport-section",
+    "MainComponents": [
+      "FEATURED",
+      "FEATURED",
+      "TOPSTORIES",
+      "COMPACT",
+      "COMPACT",
+      "COMPACT",
+      "COMPACT"
+    ],
+    "sidebarComponents": [
+      "LATEST_NEWS",
+      "CUSTOMHTML",
+      "TOP_SCORERS"
+    ]
+  },
+  {
+    "title": "tennis-section",
+    "MainComponents": [
+      "FEATURED",
+      "FEATURED",
+      "TOPSTORIES",
+      "COMPACT",
+      "COMPACT",
+      "COMPACT"
+    ],
+    "sidebarComponents": [
+      "RANKINGS_TENNIS"
+    ]
+  },
+  {
+    "title": "motorsport-section",
+    "MainComponents": [
+      "FEATURED",
+      "FEATURED",
+      "TOPSTORIES",
+      "COMPACT",
+      "COMPACT"
+    ],
+    "sidebarComponents": [
+      "RANKINGS_MOTORSPORTS"
+    ]
+  },
+  {
+    "title": "basketball-section",
+    "MainComponents": [
+      "FEATURED",
+      "FEATURED",
+      "COMPACT"
+    ],
+    "sidebarComponents": [
+      "RANKINGS_BASKETBALL"
+    ]
+  },
+  {
+    "title": "football-section",
+    "MainComponents": [
+      "FEATURED",
+      "FEATURED",
+      "TOPSTORIES",
+      "COMPACT",
+      "COMPACT",
+      "COMPACT"
+    ],
+    "sidebarComponents": [
+      "POPULAR_LEAGUES",
+      "MATCH_RESULTS"
+    ]
+  },
+  {
+    "title": "matches-section",
+    "MainComponents": [
+      "MATCH_LISTING"
+    ],
+    "sidebarComponents": [
+      "MATCH_RESULTS"
+    ]
+  },
+  {
+    "title": "standings-section",
+    "MainComponents": [
+      "LEAGUE_STANDINGS"
+    ],
+    "sidebarComponents": [
+      "TOP_SCORERS",
+      "LATEST_NEWS"
+    ]
+  },
+  {
+    "title": "leagues-section",
+    "MainComponents": [
+      "LEAGUE_LISTING"
+    ],
+    "sidebarComponents": [
+      "POPULAR_STORIES",
+      "LATEST_NEWS"
+    ]
+  },
+  {
+    "title": "business-section",
+    "MainComponents": [
+      "FEATURED",
+      "FEATURED",
+      "TOPSTORIES",
+      "COMPACT",
+      "COMPACT"
+    ],
+    "sidebarComponents": [
+      "MARKETS",
+      "PROGRAM_CAROUSEL",
+      "COMMODITY_CURRENCIES_TAB",
+      "POPULAR_STORIES"
+    ]
+  },
+  {
+    "title": "technology-section",
+    "MainComponents": [
+      "FEATURED",
+      "FEATURED",
+      "TOPSTORIES",
+      "COMPACT",
+      "COMPACT",
+      "COMPACT"
+    ],
+    "sidebarComponents": [
+      "CUSTOMHTML",
+      "POPULAR_STORIES"
+    ]
+  },
+  {
+    "title": "varieties-section",
+    "MainComponents": [
+      "FEATURED",
+      "FEATURED",
+      "TOPSTORIES",
+      "COMPACT",
+      "COMPACT",
+      "COMPACT"
+    ],
+    "sidebarComponents": [
+      "POPULAR_STORIES",
+      "CUSTOMHTML"
+    ]
+  },
+  {
+    "title": "programs-list",
+    "MainComponents": [],
+    "sidebarComponents": []
+  },
+  {
+    "title": "programs-detail-hadith-al-arab",
+    "MainComponents": [
+      "EMBED_ITEM"
+    ],
+    "sidebarComponents": [
+      "CUSTOMHTML"
+    ]
+  },
+  {
+    "title": "markets-section",
+    "MainComponents": [
+      "MARKET_LISTING",
+      "TOPSTORIES"
+    ],
+    "sidebarComponents": [
+      "PROGRAM_CAROUSEL",
+      "COMMODITY_CURRENCIES_TAB",
+      "MARKETS",
+      "STOCKS"
+    ]
+  },
+  {
+    "title": "currencies-section",
+    "MainComponents": [
+      "CURRENCY",
+      "TOPICS"
+    ],
+    "sidebarComponents": [
+      "PROGRAM_CAROUSEL",
+      "MARKETS",
+      "STOCKS"
+    ]
+  },
+  {
+    "title": "commodities-section",
+    "MainComponents": [
+      "COMMODITY_SELECTOR",
+      "COMMODITY",
+      "TOPICS"
+    ],
+    "sidebarComponents": [
+      "PROGRAM_CAROUSEL",
+      "MARKETS",
+      "STOCKS"
+    ]
+  }
+]

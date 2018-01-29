@@ -1,0 +1,486 @@
+[
+  {
+    "title": "home-section",
+    "unoptimizedImageDataMobile": [
+      "http://webdevtest.skynewsarabia.com/web/staticasset/2017/11/19/998059/App_Banner.jpg.jpeg",
+      "https://www.skynewsarabia.com/web/images/2016/12/28/904419/600/336/1-904419.jpeg",
+      "http://webdevtest.skynewsarabia.com/web/images//2017/02/07/916507/400/225/1-916507.jpg"
+    ],
+    "unoptimizedImageDataDesktop": [
+      "http://webdevtest.skynewsarabia.com/web/staticasset/2017/11/19/998059/App_Banner.jpg.jpeg",
+      "https://www.skynewsarabia.com/web/images/2016/12/28/904419/600/336/1-904419.jpeg",
+      "http://webdevtest.skynewsarabia.com/web/images/2017/11/27/1000030/331/248/1-1000030.jpg",
+      "http://webdevtest.skynewsarabia.com/web/images/2016/10/05/880659/331/248/1-880659.jpg",
+      "http://webdevtest.skynewsarabia.com/web/images/2017/11/27/1000002/331/248/1-1000002.JPG"
+    ],
+    "desktopScore": "69",
+    "mobileScore": "59",
+    "desktopRank": "Needs Work",
+    "mobileRank": "Poor"
+  },
+  {
+    "title": "middleEast-section",
+    "unoptimizedImageDataMobile": [],
+    "unoptimizedImageDataDesktop": [],
+    "desktopScore": "77",
+    "mobileScore": "63",
+    "desktopRank": "Needs Work",
+    "mobileRank": "Poor"
+  },
+  {
+    "title": "world-section",
+    "unoptimizedImageDataMobile": [],
+    "unoptimizedImageDataDesktop": [],
+    "desktopScore": "78",
+    "mobileScore": "64",
+    "desktopRank": "Needs Work",
+    "mobileRank": "Poor"
+  },
+  {
+    "title": "sport-section",
+    "unoptimizedImageDataMobile": [],
+    "unoptimizedImageDataDesktop": [],
+    "desktopScore": "77",
+    "mobileScore": "63",
+    "desktopRank": "Needs Work",
+    "mobileRank": "Poor"
+  },
+  {
+    "title": "tennis-section",
+    "unoptimizedImageDataMobile": [],
+    "unoptimizedImageDataDesktop": [],
+    "desktopScore": "77",
+    "mobileScore": "63",
+    "desktopRank": "Needs Work",
+    "mobileRank": "Poor"
+  },
+  {
+    "title": "motorsport-section",
+    "unoptimizedImageDataMobile": [
+      "http://webdevtest.skynewsarabia.com/web/images/2017/06/24/959199/200/113/1-959199.jpg",
+      "http://webdevtest.skynewsarabia.com/web/images/2017/06/24/959198/200/113/1-959198.jpg",
+      "http://webdevtest.skynewsarabia.com/web/images/2017/06/24/959196/200/113/1-959196.jpg",
+      "http://webdevtest.skynewsarabia.com/web/images/2017/06/24/959197/200/113/1-959197.jpg",
+      "http://webdevtest.skynewsarabia.com/web/images/2017/06/24/959201/200/113/1-959201.jpg",
+      "http://webdevtest.skynewsarabia.com/web/images/2017/06/24/959200/200/113/1-959200.jpg",
+      "http://webdevtest.skynewsarabia.com/web/images/2017/07/26/967579/200/113/1-967579.jpg",
+      "http://webdevtest.skynewsarabia.com/web/images/2017/07/26/967571/200/113/1-967571.jpg",
+      "http://webdevtest.skynewsarabia.com/web/images/2017/07/26/967573/200/113/1-967573.jpg",
+      "http://webdevtest.skynewsarabia.com/web/images/2017/07/26/967570/200/113/1-967570.jpg",
+      "http://webdevtest.skynewsarabia.com/web/images/2017/07/26/967568/200/113/1-967568.jpg",
+      "http://webdevtest.skynewsarabia.com/web/images/2017/07/26/967577/200/113/1-967577.jpg",
+      "http://webdevtest.skynewsarabia.com/web/images/2017/07/26/967566/200/113/1-967566.jpg",
+      "http://webdevtest.skynewsarabia.com/web/images/2017/07/26/967567/200/113/1-967567.jpg",
+      "http://webdevtest.skynewsarabia.com/web/images/2017/07/26/967569/200/113/1-967569.jpg",
+      "http://webdevtest.skynewsarabia.com/web/images/2017/07/26/967572/200/113/1-967572.jpg",
+      "http://webdevtest.skynewsarabia.com/web/images/2017/11/26/999846/200/150/1-999846.jpg"
+    ],
+    "unoptimizedImageDataDesktop": [
+      "http://webdevtest.skynewsarabia.com/web/images/2017/07/26/967566/331/187/1-967566.jpg"
+    ],
+    "desktopScore": "77",
+    "mobileScore": "56",
+    "desktopRank": "Needs Work",
+    "mobileRank": "Poor"
+  },
+  {
+    "title": "basketball-section",
+    "unoptimizedImageDataMobile": [],
+    "unoptimizedImageDataDesktop": [],
+    "desktopScore": "77",
+    "mobileScore": "63",
+    "desktopRank": "Needs Work",
+    "mobileRank": "Poor"
+  },
+  {
+    "title": "football-section",
+    "unoptimizedImageDataMobile": [
+      "http://webdevtest.skynewsarabia.com/web/images/competition/288.png"
+    ],
+    "unoptimizedImageDataDesktop": [],
+    "desktopScore": "76",
+    "mobileScore": "60",
+    "desktopRank": "Needs Work",
+    "mobileRank": "Poor"
+  },
+  {
+    "title": "matches-section",
+    "unoptimizedImageDataMobile": [
+      "http://webdevtest.skynewsarabia.com/web/images/competition/288.png"
+    ],
+    "unoptimizedImageDataDesktop": [
+      "http://webdevtest.skynewsarabia.com/web/images/team/2053.png",
+      "http://webdevtest.skynewsarabia.com/web/images/team/26826.png",
+      "http://webdevtest.skynewsarabia.com/web/images/team/3452.png",
+      "http://webdevtest.skynewsarabia.com/web/images/team/4618.png",
+      "http://webdevtest.skynewsarabia.com/web/images/team/7022.png"
+    ],
+    "desktopScore": "76",
+    "mobileScore": "60",
+    "desktopRank": "Needs Work",
+    "mobileRank": "Poor"
+  },
+  {
+    "title": "standings-section",
+    "unoptimizedImageDataMobile": [],
+    "unoptimizedImageDataDesktop": [],
+    "desktopScore": "77",
+    "mobileScore": "63",
+    "desktopRank": "Needs Work",
+    "mobileRank": "Poor"
+  },
+  {
+    "title": "leagues-section",
+    "unoptimizedImageDataMobile": [
+      "http://webdevtest.skynewsarabia.com/web/images/competition/288.png"
+    ],
+    "unoptimizedImageDataDesktop": [
+      "http://webdevtest.skynewsarabia.com/web/images/competition/288.png"
+    ],
+    "desktopScore": "72",
+    "mobileScore": "60",
+    "desktopRank": "Needs Work",
+    "mobileRank": "Poor"
+  },
+  {
+    "title": "competition-detial-ucl",
+    "unoptimizedImageDataMobile": [
+      "http://webdevtest.skynewsarabia.com/web/images/team/13720.png",
+      "http://webdevtest.skynewsarabia.com/web/images/team/533.png",
+      "http://webdevtest.skynewsarabia.com/web/images/team/826.png",
+      "http://webdevtest.skynewsarabia.com/web/images/competition/Default_League_Logo_square.png",
+      "http://webdevtest.skynewsarabia.com/web/images/team/1042.png",
+      "http://webdevtest.skynewsarabia.com/web/images/competition/10.png"
+    ],
+    "unoptimizedImageDataDesktop": [
+      "http://webdevtest.skynewsarabia.com/web/images/team/13720.png",
+      "http://webdevtest.skynewsarabia.com/web/images/team/533.png",
+      "http://webdevtest.skynewsarabia.com/web/images/team/826.png",
+      "http://webdevtest.skynewsarabia.com/web/images/team/1898.png",
+      "http://webdevtest.skynewsarabia.com/web/images/team/1042.png",
+      "http://webdevtest.skynewsarabia.com/web/images/team/663.png",
+      "http://webdevtest.skynewsarabia.com/web/images/team/1679.png",
+      "http://webdevtest.skynewsarabia.com/web/images/competition/Default_League_Logo_square.png",
+      "http://webdevtest.skynewsarabia.com/web/images/team/215.png",
+      "http://webdevtest.skynewsarabia.com/web/images/team/662.png",
+      "http://webdevtest.skynewsarabia.com/web/images/team/1842.png",
+      "http://webdevtest.skynewsarabia.com/web/images/team/886.png",
+      "http://webdevtest.skynewsarabia.com/web/images/team/661.png",
+      "http://webdevtest.skynewsarabia.com/web/images/team/676.png",
+      "http://webdevtest.skynewsarabia.com/web/images/team/1678.png",
+      "http://webdevtest.skynewsarabia.com/web/images/team/1040.png",
+      "http://webdevtest.skynewsarabia.com/web/images/team/2016.png",
+      "http://webdevtest.skynewsarabia.com/web/images/team/961.png"
+    ],
+    "desktopScore": "77",
+    "mobileScore": "64",
+    "desktopRank": "Needs Work",
+    "mobileRank": "Poor"
+  },
+  {
+    "title": "team-detail-manu",
+    "unoptimizedImageDataMobile": [
+      "http://webdevtest.skynewsarabia.com/web/images/2017/08/06/970448/200/113/1-970448.jpg",
+      "http://webdevtest.skynewsarabia.com/static/web-rev/img/default_img.jpg"
+    ],
+    "unoptimizedImageDataDesktop": [
+      "http://webdevtest.skynewsarabia.com/static/web-rev/img/default_img.jpg",
+      "http://webdevtest.skynewsarabia.com/web/images/team/2053.png",
+      "http://webdevtest.skynewsarabia.com/web/images/team/676.png",
+      "http://webdevtest.skynewsarabia.com/web/images/team/661.png",
+      "http://webdevtest.skynewsarabia.com/web/images/player/default.png"
+    ],
+    "desktopScore": "77",
+    "mobileScore": "62",
+    "desktopRank": "Needs Work",
+    "mobileRank": "Poor"
+  },
+  {
+    "title": "match-detail-manu-vs-spurs",
+    "unoptimizedImageDataMobile": [],
+    "unoptimizedImageDataDesktop": [],
+    "desktopScore": "77",
+    "mobileScore": "63",
+    "desktopRank": "Needs Work",
+    "mobileRank": "Poor"
+  },
+  {
+    "title": "business-section",
+    "unoptimizedImageDataMobile": [],
+    "unoptimizedImageDataDesktop": [],
+    "desktopScore": "77",
+    "mobileScore": "63",
+    "desktopRank": "Needs Work",
+    "mobileRank": "Poor"
+  },
+  {
+    "title": "technology-section",
+    "unoptimizedImageDataMobile": [],
+    "unoptimizedImageDataDesktop": [
+      "http://webdevtest.skynewsarabia.com/web/images/2017/11/26/999866/331/248/1-999866.JPG"
+    ],
+    "desktopScore": "77",
+    "mobileScore": "63",
+    "desktopRank": "Needs Work",
+    "mobileRank": "Poor"
+  },
+  {
+    "title": "varieties-section",
+    "unoptimizedImageDataMobile": [],
+    "unoptimizedImageDataDesktop": [],
+    "desktopScore": "77",
+    "mobileScore": "63",
+    "desktopRank": "Needs Work",
+    "mobileRank": "Poor"
+  },
+  {
+    "title": "livestream",
+    "unoptimizedImageDataMobile": [],
+    "unoptimizedImageDataDesktop": [],
+    "desktopScore": "76",
+    "mobileScore": "60",
+    "desktopRank": "Needs Work",
+    "mobileRank": "Poor"
+  },
+  {
+    "title": "programs-list",
+    "unoptimizedImageDataMobile": [],
+    "unoptimizedImageDataDesktop": [],
+    "desktopScore": "77",
+    "mobileScore": "63",
+    "desktopRank": "Needs Work",
+    "mobileRank": "Poor"
+  },
+  {
+    "title": "programs-detail-hadith-al-arab",
+    "unoptimizedImageDataMobile": [
+      "https://i.ytimg.com/vi/A0eP3Pw5wCQ/maxresdefault.jpg",
+      "https://i.ytimg.com/vi/tySUDkRDGog/maxresdefault.jpg",
+      "https://pbs.twimg.com/profile_images/904702296784863232/cJklnl4__bigger.jpg",
+      "https://pbs.twimg.com/profile_images/930116543899414533/Yc3hNq6J_normal.jpg",
+      "https://pbs.twimg.com/profile_images/671223977226977280/6cNovXj6_bigger.jpg"
+    ],
+    "unoptimizedImageDataDesktop": [
+      "https://i.ytimg.com/vi/A0eP3Pw5wCQ/maxresdefault.jpg",
+      "https://i.ytimg.com/vi/tySUDkRDGog/maxresdefault.jpg",
+      "https://pbs.twimg.com/profile_images/930116543899414533/Yc3hNq6J_normal.jpg",
+      "https://pbs.twimg.com/profile_images/904702296784863232/cJklnl4__normal.jpg",
+      "https://pbs.twimg.com/profile_images/671223977226977280/6cNovXj6_normal.jpg"
+    ],
+    "desktopScore": "65",
+    "mobileScore": "54",
+    "desktopRank": "Needs Work",
+    "mobileRank": "Poor"
+  },
+  {
+    "title": "episode-detail",
+    "unoptimizedImageDataMobile": [],
+    "unoptimizedImageDataDesktop": [],
+    "desktopScore": "81",
+    "mobileScore": "73",
+    "desktopRank": "Needs Work",
+    "mobileRank": "Needs Work"
+  },
+  {
+    "title": "blog-list",
+    "unoptimizedImageDataMobile": [
+      "http://webdevtest.skynewsarabia.com/web/images/2017/02/07/916507/400/225/1-916507.jpg"
+    ],
+    "unoptimizedImageDataDesktop": [
+      "http://webdevtest.skynewsarabia.com/web/images/2017/02/07/916507/663/373/1-916507.jpg"
+    ],
+    "desktopScore": "76",
+    "mobileScore": "62",
+    "desktopRank": "Needs Work",
+    "mobileRank": "Poor"
+  },
+  {
+    "title": "blog-detail",
+    "unoptimizedImageDataMobile": [],
+    "unoptimizedImageDataDesktop": [],
+    "desktopScore": "76",
+    "mobileScore": "62",
+    "desktopRank": "Needs Work",
+    "mobileRank": "Poor"
+  },
+  {
+    "title": "topic-list",
+    "unoptimizedImageDataMobile": [],
+    "unoptimizedImageDataDesktop": [],
+    "desktopScore": "77",
+    "mobileScore": "63",
+    "desktopRank": "Needs Work",
+    "mobileRank": "Poor"
+  },
+  {
+    "title": "topic-detail-varities",
+    "unoptimizedImageDataMobile": [],
+    "unoptimizedImageDataDesktop": [
+      "http://webdevtest.skynewsarabia.com/static/web-rev/img/default_img.jpg",
+      "https://pbs.twimg.com/profile_images/930116543899414533/Yc3hNq6J_normal.jpg",
+      "https://pbs.twimg.com/profile_images/876798614248542208/UrCLzc2f_normal.jpg",
+      "https://pbs.twimg.com/profile_images/904702296784863232/cJklnl4__normal.jpg",
+      "http://webdevtest.skynewsarabia.com/web/asset/12.7/styles/img/topic-hero-hover-bg.png"
+    ],
+    "desktopScore": "76",
+    "mobileScore": "65",
+    "desktopRank": "Needs Work",
+    "mobileRank": "Needs Work"
+  },
+  {
+    "title": "static-page-detail-about-sna",
+    "unoptimizedImageDataMobile": [
+      "http://webdevtest.skynewsarabia.com/web/images/static/18939/Our%20Frequencies.png",
+      "http://webdevtest.skynewsarabia.com/web/images/static/18991/Our%20Apps.png"
+    ],
+    "unoptimizedImageDataDesktop": [
+      "http://webdevtest.skynewsarabia.com/web/images/static/18939/Our%20Frequencies.png",
+      "http://webdevtest.skynewsarabia.com/web/images/static/18991/Our%20Apps.png"
+    ],
+    "desktopScore": "76",
+    "mobileScore": "62",
+    "desktopRank": "Needs Work",
+    "mobileRank": "Poor"
+  },
+  {
+    "title": "article-detail",
+    "unoptimizedImageDataMobile": [
+      "http://webdevtest.skynewsarabia.com/web/images/2017/06/28/960232/400/225/1-960232.jpg"
+    ],
+    "unoptimizedImageDataDesktop": [],
+    "desktopScore": "74",
+    "mobileScore": "60",
+    "desktopRank": "Needs Work",
+    "mobileRank": "Poor"
+  },
+  {
+    "title": "video-list",
+    "unoptimizedImageDataMobile": [],
+    "unoptimizedImageDataDesktop": [],
+    "desktopScore": "77",
+    "mobileScore": "63",
+    "desktopRank": "Needs Work",
+    "mobileRank": "Poor"
+  },
+  {
+    "title": "video-detail",
+    "unoptimizedImageDataMobile": [
+      "http://webdevtest.skynewsarabia.com/static/web-rev/img/default_img.jpg"
+    ],
+    "unoptimizedImageDataDesktop": [
+      "http://webdevtest.skynewsarabia.com/static/web-rev/img/default_img.jpg"
+    ],
+    "desktopScore": "76",
+    "mobileScore": "62",
+    "desktopRank": "Needs Work",
+    "mobileRank": "Poor"
+  },
+  {
+    "title": "image-gallery-list",
+    "unoptimizedImageDataMobile": [],
+    "unoptimizedImageDataDesktop": [],
+    "desktopScore": "77",
+    "mobileScore": "63",
+    "desktopRank": "Needs Work",
+    "mobileRank": "Poor"
+  },
+  {
+    "title": "image-gallery-detail",
+    "unoptimizedImageDataMobile": [
+      "http://webdevtest.skynewsarabia.com/static/web-rev/img/default_img.jpg"
+    ],
+    "unoptimizedImageDataDesktop": [
+      "http://webdevtest.skynewsarabia.com/static/web-rev/img/default_img.jpg"
+    ],
+    "desktopScore": "76",
+    "mobileScore": "62",
+    "desktopRank": "Needs Work",
+    "mobileRank": "Poor"
+  },
+  {
+    "title": "infographic-list",
+    "unoptimizedImageDataMobile": [],
+    "unoptimizedImageDataDesktop": [],
+    "desktopScore": "77",
+    "mobileScore": "63",
+    "desktopRank": "Needs Work",
+    "mobileRank": "Poor"
+  },
+  {
+    "title": "infographic-detail",
+    "unoptimizedImageDataMobile": [
+      "http://webdevtest.skynewsarabia.com/static/web-rev/img/default_img.jpg"
+    ],
+    "unoptimizedImageDataDesktop": [
+      "http://webdevtest.skynewsarabia.com/static/web-rev/img/default_img.jpg"
+    ],
+    "desktopScore": "76",
+    "mobileScore": "62",
+    "desktopRank": "Needs Work",
+    "mobileRank": "Poor"
+  },
+  {
+    "title": "markets-section",
+    "unoptimizedImageDataMobile": [
+      "http://webdevtest.skynewsarabia.com/static/web-rev/img/default_img.jpg"
+    ],
+    "unoptimizedImageDataDesktop": [],
+    "desktopScore": "85",
+    "mobileScore": "62",
+    "desktopRank": "Good",
+    "mobileRank": "Poor"
+  },
+  {
+    "title": "currencies-section",
+    "unoptimizedImageDataMobile": [
+      "https://s1.2mdn.net/5584068/1-J02890-Nikki_Beach-MH-Static_Banner-320x50px-01_1_.jpg",
+      "http://webdevtest.skynewsarabia.com/static/web-rev/img/default_img.jpg"
+    ],
+    "unoptimizedImageDataDesktop": [
+      "http://webdevtest.skynewsarabia.com/web/asset/12.7/img/flags/gbp=x.jpg",
+      "http://webdevtest.skynewsarabia.com/static/web-rev/img/default_img.jpg",
+      "http://webdevtest.skynewsarabia.com/web/asset/12.7/img/flags/aud=x.jpg",
+      "http://webdevtest.skynewsarabia.com/web/asset/12.7/img/flags/eur=x.jpg",
+      "http://webdevtest.skynewsarabia.com/web/asset/12.7/img/flags/cad=x.jpg",
+      "http://webdevtest.skynewsarabia.com/web/asset/12.7/img/flags/sar=x.jpg",
+      "http://webdevtest.skynewsarabia.com/web/asset/12.7/img/flags/bhdusd=r.jpg",
+      "http://webdevtest.skynewsarabia.com/web/asset/12.7/img/flags/jodusd=r.jpg",
+      "http://webdevtest.skynewsarabia.com/web/asset/12.7/img/flags/tndusd=r.jpg"
+    ],
+    "desktopScore": "76",
+    "mobileScore": "61",
+    "desktopRank": "Needs Work",
+    "mobileRank": "Poor"
+  },
+  {
+    "title": "market-detail-abudhabi",
+    "unoptimizedImageDataMobile": [],
+    "unoptimizedImageDataDesktop": [],
+    "desktopScore": "76",
+    "mobileScore": "62",
+    "desktopRank": "Needs Work",
+    "mobileRank": "Poor"
+  },
+  {
+    "title": "commodities-section",
+    "unoptimizedImageDataMobile": [
+      "http://webdevtest.skynewsarabia.com/static/web-rev/img/default_img.jpg"
+    ],
+    "unoptimizedImageDataDesktop": [
+      "http://webdevtest.skynewsarabia.com/static/web-rev/img/default_img.jpg"
+    ],
+    "desktopScore": "76",
+    "mobileScore": "62",
+    "desktopRank": "Needs Work",
+    "mobileRank": "Poor"
+  },
+  {
+    "title": "search-sky",
+    "unoptimizedImageDataMobile": [],
+    "unoptimizedImageDataDesktop": [],
+    "desktopScore": "77",
+    "mobileScore": "63",
+    "desktopRank": "Needs Work",
+    "mobileRank": "Poor"
+  }
+]

@@ -1,0 +1,121 @@
+         .float-left{float:left}
+         .float-right{float:right}
+         .clear{clear:both}
+         .w100{width:100%}
+
+         .w60{width:60%}
+         .w20{width:20%}
+         .main-pad{padding:50px}
+     
+         .center{text-align:center}
+         .right{text-align:right}
+         p{margin:0}
+     
+        .PadTop10{padding-top:10px}
+        .PadTop20{padding-top:20px}
+        .PadTop30{padding-top:30px}
+        .PadTop5{padding-top:5px}
+		
+		
+		 .PadLeft40{padding-left:40px}
+		 .PadLeft60{padding-left:60px}
+		 
+		 
+   
+        .right{text-align:right}
+        .displayNone{display:none}
+       
+        .PadAll30{padding:30px}
+        .strong{font-weight:bold}
+        .font18{font-size:18px}
+        .font20{font-size:20px}
+        .font24{font-size:24px}
+		.error{color:red}
+		.w15{width:15%}
+         .rel{position:relative}
+         .abs{position:absolute}
+         .w85{width:85%}
+         .W30{width:30%}
+        
+         .PadAll10{padding:10px}
+		 .PadLeft260{padding-left:260px}
+         .makecenterHor{margin:0 auto;text-align:center;}/*use inline block for the child element<div class="makecenterHor"><div class="child displayinlineblock">*/
+         .displayInlineBlock{display:inline-block}
+         .cursorPointer{cursor:pointer}
+        
+		 .displayBlock{display:block}
+		 
+         
+		 
+		 
+		 
+		 
+		 
+		 
+		 /*Over Common styles*/
+	
+		.borderRadius10{border-radius:10px}
+		.picAlbumConatiner{min-height:100%;min-width:100%}
+		body{
+			background: #FFFFFF no-repeat center center fixed; 
+			-webkit-background-size: cover;
+			-moz-background-size: cover;
+			-o-background-size: cover;
+			background-size: cover;
+		}
+		.maincontainer{
+			margin:30px;
+			border:5px solid #FCF7F7;
+			border-radius: 120px 25px 120px 25px;
+			box-shadow: 2px -1px 10px 5px rgba(227,227,227,1);
+			min-height:600px;
+			padding:30px 50px;
+			
+			background: url(../img/bg3.jpg) no-repeat center center fixed; 
+			-webkit-background-size: cover;
+			-moz-background-size: cover;
+			-o-background-size: cover;
+			background-size: cover;
+		}	
+		.PadBot5{padding-bottom:5px} 
+		.MarLR20TB10{margin:10px 20px}
+		.botborder2pxblack{border-bottom: 2px solid black;}
+		
+		.loginbt{
+		border:1px solid #2f78a6; -webkit-border-radius: 3px; -moz-border-radius: 3px;border-radius: 3px;font-family:arial, helvetica, sans-serif; padding: 3px 5px ; text-shadow: 0px 0px 0 rgba(0,0,0,0.3);font-weight:bold; text-align: center; color: #000000; background-color: #4396CA;
+		 background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #4396CA), color-stop(100%, #4396CA));
+		 background-image: -webkit-linear-gradient(top, #4396CA, #4396CA);
+		 background-image: -moz-linear-gradient(top, #4396CA, #4396CA);
+		 background-image: -ms-linear-gradient(top, #4396CA, #4396CA);
+		 background-image: -o-linear-gradient(top, #4396CA, #4396CA);
+		 background-image: linear-gradient(top, #4396CA, #4396CA);filter:progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=#4396CA, endColorstr=#4396CA);
+		}
+
+		.loginbt:hover{
+		 border:1px solid #255e82; background-color: #307baa;
+		 background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#307baa), color-stop(100%, #307baa));
+		 background-image: -webkit-linear-gradient(top, #307baa, #307baa);
+		 background-image: -moz-linear-gradient(top, #307baa, #307baa);
+		 background-image: -ms-linear-gradient(top, #307baa, #307baa);
+		 background-image: -o-linear-gradient(top, #307baa, #307baa);
+		 background-image: linear-gradient(top, #307baa, #307baa);filter:progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=#307baa, endColorstr=#307baa);
+		}
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		 

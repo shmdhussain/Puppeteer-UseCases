@@ -1,0 +1,16 @@
+{
+  "name": "puppeeteer",
+  "version": "1.0.0",
+  "description": "my demo on puppeteer",
+  "main": "js/myscript.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Mohmaed Hussain S H",
+  "license": "ISC",
+  "dependencies": {
+    "del": "^3.0.0",
+    "pdfkit": "^0.8.3",
+    "puppeteer": "^0.13.0"
+  }
+}

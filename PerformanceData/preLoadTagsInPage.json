@@ -1,0 +1,1231 @@
+[
+  {
+    "title": "home-section",
+    "preLoadTags": [
+      "/web/asset/12.6/styles/sna-font/HelveticaNeueW23forSKY-Reg_T02.woff2",
+      "/web/asset/12.6/styles/sna-font/HelveticaNeueW23forSKY-Bd_T02.woff2",
+      "/web/asset/12.6/styles/sna-font/HelveticaNeueW23forSKY-Lig_T02.woff2",
+      "/web/asset/12.6/styles/sna-icons/snaicons2.woff2",
+      "/web/asset/12.6/styles/sna-icons/snaicons.woff2",
+      "/static/web-rev/img/default_img.jpg",
+      "/web/asset/12.6/styles/sna-rev-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/styles/sna-rev-head-split.css?timestamp=1475934643862",
+      "/web/asset/12.6/styles/sna-section-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-rev-foot.js?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-section-foot.js?timestamp=1475934643862",
+      "https://adservice.google.com/adsid/integrator.js?domain=webdevtest.skynewsarabia.com"
+    ],
+    "preFetchTags": [
+      "https://securepubads.g.doubleclick.net/static/3p_cookie.html",
+      "/web/asset/12.6/styles/sna-article-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/styles/sna-videos-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/styles/sna-program-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-article-foot.js?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-videos-foot.js?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-blogs-foot.js?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-imageGallery-foot.js?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-programs-foot.js?timestamp=1475934643862"
+    ],
+    "preConnectTags": [
+      "https://www.skynewsarabia.com",
+      "https://asset1.skynewsarabia.com",
+      "https://api.skynewsarabia.com",
+      "https://media.skynewsarabia.com",
+      "https://www.googleapis.com",
+      "https://wurfl.io"
+    ]
+  },
+  {
+    "title": "middleEast-section",
+    "preLoadTags": [
+      "/web/asset/12.6/styles/sna-font/HelveticaNeueW23forSKY-Reg_T02.woff2",
+      "/web/asset/12.6/styles/sna-font/HelveticaNeueW23forSKY-Bd_T02.woff2",
+      "/web/asset/12.6/styles/sna-font/HelveticaNeueW23forSKY-Lig_T02.woff2",
+      "/web/asset/12.6/styles/sna-icons/snaicons2.woff2",
+      "/web/asset/12.6/styles/sna-icons/snaicons.woff2",
+      "/static/web-rev/img/default_img.jpg",
+      "/web/asset/12.6/styles/sna-rev-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/styles/sna-rev-head-split.css?timestamp=1475934643862",
+      "/web/asset/12.6/styles/sna-section-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-rev-foot.js?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-section-foot.js?timestamp=1475934643862",
+      "https://adservice.google.com/adsid/integrator.js?domain=webdevtest.skynewsarabia.com"
+    ],
+    "preFetchTags": [
+      "https://securepubads.g.doubleclick.net/static/3p_cookie.html",
+      "/web/asset/12.6/styles/sna-article-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/styles/sna-videos-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/styles/sna-program-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-article-foot.js?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-videos-foot.js?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-blogs-foot.js?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-imageGallery-foot.js?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-programs-foot.js?timestamp=1475934643862"
+    ],
+    "preConnectTags": [
+      "https://www.skynewsarabia.com",
+      "https://asset1.skynewsarabia.com",
+      "https://api.skynewsarabia.com",
+      "https://media.skynewsarabia.com",
+      "https://www.googleapis.com",
+      "https://wurfl.io"
+    ]
+  },
+  {
+    "title": "world-section",
+    "preLoadTags": [
+      "/web/asset/12.6/styles/sna-font/HelveticaNeueW23forSKY-Reg_T02.woff2",
+      "/web/asset/12.6/styles/sna-font/HelveticaNeueW23forSKY-Bd_T02.woff2",
+      "/web/asset/12.6/styles/sna-font/HelveticaNeueW23forSKY-Lig_T02.woff2",
+      "/web/asset/12.6/styles/sna-icons/snaicons2.woff2",
+      "/web/asset/12.6/styles/sna-icons/snaicons.woff2",
+      "/static/web-rev/img/default_img.jpg",
+      "/web/asset/12.6/styles/sna-rev-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/styles/sna-rev-head-split.css?timestamp=1475934643862",
+      "/web/asset/12.6/styles/sna-section-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-rev-foot.js?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-section-foot.js?timestamp=1475934643862",
+      "https://adservice.google.com/adsid/integrator.js?domain=webdevtest.skynewsarabia.com"
+    ],
+    "preFetchTags": [
+      "https://securepubads.g.doubleclick.net/static/3p_cookie.html",
+      "/web/asset/12.6/styles/sna-article-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/styles/sna-videos-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/styles/sna-program-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-article-foot.js?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-videos-foot.js?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-blogs-foot.js?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-imageGallery-foot.js?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-programs-foot.js?timestamp=1475934643862"
+    ],
+    "preConnectTags": [
+      "https://www.skynewsarabia.com",
+      "https://asset1.skynewsarabia.com",
+      "https://api.skynewsarabia.com",
+      "https://media.skynewsarabia.com",
+      "https://www.googleapis.com",
+      "https://wurfl.io"
+    ]
+  },
+  {
+    "title": "sport-section",
+    "preLoadTags": [
+      "/web/asset/12.6/styles/sna-font/HelveticaNeueW23forSKY-Reg_T02.woff2",
+      "/web/asset/12.6/styles/sna-font/HelveticaNeueW23forSKY-Bd_T02.woff2",
+      "/web/asset/12.6/styles/sna-font/HelveticaNeueW23forSKY-Lig_T02.woff2",
+      "/web/asset/12.6/styles/sna-icons/snaicons2.woff2",
+      "/web/asset/12.6/styles/sna-icons/snaicons.woff2",
+      "/static/web-rev/img/default_img.jpg",
+      "/web/asset/12.6/styles/sna-rev-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/styles/sna-rev-head-split.css?timestamp=1475934643862",
+      "/web/asset/12.6/styles/sna-section-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-rev-foot.js?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-section-foot.js?timestamp=1475934643862",
+      "https://adservice.google.com/adsid/integrator.js?domain=webdevtest.skynewsarabia.com"
+    ],
+    "preFetchTags": [
+      "https://securepubads.g.doubleclick.net/static/3p_cookie.html",
+      "/web/asset/12.6/styles/sna-article-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/styles/sna-videos-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/styles/sna-program-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-article-foot.js?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-videos-foot.js?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-blogs-foot.js?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-imageGallery-foot.js?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-programs-foot.js?timestamp=1475934643862"
+    ],
+    "preConnectTags": [
+      "https://www.skynewsarabia.com",
+      "https://asset1.skynewsarabia.com",
+      "https://api.skynewsarabia.com",
+      "https://media.skynewsarabia.com",
+      "https://www.googleapis.com",
+      "https://wurfl.io"
+    ]
+  },
+  {
+    "title": "tennis-section",
+    "preLoadTags": [
+      "/web/asset/12.6/styles/sna-font/HelveticaNeueW23forSKY-Reg_T02.woff2",
+      "/web/asset/12.6/styles/sna-font/HelveticaNeueW23forSKY-Bd_T02.woff2",
+      "/web/asset/12.6/styles/sna-font/HelveticaNeueW23forSKY-Lig_T02.woff2",
+      "/web/asset/12.6/styles/sna-icons/snaicons2.woff2",
+      "/web/asset/12.6/styles/sna-icons/snaicons.woff2",
+      "/static/web-rev/img/default_img.jpg",
+      "/web/asset/12.6/styles/sna-rev-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/styles/sna-rev-head-split.css?timestamp=1475934643862",
+      "/web/asset/12.6/styles/sna-section-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-rev-foot.js?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-section-foot.js?timestamp=1475934643862",
+      "https://adservice.google.com/adsid/integrator.js?domain=webdevtest.skynewsarabia.com"
+    ],
+    "preFetchTags": [
+      "https://securepubads.g.doubleclick.net/static/3p_cookie.html",
+      "/web/asset/12.6/styles/sna-article-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/styles/sna-videos-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/styles/sna-program-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-article-foot.js?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-videos-foot.js?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-blogs-foot.js?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-imageGallery-foot.js?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-programs-foot.js?timestamp=1475934643862"
+    ],
+    "preConnectTags": [
+      "https://www.skynewsarabia.com",
+      "https://asset1.skynewsarabia.com",
+      "https://api.skynewsarabia.com",
+      "https://media.skynewsarabia.com",
+      "https://www.googleapis.com",
+      "https://wurfl.io"
+    ]
+  },
+  {
+    "title": "motorsport-section",
+    "preLoadTags": [
+      "/web/asset/12.6/styles/sna-font/HelveticaNeueW23forSKY-Reg_T02.woff2",
+      "/web/asset/12.6/styles/sna-font/HelveticaNeueW23forSKY-Bd_T02.woff2",
+      "/web/asset/12.6/styles/sna-font/HelveticaNeueW23forSKY-Lig_T02.woff2",
+      "/web/asset/12.6/styles/sna-icons/snaicons2.woff2",
+      "/web/asset/12.6/styles/sna-icons/snaicons.woff2",
+      "/static/web-rev/img/default_img.jpg",
+      "/web/asset/12.6/styles/sna-rev-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/styles/sna-rev-head-split.css?timestamp=1475934643862",
+      "/web/asset/12.6/styles/sna-section-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-rev-foot.js?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-section-foot.js?timestamp=1475934643862",
+      "https://adservice.google.com/adsid/integrator.js?domain=webdevtest.skynewsarabia.com"
+    ],
+    "preFetchTags": [
+      "https://securepubads.g.doubleclick.net/static/3p_cookie.html",
+      "/web/asset/12.6/styles/sna-article-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/styles/sna-videos-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/styles/sna-program-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-article-foot.js?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-videos-foot.js?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-blogs-foot.js?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-imageGallery-foot.js?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-programs-foot.js?timestamp=1475934643862"
+    ],
+    "preConnectTags": [
+      "https://www.skynewsarabia.com",
+      "https://asset1.skynewsarabia.com",
+      "https://api.skynewsarabia.com",
+      "https://media.skynewsarabia.com",
+      "https://www.googleapis.com",
+      "https://wurfl.io"
+    ]
+  },
+  {
+    "title": "basketball-section",
+    "preLoadTags": [
+      "/web/asset/12.6/styles/sna-font/HelveticaNeueW23forSKY-Reg_T02.woff2",
+      "/web/asset/12.6/styles/sna-font/HelveticaNeueW23forSKY-Bd_T02.woff2",
+      "/web/asset/12.6/styles/sna-font/HelveticaNeueW23forSKY-Lig_T02.woff2",
+      "/web/asset/12.6/styles/sna-icons/snaicons2.woff2",
+      "/web/asset/12.6/styles/sna-icons/snaicons.woff2",
+      "/static/web-rev/img/default_img.jpg",
+      "/web/asset/12.6/styles/sna-rev-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/styles/sna-rev-head-split.css?timestamp=1475934643862",
+      "/web/asset/12.6/styles/sna-section-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-rev-foot.js?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-section-foot.js?timestamp=1475934643862",
+      "https://adservice.google.com/adsid/integrator.js?domain=webdevtest.skynewsarabia.com"
+    ],
+    "preFetchTags": [
+      "https://securepubads.g.doubleclick.net/static/3p_cookie.html",
+      "/web/asset/12.6/styles/sna-article-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/styles/sna-videos-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/styles/sna-program-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-article-foot.js?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-videos-foot.js?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-blogs-foot.js?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-imageGallery-foot.js?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-programs-foot.js?timestamp=1475934643862"
+    ],
+    "preConnectTags": [
+      "https://www.skynewsarabia.com",
+      "https://asset1.skynewsarabia.com",
+      "https://api.skynewsarabia.com",
+      "https://media.skynewsarabia.com",
+      "https://www.googleapis.com",
+      "https://wurfl.io"
+    ]
+  },
+  {
+    "title": "football-section",
+    "preLoadTags": [
+      "/web/asset/12.6/styles/sna-font/HelveticaNeueW23forSKY-Reg_T02.woff2",
+      "/web/asset/12.6/styles/sna-font/HelveticaNeueW23forSKY-Bd_T02.woff2",
+      "/web/asset/12.6/styles/sna-font/HelveticaNeueW23forSKY-Lig_T02.woff2",
+      "/web/asset/12.6/styles/sna-icons/snaicons2.woff2",
+      "/web/asset/12.6/styles/sna-icons/snaicons.woff2",
+      "/static/web-rev/img/default_img.jpg",
+      "/web/asset/12.6/styles/sna-rev-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/styles/sna-rev-head-split.css?timestamp=1475934643862",
+      "/web/asset/12.6/styles/sna-section-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-rev-foot.js?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-section-foot.js?timestamp=1475934643862",
+      "https://adservice.google.com/adsid/integrator.js?domain=webdevtest.skynewsarabia.com"
+    ],
+    "preFetchTags": [
+      "https://securepubads.g.doubleclick.net/static/3p_cookie.html",
+      "/web/asset/12.6/styles/sna-article-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/styles/sna-videos-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/styles/sna-program-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-article-foot.js?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-videos-foot.js?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-blogs-foot.js?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-imageGallery-foot.js?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-programs-foot.js?timestamp=1475934643862"
+    ],
+    "preConnectTags": [
+      "https://www.skynewsarabia.com",
+      "https://asset1.skynewsarabia.com",
+      "https://api.skynewsarabia.com",
+      "https://media.skynewsarabia.com",
+      "https://www.googleapis.com",
+      "https://wurfl.io"
+    ]
+  },
+  {
+    "title": "matches-section",
+    "preLoadTags": [
+      "/web/asset/12.6/styles/sna-font/HelveticaNeueW23forSKY-Reg_T02.woff2",
+      "/web/asset/12.6/styles/sna-font/HelveticaNeueW23forSKY-Bd_T02.woff2",
+      "/web/asset/12.6/styles/sna-font/HelveticaNeueW23forSKY-Lig_T02.woff2",
+      "/web/asset/12.6/styles/sna-icons/snaicons2.woff2",
+      "/web/asset/12.6/styles/sna-icons/snaicons.woff2",
+      "/static/web-rev/img/default_img.jpg",
+      "/web/asset/12.6/styles/sna-rev-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/styles/sna-rev-head-split.css?timestamp=1475934643862",
+      "/web/asset/12.6/styles/sna-section-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-rev-foot.js?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-section-foot.js?timestamp=1475934643862",
+      "https://adservice.google.com/adsid/integrator.js?domain=webdevtest.skynewsarabia.com"
+    ],
+    "preFetchTags": [
+      "https://securepubads.g.doubleclick.net/static/3p_cookie.html",
+      "/web/asset/12.6/styles/sna-article-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/styles/sna-videos-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/styles/sna-program-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-article-foot.js?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-videos-foot.js?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-blogs-foot.js?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-imageGallery-foot.js?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-programs-foot.js?timestamp=1475934643862"
+    ],
+    "preConnectTags": [
+      "https://www.skynewsarabia.com",
+      "https://asset1.skynewsarabia.com",
+      "https://api.skynewsarabia.com",
+      "https://media.skynewsarabia.com",
+      "https://www.googleapis.com",
+      "https://wurfl.io"
+    ]
+  },
+  {
+    "title": "standings-section",
+    "preLoadTags": [
+      "/web/asset/12.6/styles/sna-font/HelveticaNeueW23forSKY-Reg_T02.woff2",
+      "/web/asset/12.6/styles/sna-font/HelveticaNeueW23forSKY-Bd_T02.woff2",
+      "/web/asset/12.6/styles/sna-font/HelveticaNeueW23forSKY-Lig_T02.woff2",
+      "/web/asset/12.6/styles/sna-icons/snaicons2.woff2",
+      "/web/asset/12.6/styles/sna-icons/snaicons.woff2",
+      "/static/web-rev/img/default_img.jpg",
+      "/web/asset/12.6/styles/sna-rev-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/styles/sna-rev-head-split.css?timestamp=1475934643862",
+      "/web/asset/12.6/styles/sna-section-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-rev-foot.js?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-section-foot.js?timestamp=1475934643862",
+      "https://adservice.google.com/adsid/integrator.js?domain=webdevtest.skynewsarabia.com"
+    ],
+    "preFetchTags": [
+      "https://securepubads.g.doubleclick.net/static/3p_cookie.html",
+      "/web/asset/12.6/styles/sna-article-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/styles/sna-videos-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/styles/sna-program-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-article-foot.js?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-videos-foot.js?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-blogs-foot.js?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-imageGallery-foot.js?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-programs-foot.js?timestamp=1475934643862"
+    ],
+    "preConnectTags": [
+      "https://www.skynewsarabia.com",
+      "https://asset1.skynewsarabia.com",
+      "https://api.skynewsarabia.com",
+      "https://media.skynewsarabia.com",
+      "https://www.googleapis.com",
+      "https://wurfl.io"
+    ]
+  },
+  {
+    "title": "leagues-section",
+    "preLoadTags": [
+      "/web/asset/12.6/styles/sna-font/HelveticaNeueW23forSKY-Reg_T02.woff2",
+      "/web/asset/12.6/styles/sna-font/HelveticaNeueW23forSKY-Bd_T02.woff2",
+      "/web/asset/12.6/styles/sna-font/HelveticaNeueW23forSKY-Lig_T02.woff2",
+      "/web/asset/12.6/styles/sna-icons/snaicons2.woff2",
+      "/web/asset/12.6/styles/sna-icons/snaicons.woff2",
+      "/static/web-rev/img/default_img.jpg",
+      "/web/asset/12.6/styles/sna-rev-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/styles/sna-rev-head-split.css?timestamp=1475934643862",
+      "/web/asset/12.6/styles/sna-section-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-rev-foot.js?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-section-foot.js?timestamp=1475934643862",
+      "https://adservice.google.com/adsid/integrator.js?domain=webdevtest.skynewsarabia.com"
+    ],
+    "preFetchTags": [
+      "https://securepubads.g.doubleclick.net/static/3p_cookie.html",
+      "/web/asset/12.6/styles/sna-article-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/styles/sna-videos-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/styles/sna-program-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-article-foot.js?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-videos-foot.js?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-blogs-foot.js?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-imageGallery-foot.js?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-programs-foot.js?timestamp=1475934643862"
+    ],
+    "preConnectTags": [
+      "https://www.skynewsarabia.com",
+      "https://asset1.skynewsarabia.com",
+      "https://api.skynewsarabia.com",
+      "https://media.skynewsarabia.com",
+      "https://www.googleapis.com",
+      "https://wurfl.io"
+    ]
+  },
+  {
+    "title": "competition-detial-ucl",
+    "preLoadTags": [
+      "/web/asset/12.6/styles/sna-font/HelveticaNeueW23forSKY-Reg_T02.woff2",
+      "/web/asset/12.6/styles/sna-font/HelveticaNeueW23forSKY-Bd_T02.woff2",
+      "/web/asset/12.6/styles/sna-font/HelveticaNeueW23forSKY-Lig_T02.woff2",
+      "/web/asset/12.6/styles/sna-icons/snaicons2.woff2",
+      "/web/asset/12.6/styles/sna-icons/snaicons.woff2",
+      "/static/web-rev/img/default_img.jpg",
+      "/web/asset/12.6/styles/sna-rev-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/styles/sna-rev-head-split.css?timestamp=1475934643862",
+      "/web/asset/12.6/styles/sna-section-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-rev-foot.js?timestamp=1475934643862",
+      null,
+      "https://adservice.google.com/adsid/integrator.js?domain=webdevtest.skynewsarabia.com"
+    ],
+    "preFetchTags": [
+      "https://securepubads.g.doubleclick.net/static/3p_cookie.html",
+      "/web/asset/12.6/styles/sna-article-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/styles/sna-videos-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/styles/sna-section-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-article-foot.js?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-videos-foot.js?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-imageGallery-foot.js?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-teamDetails-foot.js?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-matchDetails-foot.js?timestamp=1475934643862"
+    ],
+    "preConnectTags": [
+      "https://www.skynewsarabia.com",
+      "https://asset1.skynewsarabia.com",
+      "https://api.skynewsarabia.com",
+      "https://media.skynewsarabia.com",
+      "https://www.googleapis.com",
+      "https://wurfl.io"
+    ]
+  },
+  {
+    "title": "team-detail-manu",
+    "preLoadTags": [
+      "/web/asset/12.6/styles/sna-font/HelveticaNeueW23forSKY-Reg_T02.woff2",
+      "/web/asset/12.6/styles/sna-font/HelveticaNeueW23forSKY-Bd_T02.woff2",
+      "/web/asset/12.6/styles/sna-font/HelveticaNeueW23forSKY-Lig_T02.woff2",
+      "/web/asset/12.6/styles/sna-icons/snaicons2.woff2",
+      "/web/asset/12.6/styles/sna-icons/snaicons.woff2",
+      "/static/web-rev/img/default_img.jpg",
+      "/web/asset/12.6/styles/sna-rev-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/styles/sna-rev-head-split.css?timestamp=1475934643862",
+      "/web/asset/12.6/styles/sna-section-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-rev-foot.js?timestamp=1475934643862",
+      null,
+      "https://adservice.google.com/adsid/integrator.js?domain=webdevtest.skynewsarabia.com"
+    ],
+    "preFetchTags": [
+      "https://securepubads.g.doubleclick.net/static/3p_cookie.html",
+      "/web/asset/12.6/styles/sna-article-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/styles/sna-videos-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/styles/sna-section-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-article-foot.js?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-videos-foot.js?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-imageGallery-foot.js?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-matchDetails-foot.js?timestamp=1475934643862"
+    ],
+    "preConnectTags": [
+      "https://www.skynewsarabia.com",
+      "https://asset1.skynewsarabia.com",
+      "https://api.skynewsarabia.com",
+      "https://media.skynewsarabia.com",
+      "https://www.googleapis.com",
+      "https://wurfl.io"
+    ]
+  },
+  {
+    "title": "match-detail-manu-vs-spurs",
+    "preLoadTags": [
+      "/web/asset/12.6/styles/sna-font/HelveticaNeueW23forSKY-Reg_T02.woff2",
+      "/web/asset/12.6/styles/sna-font/HelveticaNeueW23forSKY-Bd_T02.woff2",
+      "/web/asset/12.6/styles/sna-font/HelveticaNeueW23forSKY-Lig_T02.woff2",
+      "/web/asset/12.6/styles/sna-icons/snaicons2.woff2",
+      "/web/asset/12.6/styles/sna-icons/snaicons.woff2",
+      "/static/web-rev/img/default_img.jpg",
+      "/web/asset/12.6/styles/sna-rev-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/styles/sna-rev-head-split.css?timestamp=1475934643862",
+      "/web/asset/12.6/styles/sna-section-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-rev-foot.js?timestamp=1475934643862",
+      null,
+      "https://adservice.google.com/adsid/integrator.js?domain=webdevtest.skynewsarabia.com"
+    ],
+    "preFetchTags": [
+      "https://securepubads.g.doubleclick.net/static/3p_cookie.html",
+      "/web/asset/12.6/styles/sna-section-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-teamDetails-foot.js?timestamp=1475934643862"
+    ],
+    "preConnectTags": [
+      "https://www.skynewsarabia.com",
+      "https://asset1.skynewsarabia.com",
+      "https://api.skynewsarabia.com",
+      "https://media.skynewsarabia.com",
+      "https://www.googleapis.com",
+      "https://wurfl.io"
+    ]
+  },
+  {
+    "title": "business-section",
+    "preLoadTags": [
+      "/web/asset/12.6/styles/sna-font/HelveticaNeueW23forSKY-Reg_T02.woff2",
+      "/web/asset/12.6/styles/sna-font/HelveticaNeueW23forSKY-Bd_T02.woff2",
+      "/web/asset/12.6/styles/sna-font/HelveticaNeueW23forSKY-Lig_T02.woff2",
+      "/web/asset/12.6/styles/sna-icons/snaicons2.woff2",
+      "/web/asset/12.6/styles/sna-icons/snaicons.woff2",
+      "/static/web-rev/img/default_img.jpg",
+      "/web/asset/12.6/styles/sna-rev-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/styles/sna-rev-head-split.css?timestamp=1475934643862",
+      "/web/asset/12.6/styles/sna-section-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-rev-foot.js?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-section-foot.js?timestamp=1475934643862",
+      "https://adservice.google.com/adsid/integrator.js?domain=webdevtest.skynewsarabia.com"
+    ],
+    "preFetchTags": [
+      "https://securepubads.g.doubleclick.net/static/3p_cookie.html",
+      "/web/asset/12.6/styles/sna-article-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/styles/sna-videos-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/styles/sna-program-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-article-foot.js?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-videos-foot.js?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-blogs-foot.js?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-imageGallery-foot.js?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-programs-foot.js?timestamp=1475934643862"
+    ],
+    "preConnectTags": [
+      "https://www.skynewsarabia.com",
+      "https://asset1.skynewsarabia.com",
+      "https://api.skynewsarabia.com",
+      "https://media.skynewsarabia.com",
+      "https://www.googleapis.com",
+      "https://wurfl.io"
+    ]
+  },
+  {
+    "title": "technology-section",
+    "preLoadTags": [
+      "/web/asset/12.6/styles/sna-font/HelveticaNeueW23forSKY-Reg_T02.woff2",
+      "/web/asset/12.6/styles/sna-font/HelveticaNeueW23forSKY-Bd_T02.woff2",
+      "/web/asset/12.6/styles/sna-font/HelveticaNeueW23forSKY-Lig_T02.woff2",
+      "/web/asset/12.6/styles/sna-icons/snaicons2.woff2",
+      "/web/asset/12.6/styles/sna-icons/snaicons.woff2",
+      "/static/web-rev/img/default_img.jpg",
+      "/web/asset/12.6/styles/sna-rev-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/styles/sna-rev-head-split.css?timestamp=1475934643862",
+      "/web/asset/12.6/styles/sna-section-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-rev-foot.js?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-section-foot.js?timestamp=1475934643862",
+      "https://adservice.google.com/adsid/integrator.js?domain=webdevtest.skynewsarabia.com"
+    ],
+    "preFetchTags": [
+      "https://securepubads.g.doubleclick.net/static/3p_cookie.html",
+      "/web/asset/12.6/styles/sna-article-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/styles/sna-videos-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/styles/sna-program-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-article-foot.js?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-videos-foot.js?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-blogs-foot.js?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-imageGallery-foot.js?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-programs-foot.js?timestamp=1475934643862"
+    ],
+    "preConnectTags": [
+      "https://www.skynewsarabia.com",
+      "https://asset1.skynewsarabia.com",
+      "https://api.skynewsarabia.com",
+      "https://media.skynewsarabia.com",
+      "https://www.googleapis.com",
+      "https://wurfl.io"
+    ]
+  },
+  {
+    "title": "varieties-section",
+    "preLoadTags": [
+      "/web/asset/12.6/styles/sna-font/HelveticaNeueW23forSKY-Reg_T02.woff2",
+      "/web/asset/12.6/styles/sna-font/HelveticaNeueW23forSKY-Bd_T02.woff2",
+      "/web/asset/12.6/styles/sna-font/HelveticaNeueW23forSKY-Lig_T02.woff2",
+      "/web/asset/12.6/styles/sna-icons/snaicons2.woff2",
+      "/web/asset/12.6/styles/sna-icons/snaicons.woff2",
+      "/static/web-rev/img/default_img.jpg",
+      "/web/asset/12.6/styles/sna-rev-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/styles/sna-rev-head-split.css?timestamp=1475934643862",
+      "/web/asset/12.6/styles/sna-section-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-rev-foot.js?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-section-foot.js?timestamp=1475934643862",
+      "https://adservice.google.com/adsid/integrator.js?domain=webdevtest.skynewsarabia.com"
+    ],
+    "preFetchTags": [
+      "https://securepubads.g.doubleclick.net/static/3p_cookie.html",
+      "/web/asset/12.6/styles/sna-article-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/styles/sna-videos-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/styles/sna-program-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-article-foot.js?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-videos-foot.js?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-blogs-foot.js?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-imageGallery-foot.js?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-programs-foot.js?timestamp=1475934643862"
+    ],
+    "preConnectTags": [
+      "https://www.skynewsarabia.com",
+      "https://asset1.skynewsarabia.com",
+      "https://api.skynewsarabia.com",
+      "https://media.skynewsarabia.com",
+      "https://www.googleapis.com",
+      "https://wurfl.io"
+    ]
+  },
+  {
+    "title": "livestream",
+    "preLoadTags": [
+      "/web/asset/12.6/styles/sna-font/HelveticaNeueW23forSKY-Reg_T02.woff2",
+      "/web/asset/12.6/styles/sna-font/HelveticaNeueW23forSKY-Bd_T02.woff2",
+      "/web/asset/12.6/styles/sna-font/HelveticaNeueW23forSKY-Lig_T02.woff2",
+      "/web/asset/12.6/styles/sna-icons/snaicons2.woff2",
+      "/web/asset/12.6/styles/sna-icons/snaicons.woff2",
+      "/static/web-rev/img/default_img.jpg",
+      "/web/asset/12.6/styles/sna-rev-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/styles/sna-rev-head-split.css?timestamp=1475934643862",
+      "/web/asset/12.6/styles/sna-search-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-rev-foot.js?timestamp=1475934643862",
+      null,
+      "https://adservice.google.com/adsid/integrator.js?domain=webdevtest.skynewsarabia.com"
+    ],
+    "preFetchTags": [
+      "https://securepubads.g.doubleclick.net/static/3p_cookie.html",
+      "/web/asset/12.6/styles/sna-videos-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-videos-foot.js?timestamp=1475934643862"
+    ],
+    "preConnectTags": [
+      "https://www.skynewsarabia.com",
+      "https://asset1.skynewsarabia.com",
+      "https://api.skynewsarabia.com",
+      "https://media.skynewsarabia.com",
+      "https://www.googleapis.com",
+      "https://wurfl.io"
+    ]
+  },
+  {
+    "title": "programs-list",
+    "preLoadTags": [
+      "/web/asset/12.6/styles/sna-font/HelveticaNeueW23forSKY-Reg_T02.woff2",
+      "/web/asset/12.6/styles/sna-font/HelveticaNeueW23forSKY-Bd_T02.woff2",
+      "/web/asset/12.6/styles/sna-font/HelveticaNeueW23forSKY-Lig_T02.woff2",
+      "/web/asset/12.6/styles/sna-icons/snaicons2.woff2",
+      "/web/asset/12.6/styles/sna-icons/snaicons.woff2",
+      "/static/web-rev/img/default_img.jpg",
+      "/web/asset/12.6/styles/sna-rev-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/styles/sna-rev-head-split.css?timestamp=1475934643862",
+      "/web/asset/12.6/styles/sna-program-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-rev-foot.js?timestamp=1475934643862",
+      null,
+      "https://adservice.google.com/adsid/integrator.js?domain=webdevtest.skynewsarabia.com"
+    ],
+    "preFetchTags": [
+      "https://securepubads.g.doubleclick.net/static/3p_cookie.html",
+      "/web/asset/12.6/styles/sna-program-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-programs-foot.js?timestamp=1475934643862"
+    ],
+    "preConnectTags": [
+      "https://www.skynewsarabia.com",
+      "https://asset1.skynewsarabia.com",
+      "https://api.skynewsarabia.com",
+      "https://media.skynewsarabia.com",
+      "https://www.googleapis.com",
+      "https://wurfl.io"
+    ]
+  },
+  {
+    "title": "programs-detail-hadith-al-arab",
+    "preLoadTags": [
+      "/web/asset/12.6/styles/sna-font/HelveticaNeueW23forSKY-Reg_T02.woff2",
+      "/web/asset/12.6/styles/sna-font/HelveticaNeueW23forSKY-Bd_T02.woff2",
+      "/web/asset/12.6/styles/sna-font/HelveticaNeueW23forSKY-Lig_T02.woff2",
+      "/web/asset/12.6/styles/sna-icons/snaicons2.woff2",
+      "/web/asset/12.6/styles/sna-icons/snaicons.woff2",
+      "/static/web-rev/img/default_img.jpg",
+      "/web/asset/12.6/styles/sna-rev-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/styles/sna-rev-head-split.css?timestamp=1475934643862",
+      "/web/asset/12.6/styles/sna-program-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-rev-foot.js?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-programs-foot.js?timestamp=1475934643862",
+      "https://adservice.google.com/adsid/integrator.js?domain=webdevtest.skynewsarabia.com"
+    ],
+    "preFetchTags": [
+      "https://securepubads.g.doubleclick.net/static/3p_cookie.html"
+    ],
+    "preConnectTags": [
+      "https://www.skynewsarabia.com",
+      "https://asset1.skynewsarabia.com",
+      "https://api.skynewsarabia.com",
+      "https://media.skynewsarabia.com",
+      "https://www.googleapis.com",
+      "https://wurfl.io"
+    ]
+  },
+  {
+    "title": "episode-detail",
+    "preLoadTags": [
+      "/web/asset/12.6/styles/sna-font/HelveticaNeueW23forSKY-Reg_T02.woff2",
+      "/web/asset/12.6/styles/sna-font/HelveticaNeueW23forSKY-Bd_T02.woff2",
+      "/web/asset/12.6/styles/sna-font/HelveticaNeueW23forSKY-Lig_T02.woff2",
+      "/web/asset/12.6/styles/sna-icons/snaicons2.woff2",
+      "/web/asset/12.6/styles/sna-icons/snaicons.woff2",
+      "/static/web-rev/img/default_img.jpg",
+      "/web/asset/12.6/styles/sna-rev-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/styles/sna-rev-head-split.css?timestamp=1475934643862",
+      "/web/asset/12.6/styles/sna-program-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-rev-foot.js?timestamp=1475934643862",
+      null,
+      "https://adservice.google.com/adsid/integrator.js?domain=webdevtest.skynewsarabia.com"
+    ],
+    "preFetchTags": [
+      "https://securepubads.g.doubleclick.net/static/3p_cookie.html"
+    ],
+    "preConnectTags": [
+      "https://www.skynewsarabia.com",
+      "https://asset1.skynewsarabia.com",
+      "https://api.skynewsarabia.com",
+      "https://media.skynewsarabia.com",
+      "https://www.googleapis.com",
+      "https://wurfl.io"
+    ]
+  },
+  {
+    "title": "blog-list",
+    "preLoadTags": [
+      "/web/asset/12.6/styles/sna-font/HelveticaNeueW23forSKY-Reg_T02.woff2",
+      "/web/asset/12.6/styles/sna-font/HelveticaNeueW23forSKY-Bd_T02.woff2",
+      "/web/asset/12.6/styles/sna-font/HelveticaNeueW23forSKY-Lig_T02.woff2",
+      "/web/asset/12.6/styles/sna-icons/snaicons2.woff2",
+      "/web/asset/12.6/styles/sna-icons/snaicons.woff2",
+      "/static/web-rev/img/default_img.jpg",
+      "/web/asset/12.6/styles/sna-rev-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/styles/sna-rev-head-split.css?timestamp=1475934643862",
+      "/web/asset/12.6/styles/sna-blogs-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-rev-foot.js?timestamp=1475934643862",
+      null,
+      "https://adservice.google.com/adsid/integrator.js?domain=webdevtest.skynewsarabia.com"
+    ],
+    "preFetchTags": [
+      "https://securepubads.g.doubleclick.net/static/3p_cookie.html"
+    ],
+    "preConnectTags": [
+      "https://www.skynewsarabia.com",
+      "https://asset1.skynewsarabia.com",
+      "https://api.skynewsarabia.com",
+      "https://media.skynewsarabia.com",
+      "https://www.googleapis.com",
+      "https://wurfl.io"
+    ]
+  },
+  {
+    "title": "blog-detail",
+    "preLoadTags": [
+      "/web/asset/12.6/styles/sna-font/HelveticaNeueW23forSKY-Reg_T02.woff2",
+      "/web/asset/12.6/styles/sna-font/HelveticaNeueW23forSKY-Bd_T02.woff2",
+      "/web/asset/12.6/styles/sna-font/HelveticaNeueW23forSKY-Lig_T02.woff2",
+      "/web/asset/12.6/styles/sna-icons/snaicons2.woff2",
+      "/web/asset/12.6/styles/sna-icons/snaicons.woff2",
+      "/static/web-rev/img/default_img.jpg",
+      "/web/asset/12.6/styles/sna-rev-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/styles/sna-rev-head-split.css?timestamp=1475934643862",
+      "/web/asset/12.6/styles/sna-blogs-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-rev-foot.js?timestamp=1475934643862",
+      null,
+      "https://adservice.google.com/adsid/integrator.js?domain=webdevtest.skynewsarabia.com"
+    ],
+    "preFetchTags": [
+      "https://securepubads.g.doubleclick.net/static/3p_cookie.html"
+    ],
+    "preConnectTags": [
+      "https://www.skynewsarabia.com",
+      "https://asset1.skynewsarabia.com",
+      "https://api.skynewsarabia.com",
+      "https://media.skynewsarabia.com",
+      "https://www.googleapis.com",
+      "https://wurfl.io"
+    ]
+  },
+  {
+    "title": "topic-list",
+    "preLoadTags": [
+      "/web/asset/12.6/styles/sna-font/HelveticaNeueW23forSKY-Reg_T02.woff2",
+      "/web/asset/12.6/styles/sna-font/HelveticaNeueW23forSKY-Bd_T02.woff2",
+      "/web/asset/12.6/styles/sna-font/HelveticaNeueW23forSKY-Lig_T02.woff2",
+      "/web/asset/12.6/styles/sna-icons/snaicons2.woff2",
+      "/web/asset/12.6/styles/sna-icons/snaicons.woff2",
+      "/static/web-rev/img/default_img.jpg",
+      "/web/asset/12.6/styles/sna-rev-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/styles/sna-rev-head-split.css?timestamp=1475934643862",
+      "/web/asset/12.6/styles/sna-topic-list-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-rev-foot.js?timestamp=1475934643862",
+      null,
+      "https://adservice.google.com/adsid/integrator.js?domain=webdevtest.skynewsarabia.com"
+    ],
+    "preFetchTags": [
+      "https://securepubads.g.doubleclick.net/static/3p_cookie.html"
+    ],
+    "preConnectTags": [
+      "https://www.skynewsarabia.com",
+      "https://asset1.skynewsarabia.com",
+      "https://api.skynewsarabia.com",
+      "https://media.skynewsarabia.com",
+      "https://www.googleapis.com",
+      "https://wurfl.io"
+    ]
+  },
+  {
+    "title": "topic-detail-varities",
+    "preLoadTags": [
+      "/web/asset/12.6/styles/sna-font/HelveticaNeueW23forSKY-Reg_T02.woff2",
+      "/web/asset/12.6/styles/sna-font/HelveticaNeueW23forSKY-Bd_T02.woff2",
+      "/web/asset/12.6/styles/sna-font/HelveticaNeueW23forSKY-Lig_T02.woff2",
+      "/web/asset/12.6/styles/sna-icons/snaicons2.woff2",
+      "/web/asset/12.6/styles/sna-icons/snaicons.woff2",
+      "/static/web-rev/img/default_img.jpg",
+      "/web/asset/12.6/styles/sna-rev-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/styles/sna-rev-head-split.css?timestamp=1475934643862",
+      "/web/asset/12.6/styles/sna-topic-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-rev-foot.js?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-topic-foot.js?timestamp=1475934643862",
+      "https://adservice.google.com/adsid/integrator.js?domain=webdevtest.skynewsarabia.com"
+    ],
+    "preFetchTags": [
+      "https://securepubads.g.doubleclick.net/static/3p_cookie.html",
+      "/web/asset/12.6/styles/sna-article-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/styles/sna-videos-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-article-foot.js?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-videos-foot.js?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-blogs-foot.js?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-imageGallery-foot.js?timestamp=1475934643862"
+    ],
+    "preConnectTags": [
+      "https://www.skynewsarabia.com",
+      "https://asset1.skynewsarabia.com",
+      "https://api.skynewsarabia.com",
+      "https://media.skynewsarabia.com",
+      "https://www.googleapis.com",
+      "https://wurfl.io"
+    ]
+  },
+  {
+    "title": "static-page-detail-about-sna",
+    "preLoadTags": [
+      "/web/asset/12.6/styles/sna-font/HelveticaNeueW23forSKY-Reg_T02.woff2",
+      "/web/asset/12.6/styles/sna-font/HelveticaNeueW23forSKY-Bd_T02.woff2",
+      "/web/asset/12.6/styles/sna-font/HelveticaNeueW23forSKY-Lig_T02.woff2",
+      "/web/asset/12.6/styles/sna-icons/snaicons2.woff2",
+      "/web/asset/12.6/styles/sna-icons/snaicons.woff2",
+      "/static/web-rev/img/default_img.jpg",
+      "/web/asset/12.6/styles/sna-rev-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/styles/sna-rev-head-split.css?timestamp=1475934643862",
+      "/web/asset/12.6/styles/sna-staticPage-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-rev-foot.js?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-staticPage-foot.js?timestamp=1475934643862",
+      "https://adservice.google.com/adsid/integrator.js?domain=webdevtest.skynewsarabia.com"
+    ],
+    "preFetchTags": [
+      "https://securepubads.g.doubleclick.net/static/3p_cookie.html",
+      "/web/asset/12.6/styles/sna-article-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-article-foot.js?timestamp=1475934643862"
+    ],
+    "preConnectTags": [
+      "https://www.skynewsarabia.com",
+      "https://asset1.skynewsarabia.com",
+      "https://api.skynewsarabia.com",
+      "https://media.skynewsarabia.com",
+      "https://www.googleapis.com",
+      "https://wurfl.io"
+    ]
+  },
+  {
+    "title": "article-detail",
+    "preLoadTags": [
+      "/web/asset/12.6/styles/sna-font/HelveticaNeueW23forSKY-Reg_T02.woff2",
+      "/web/asset/12.6/styles/sna-font/HelveticaNeueW23forSKY-Bd_T02.woff2",
+      "/web/asset/12.6/styles/sna-font/HelveticaNeueW23forSKY-Lig_T02.woff2",
+      "/web/asset/12.6/styles/sna-icons/snaicons2.woff2",
+      "/web/asset/12.6/styles/sna-icons/snaicons.woff2",
+      "/static/web-rev/img/default_img.jpg",
+      "/web/asset/12.6/styles/sna-rev-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/styles/sna-rev-head-split.css?timestamp=1475934643862",
+      "/web/asset/12.6/styles/sna-notfound-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-rev-foot.js?timestamp=1475934643862",
+      null,
+      "https://adservice.google.com/adsid/integrator.js?domain=webdevtest.skynewsarabia.com"
+    ],
+    "preFetchTags": [
+      "https://securepubads.g.doubleclick.net/static/3p_cookie.html"
+    ],
+    "preConnectTags": [
+      "https://www.skynewsarabia.com",
+      "https://asset1.skynewsarabia.com",
+      "https://api.skynewsarabia.com",
+      "https://media.skynewsarabia.com",
+      "https://www.googleapis.com",
+      "https://wurfl.io"
+    ]
+  },
+  {
+    "title": "video-list",
+    "preLoadTags": [
+      "/web/asset/12.6/styles/sna-font/HelveticaNeueW23forSKY-Reg_T02.woff2",
+      "/web/asset/12.6/styles/sna-font/HelveticaNeueW23forSKY-Bd_T02.woff2",
+      "/web/asset/12.6/styles/sna-font/HelveticaNeueW23forSKY-Lig_T02.woff2",
+      "/web/asset/12.6/styles/sna-icons/snaicons2.woff2",
+      "/web/asset/12.6/styles/sna-icons/snaicons.woff2",
+      "/static/web-rev/img/default_img.jpg",
+      "/web/asset/12.6/styles/sna-rev-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/styles/sna-rev-head-split.css?timestamp=1475934643862",
+      "/web/asset/12.6/styles/sna-videos-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-rev-foot.js?timestamp=1475934643862",
+      null,
+      "https://adservice.google.com/adsid/integrator.js?domain=webdevtest.skynewsarabia.com"
+    ],
+    "preFetchTags": [
+      "https://securepubads.g.doubleclick.net/static/3p_cookie.html"
+    ],
+    "preConnectTags": [
+      "https://www.skynewsarabia.com",
+      "https://asset1.skynewsarabia.com",
+      "https://api.skynewsarabia.com",
+      "https://media.skynewsarabia.com",
+      "https://www.googleapis.com",
+      "https://wurfl.io"
+    ]
+  },
+  {
+    "title": "video-detail",
+    "preLoadTags": [
+      "/web/asset/12.6/styles/sna-font/HelveticaNeueW23forSKY-Reg_T02.woff2",
+      "/web/asset/12.6/styles/sna-font/HelveticaNeueW23forSKY-Bd_T02.woff2",
+      "/web/asset/12.6/styles/sna-font/HelveticaNeueW23forSKY-Lig_T02.woff2",
+      "/web/asset/12.6/styles/sna-icons/snaicons2.woff2",
+      "/web/asset/12.6/styles/sna-icons/snaicons.woff2",
+      "/static/web-rev/img/default_img.jpg",
+      "/web/asset/12.6/styles/sna-rev-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/styles/sna-rev-head-split.css?timestamp=1475934643862",
+      "/web/asset/12.6/styles/sna-notfound-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-rev-foot.js?timestamp=1475934643862",
+      null,
+      "https://adservice.google.com/adsid/integrator.js?domain=webdevtest.skynewsarabia.com"
+    ],
+    "preFetchTags": [
+      "https://securepubads.g.doubleclick.net/static/3p_cookie.html"
+    ],
+    "preConnectTags": [
+      "https://www.skynewsarabia.com",
+      "https://asset1.skynewsarabia.com",
+      "https://api.skynewsarabia.com",
+      "https://media.skynewsarabia.com",
+      "https://www.googleapis.com",
+      "https://wurfl.io"
+    ]
+  },
+  {
+    "title": "image-gallery-list",
+    "preLoadTags": [
+      "/web/asset/12.6/styles/sna-font/HelveticaNeueW23forSKY-Reg_T02.woff2",
+      "/web/asset/12.6/styles/sna-font/HelveticaNeueW23forSKY-Bd_T02.woff2",
+      "/web/asset/12.6/styles/sna-font/HelveticaNeueW23forSKY-Lig_T02.woff2",
+      "/web/asset/12.6/styles/sna-icons/snaicons2.woff2",
+      "/web/asset/12.6/styles/sna-icons/snaicons.woff2",
+      "/static/web-rev/img/default_img.jpg",
+      "/web/asset/12.6/styles/sna-rev-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/styles/sna-rev-head-split.css?timestamp=1475934643862",
+      "/web/asset/12.6/styles/sna-videos-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-rev-foot.js?timestamp=1475934643862",
+      null,
+      "https://adservice.google.com/adsid/integrator.js?domain=webdevtest.skynewsarabia.com"
+    ],
+    "preFetchTags": [
+      "https://securepubads.g.doubleclick.net/static/3p_cookie.html"
+    ],
+    "preConnectTags": [
+      "https://www.skynewsarabia.com",
+      "https://asset1.skynewsarabia.com",
+      "https://api.skynewsarabia.com",
+      "https://media.skynewsarabia.com",
+      "https://www.googleapis.com",
+      "https://wurfl.io"
+    ]
+  },
+  {
+    "title": "image-gallery-detail",
+    "preLoadTags": [
+      "/web/asset/12.6/styles/sna-font/HelveticaNeueW23forSKY-Reg_T02.woff2",
+      "/web/asset/12.6/styles/sna-font/HelveticaNeueW23forSKY-Bd_T02.woff2",
+      "/web/asset/12.6/styles/sna-font/HelveticaNeueW23forSKY-Lig_T02.woff2",
+      "/web/asset/12.6/styles/sna-icons/snaicons2.woff2",
+      "/web/asset/12.6/styles/sna-icons/snaicons.woff2",
+      "/static/web-rev/img/default_img.jpg",
+      "/web/asset/12.6/styles/sna-rev-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/styles/sna-rev-head-split.css?timestamp=1475934643862",
+      "/web/asset/12.6/styles/sna-videos-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-rev-foot.js?timestamp=1475934643862",
+      null,
+      "https://adservice.google.com/adsid/integrator.js?domain=webdevtest.skynewsarabia.com"
+    ],
+    "preFetchTags": [
+      "https://securepubads.g.doubleclick.net/static/3p_cookie.html"
+    ],
+    "preConnectTags": [
+      "https://www.skynewsarabia.com",
+      "https://asset1.skynewsarabia.com",
+      "https://api.skynewsarabia.com",
+      "https://media.skynewsarabia.com",
+      "https://www.googleapis.com",
+      "https://wurfl.io"
+    ]
+  },
+  {
+    "title": "infographic-list",
+    "preLoadTags": [
+      "/web/asset/12.6/styles/sna-font/HelveticaNeueW23forSKY-Reg_T02.woff2",
+      "/web/asset/12.6/styles/sna-font/HelveticaNeueW23forSKY-Bd_T02.woff2",
+      "/web/asset/12.6/styles/sna-font/HelveticaNeueW23forSKY-Lig_T02.woff2",
+      "/web/asset/12.6/styles/sna-icons/snaicons2.woff2",
+      "/web/asset/12.6/styles/sna-icons/snaicons.woff2",
+      "/static/web-rev/img/default_img.jpg",
+      "/web/asset/12.6/styles/sna-rev-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/styles/sna-rev-head-split.css?timestamp=1475934643862",
+      "/web/asset/12.6/styles/sna-infographic-list-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-rev-foot.js?timestamp=1475934643862",
+      null,
+      "https://adservice.google.com/adsid/integrator.js?domain=webdevtest.skynewsarabia.com"
+    ],
+    "preFetchTags": [
+      "https://securepubads.g.doubleclick.net/static/3p_cookie.html"
+    ],
+    "preConnectTags": [
+      "https://www.skynewsarabia.com",
+      "https://asset1.skynewsarabia.com",
+      "https://api.skynewsarabia.com",
+      "https://media.skynewsarabia.com",
+      "https://www.googleapis.com",
+      "https://wurfl.io"
+    ]
+  },
+  {
+    "title": "infographic-detail",
+    "preLoadTags": [
+      "/web/asset/12.6/styles/sna-font/HelveticaNeueW23forSKY-Reg_T02.woff2",
+      "/web/asset/12.6/styles/sna-font/HelveticaNeueW23forSKY-Bd_T02.woff2",
+      "/web/asset/12.6/styles/sna-font/HelveticaNeueW23forSKY-Lig_T02.woff2",
+      "/web/asset/12.6/styles/sna-icons/snaicons2.woff2",
+      "/web/asset/12.6/styles/sna-icons/snaicons.woff2",
+      "/static/web-rev/img/default_img.jpg",
+      "/web/asset/12.6/styles/sna-rev-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/styles/sna-rev-head-split.css?timestamp=1475934643862",
+      "/web/asset/12.6/styles/sna-videos-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-rev-foot.js?timestamp=1475934643862",
+      null,
+      "https://adservice.google.com/adsid/integrator.js?domain=webdevtest.skynewsarabia.com"
+    ],
+    "preFetchTags": [
+      "https://securepubads.g.doubleclick.net/static/3p_cookie.html"
+    ],
+    "preConnectTags": [
+      "https://www.skynewsarabia.com",
+      "https://asset1.skynewsarabia.com",
+      "https://api.skynewsarabia.com",
+      "https://media.skynewsarabia.com",
+      "https://www.googleapis.com",
+      "https://wurfl.io"
+    ]
+  },
+  {
+    "title": "markets-section",
+    "preLoadTags": [
+      "/web/asset/12.6/styles/sna-font/HelveticaNeueW23forSKY-Reg_T02.woff2",
+      "/web/asset/12.6/styles/sna-font/HelveticaNeueW23forSKY-Bd_T02.woff2",
+      "/web/asset/12.6/styles/sna-font/HelveticaNeueW23forSKY-Lig_T02.woff2",
+      "/web/asset/12.6/styles/sna-icons/snaicons2.woff2",
+      "/web/asset/12.6/styles/sna-icons/snaicons.woff2",
+      "/static/web-rev/img/default_img.jpg",
+      "/web/asset/12.6/styles/sna-rev-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/styles/sna-rev-head-split.css?timestamp=1475934643862",
+      "/web/asset/12.6/styles/sna-section-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-rev-foot.js?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-section-foot.js?timestamp=1475934643862",
+      "https://adservice.google.com/adsid/integrator.js?domain=webdevtest.skynewsarabia.com"
+    ],
+    "preFetchTags": [
+      "https://securepubads.g.doubleclick.net/static/3p_cookie.html",
+      "/web/asset/12.6/styles/sna-article-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/styles/sna-videos-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/styles/sna-program-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-article-foot.js?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-videos-foot.js?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-blogs-foot.js?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-imageGallery-foot.js?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-programs-foot.js?timestamp=1475934643862"
+    ],
+    "preConnectTags": [
+      "https://www.skynewsarabia.com",
+      "https://asset1.skynewsarabia.com",
+      "https://api.skynewsarabia.com",
+      "https://media.skynewsarabia.com",
+      "https://www.googleapis.com",
+      "https://wurfl.io"
+    ]
+  },
+  {
+    "title": "currencies-section",
+    "preLoadTags": [
+      "/web/asset/12.6/styles/sna-font/HelveticaNeueW23forSKY-Reg_T02.woff2",
+      "/web/asset/12.6/styles/sna-font/HelveticaNeueW23forSKY-Bd_T02.woff2",
+      "/web/asset/12.6/styles/sna-font/HelveticaNeueW23forSKY-Lig_T02.woff2",
+      "/web/asset/12.6/styles/sna-icons/snaicons2.woff2",
+      "/web/asset/12.6/styles/sna-icons/snaicons.woff2",
+      "/static/web-rev/img/default_img.jpg",
+      "/web/asset/12.6/styles/sna-rev-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/styles/sna-rev-head-split.css?timestamp=1475934643862",
+      "/web/asset/12.6/styles/sna-section-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-rev-foot.js?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-section-foot.js?timestamp=1475934643862",
+      "https://adservice.google.com/adsid/integrator.js?domain=webdevtest.skynewsarabia.com"
+    ],
+    "preFetchTags": [
+      "https://securepubads.g.doubleclick.net/static/3p_cookie.html",
+      "/web/asset/12.6/styles/sna-article-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/styles/sna-videos-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/styles/sna-program-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-article-foot.js?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-videos-foot.js?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-blogs-foot.js?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-imageGallery-foot.js?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-programs-foot.js?timestamp=1475934643862"
+    ],
+    "preConnectTags": [
+      "https://www.skynewsarabia.com",
+      "https://asset1.skynewsarabia.com",
+      "https://api.skynewsarabia.com",
+      "https://media.skynewsarabia.com",
+      "https://www.googleapis.com",
+      "https://wurfl.io"
+    ]
+  },
+  {
+    "title": "market-detail-abudhabi",
+    "preLoadTags": [
+      "/web/asset/12.6/styles/sna-font/HelveticaNeueW23forSKY-Reg_T02.woff2",
+      "/web/asset/12.6/styles/sna-font/HelveticaNeueW23forSKY-Bd_T02.woff2",
+      "/web/asset/12.6/styles/sna-font/HelveticaNeueW23forSKY-Lig_T02.woff2",
+      "/web/asset/12.6/styles/sna-icons/snaicons2.woff2",
+      "/web/asset/12.6/styles/sna-icons/snaicons.woff2",
+      "/static/web-rev/img/default_img.jpg",
+      "/web/asset/12.6/styles/sna-rev-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/styles/sna-rev-head-split.css?timestamp=1475934643862",
+      "/web/asset/12.6/styles/sna-section-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-rev-foot.js?timestamp=1475934643862",
+      null,
+      "https://adservice.google.com/adsid/integrator.js?domain=webdevtest.skynewsarabia.com"
+    ],
+    "preFetchTags": [
+      "https://securepubads.g.doubleclick.net/static/3p_cookie.html"
+    ],
+    "preConnectTags": [
+      "https://www.skynewsarabia.com",
+      "https://asset1.skynewsarabia.com",
+      "https://api.skynewsarabia.com",
+      "https://media.skynewsarabia.com",
+      "https://www.googleapis.com",
+      "https://wurfl.io"
+    ]
+  },
+  {
+    "title": "commodities-section",
+    "preLoadTags": [
+      "/web/asset/12.6/styles/sna-font/HelveticaNeueW23forSKY-Reg_T02.woff2",
+      "/web/asset/12.6/styles/sna-font/HelveticaNeueW23forSKY-Bd_T02.woff2",
+      "/web/asset/12.6/styles/sna-font/HelveticaNeueW23forSKY-Lig_T02.woff2",
+      "/web/asset/12.6/styles/sna-icons/snaicons2.woff2",
+      "/web/asset/12.6/styles/sna-icons/snaicons.woff2",
+      "/static/web-rev/img/default_img.jpg",
+      "/web/asset/12.6/styles/sna-rev-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/styles/sna-rev-head-split.css?timestamp=1475934643862",
+      "/web/asset/12.6/styles/sna-section-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-rev-foot.js?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-section-foot.js?timestamp=1475934643862",
+      "https://adservice.google.com/adsid/integrator.js?domain=webdevtest.skynewsarabia.com"
+    ],
+    "preFetchTags": [
+      "https://securepubads.g.doubleclick.net/static/3p_cookie.html",
+      "/web/asset/12.6/styles/sna-article-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/styles/sna-videos-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/styles/sna-program-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-article-foot.js?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-videos-foot.js?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-blogs-foot.js?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-imageGallery-foot.js?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-programs-foot.js?timestamp=1475934643862"
+    ],
+    "preConnectTags": [
+      "https://www.skynewsarabia.com",
+      "https://asset1.skynewsarabia.com",
+      "https://api.skynewsarabia.com",
+      "https://media.skynewsarabia.com",
+      "https://www.googleapis.com",
+      "https://wurfl.io"
+    ]
+  },
+  {
+    "title": "search-sky",
+    "preLoadTags": [
+      "/web/asset/12.6/styles/sna-font/HelveticaNeueW23forSKY-Reg_T02.woff2",
+      "/web/asset/12.6/styles/sna-font/HelveticaNeueW23forSKY-Bd_T02.woff2",
+      "/web/asset/12.6/styles/sna-font/HelveticaNeueW23forSKY-Lig_T02.woff2",
+      "/web/asset/12.6/styles/sna-icons/snaicons2.woff2",
+      "/web/asset/12.6/styles/sna-icons/snaicons.woff2",
+      "/static/web-rev/img/default_img.jpg",
+      "/web/asset/12.6/styles/sna-rev-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/styles/sna-rev-head-split.css?timestamp=1475934643862",
+      "/web/asset/12.6/styles/sna-search-head.css?timestamp=1475934643862",
+      "/web/asset/12.6/scripts/sna-rev-foot.js?timestamp=1475934643862",
+      null,
+      "https://adservice.google.com/adsid/integrator.js?domain=webdevtest.skynewsarabia.com"
+    ],
+    "preFetchTags": [
+      "https://securepubads.g.doubleclick.net/static/3p_cookie.html"
+    ],
+    "preConnectTags": [
+      "https://www.skynewsarabia.com",
+      "https://asset1.skynewsarabia.com",
+      "https://api.skynewsarabia.com",
+      "https://media.skynewsarabia.com",
+      "https://www.googleapis.com",
+      "https://wurfl.io"
+    ]
+  }
+]
