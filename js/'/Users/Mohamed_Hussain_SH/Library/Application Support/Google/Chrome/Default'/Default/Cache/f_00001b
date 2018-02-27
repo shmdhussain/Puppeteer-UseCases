@@ -1,0 +1,327 @@
+var chartsReady = false;
+//AmCharts.monthNames = [
+//'يناير',
+//'فبراير',
+//'مارس',
+//'ابريل',
+//'مايو',
+//'يونيو',
+//'يوليو',
+//'أغسطس',
+//'سبتمبر',
+//'اكتوبر',
+//'نوفمبر',
+//'ديسمبر'];
+//AmCharts.shortMonthNames = [
+//'يناير',
+//'فبراير',
+//'مارس',
+//'ابريل',
+//'مايو',
+//'يونيو',
+//'يوليو',
+//'أغسطس',
+//'سبتمبر',
+//'اكتوبر',
+//'نوفمبر',
+//'ديسمبر'];
+//
+//AmCharts.dayNames = ['أحد', 'اثنين', 'ثلاثاء', 'أربعاء', 'خميس', 'جمعة', 'سبت'];
+//AmCharts.shortDayNames = ['أحد', 'اثنين', 'ثلاثاء', 'أربعاء', 'خميس', 'جمعة', 'سبت'];
+
+snaApp.directive("snaBusinessGraph", ['$rootScope', '$interval', '$timeout', '$http', 'appConfig', '$log', '$sce', '$location', function($rootScope, $interval, $timeout, $http, appConfig, $log, $sce, $location) {
+    var charts = [];
+    function link($scope, element, attrs) {
+        var chartId = new Date().getTime();
+        var chart;
+        var chartData = [];
+        var drawn = false, refreshing = false;
+        $scope.chartId = chartId;
+        $scope.dayLabel = "اليوم";
+
+        $scope.$watch('symbol', function(symbol) {
+            if (!symbol) {
+                return;
+            }
+            $scope.dateRange = 'DAY';
+            $scope.dayLabel = "TODAY";
+            $log.log("symbol", chartId);
+            refreshGraph($scope);
+        });
+
+        $scope.$watch('dateRange', function(dateRange) {
+            if (!dateRange || !$scope.symbol) {
+                return;
+            }
+            $log.log("dateRange", chartId);
+            refreshGraph($scope);
+        });
+
+        $scope.setDateRange = function (dateRange) {
+            $scope.dateRange = dateRange;
+        }
+
+        // generate some random data, quite different range
+        function generateChartData(points) {
+            //points = [{"closeValue":6377.73,"time":"2015-05-26T08:01:00Z"},{"closeValue":6377.73,"time":"2015-05-26T06:02:00Z"},{"closeValue":6377.73,"time":"2015-05-26T06:03:00Z"},{"closeValue":6377.73,"time":"2015-05-26T08:03:00Z"},{"closeValue":6377.73,"time":"2015-05-26T06:04:00Z"},{"closeValue":6377.73,"time":"2015-05-26T08:05:00Z"},{"closeValue":6377.73,"time":"2015-05-26T08:06:00Z"},{"closeValue":6377.73,"time":"2015-05-26T08:07:00Z"},{"closeValue":6378.05,"time":"2015-05-26T08:08:00Z"},{"closeValue":6378.05,"time":"2015-05-26T08:09:00Z"},{"closeValue":6378.05,"time":"2015-05-26T08:10:00Z"},{"closeValue":6378.05,"time":"2015-05-26T08:11:00Z"},{"closeValue":6378.05,"time":"2015-05-26T08:12:00Z"},{"closeValue":6378.05,"time":"2015-05-26T08:13:00Z"},{"closeValue":6378.46,"time":"2015-05-26T06:15:00Z"},{"closeValue":6378.46,"time":"2015-05-26T06:16:00Z"},{"closeValue":6378.46,"time":"2015-05-26T08:16:00Z"},{"closeValue":6378.46,"time":"2015-05-26T08:17:00Z"},{"closeValue":6378.46,"time":"2015-05-26T06:19:00Z"},{"closeValue":6378.55,"time":"2015-05-26T08:19:00Z"},{"closeValue":6378.55,"time":"2015-05-26T08:20:00Z"},{"closeValue":6378.55,"time":"2015-05-26T08:21:00Z"},{"closeValue":6378.56,"time":"2015-05-26T08:22:00Z"},{"closeValue":6378.56,"time":"2015-05-26T08:23:00Z"},{"closeValue":6378.2,"time":"2015-05-26T06:06:00Z"},{"closeValue":6378.2,"time":"2015-05-26T06:26:00Z"},{"closeValue":6378.2,"time":"2015-05-26T06:08:00Z"},{"closeValue":6378.2,"time":"2015-05-26T06:10:00Z"},{"closeValue":6378.2,"time":"2015-05-26T06:12:00Z"},{"closeValue":6378.28,"time":"2015-05-26T06:30:00Z"},{"closeValue":6378.48,"time":"2015-05-26T06:15:00Z"},{"closeValue":6378.48,"time":"2015-05-26T08:31:00Z"},{"closeValue":6378.48,"time":"2015-05-26T08:32:00Z"},{"closeValue":6378.48,"time":"2015-05-26T08:33:00Z"},{"closeValue":6378.48,"time":"2015-05-26T06:34:00Z"},{"closeValue":6378.48,"time":"2015-05-26T08:35:00Z"},{"closeValue":6378.48,"time":"2015-05-26T06:36:00Z"},{"closeValue":6378.48,"time":"2015-05-26T06:38:00Z"},{"closeValue":6378.48,"time":"2015-05-26T06:38:00Z"},{"closeValue":6378.48,"time":"2015-05-26T06:24:00Z"},{"closeValue":6378.48,"time":"2015-05-26T08:40:00Z"},{"closeValue":6378.48,"time":"2015-05-26T08:41:00Z"},{"closeValue":6378.48,"time":"2015-05-26T08:42:00Z"},{"closeValue":6378.48,"time":"2015-05-26T08:43:00Z"},{"closeValue":6378.48,"time":"2015-05-26T08:44:00Z"},{"closeValue":6378.48,"time":"2015-05-26T06:32:00Z"},{"closeValue":6378.48,"time":"2015-05-26T06:33:00Z"},{"closeValue":6378.48,"time":"2015-05-26T06:34:00Z"},{"closeValue":6378.48,"time":"2015-05-26T08:35:00Z"},{"closeValue":6378.48,"time":"2015-05-26T06:36:00Z"},{"closeValue":6378.48,"time":"2015-05-26T08:51:00Z"},{"closeValue":6378.48,"time":"2015-05-26T06:52:00Z"},{"closeValue":6378.48,"time":"2015-05-26T08:53:00Z"},{"closeValue":6378.48,"time":"2015-05-26T06:41:00Z"},{"closeValue":6378.48,"time":"2015-05-26T06:42:00Z"},{"closeValue":6378.48,"time":"2015-05-26T06:43:00Z"},{"closeValue":6378.48,"time":"2015-05-26T06:44:00Z"},{"closeValue":6378.48,"time":"2015-05-26T06:45:00Z"},{"closeValue":6378.48,"time":"2015-05-26T08:59:00Z"},{"closeValue":6378.12,"time":"2015-05-26T09:00:00Z"},{"closeValue":6378.12,"time":"2015-05-26T06:01:00Z"},{"closeValue":6378.2,"time":"2015-05-26T07:02:00Z"},{"closeValue":6378.19,"time":"2015-05-26T07:03:00Z"},{"closeValue":6378.19,"time":"2015-05-26T07:04:00Z"},{"closeValue":6381.18,"time":"2015-05-26T07:05:00Z"},{"closeValue":6381.18,"time":"2015-05-26T07:06:00Z"},{"closeValue":6381.34,"time":"2015-05-26T07:07:00Z"},{"closeValue":6381.34,"time":"2015-05-26T07:08:00Z"},{"closeValue":6381.34,"time":"2015-05-26T07:09:00Z"},{"closeValue":6381.34,"time":"2015-05-26T07:10:00Z"},{"closeValue":6381.09,"time":"2015-05-26T07:11:00Z"},{"closeValue":6381.09,"time":"2015-05-26T07:12:00Z"},{"closeValue":6381.09,"time":"2015-05-26T07:13:00Z"},{"closeValue":6381.16,"time":"2015-05-26T07:14:00Z"},{"closeValue":6381.16,"time":"2015-05-26T07:04:00Z"},{"closeValue":6379.77,"time":"2015-05-26T07:05:00Z"},{"closeValue":6379.84,"time":"2015-05-26T07:06:00Z"},{"closeValue":6379.87,"time":"2015-05-26T09:16:00Z"},{"closeValue":6380.64,"time":"2015-05-26T07:08:00Z"},{"closeValue":6380.64,"time":"2015-05-26T07:09:00Z"},{"closeValue":6382.28,"time":"2015-05-26T07:21:00Z"},{"closeValue":6382.3,"time":"2015-05-26T07:11:00Z"},{"closeValue":6382.74,"time":"2015-05-26T07:12:00Z"},{"closeValue":6382.74,"time":"2015-05-26T07:24:00Z"},{"closeValue":6384.26,"time":"2015-05-26T07:25:00Z"},{"closeValue":6384.26,"time":"2015-05-26T07:26:00Z"},{"closeValue":6384.26,"time":"2015-05-26T07:27:00Z"},{"closeValue":6384.26,"time":"2015-05-26T07:18:00Z"},{"closeValue":6384.26,"time":"2015-05-26T07:29:00Z"},{"closeValue":6384.26,"time":"2015-05-26T07:19:00Z"},{"closeValue":6382.38,"time":"2015-05-26T07:20:00Z"},{"closeValue":6382.38,"time":"2015-05-26T07:21:00Z"},{"closeValue":6382.38,"time":"2015-05-26T09:31:00Z"},{"closeValue":6382.4,"time":"2015-05-26T09:32:00Z"},{"closeValue":6382.43,"time":"2015-05-26T07:23:00Z"},{"closeValue":6381.67,"time":"2015-05-26T07:24:00Z"},{"closeValue":6381.7,"time":"2015-05-26T09:25:00Z"},{"closeValue":6381.72,"time":"2015-05-26T07:26:00Z"},{"closeValue":6381.83,"time":"2015-05-26T09:37:00Z"},{"closeValue":6381.78,"time":"2015-05-26T07:40:00Z"},{"closeValue":6381.78,"time":"2015-05-26T09:39:00Z"},{"closeValue":6381.78,"time":"2015-05-26T09:40:00Z"},{"closeValue":6381.78,"time":"2015-05-26T07:43:00Z"},{"closeValue":6381.78,"time":"2015-05-26T07:44:00Z"},{"closeValue":6381.78,"time":"2015-05-26T07:45:00Z"},{"closeValue":6381.78,"time":"2015-05-26T07:35:00Z"},{"closeValue":6381.78,"time":"2015-05-26T07:47:00Z"},{"closeValue":6381.78,"time":"2015-05-26T07:37:00Z"},{"closeValue":6381.77,"time":"2015-05-26T09:47:00Z"},{"closeValue":6381.77,"time":"2015-05-26T09:48:00Z"},{"closeValue":6381.77,"time":"2015-05-26T09:49:00Z"},{"closeValue":6382.12,"time":"2015-05-26T09:50:00Z"},{"closeValue":6383.46,"time":"2015-05-26T09:51:00Z"},{"closeValue":6383.47,"time":"2015-05-26T09:52:00Z"},{"closeValue":6383.57,"time":"2015-05-26T09:53:00Z"},{"closeValue":6384.97,"time":"2015-05-26T07:56:00Z"},{"closeValue":6384.97,"time":"2015-05-26T07:46:00Z"},{"closeValue":6384.98,"time":"2015-05-26T07:47:00Z"},{"closeValue":6384.98,"time":"2015-05-26T07:48:00Z"},{"closeValue":6384.99,"time":"2015-05-26T08:00:00Z"},{"closeValue":6384.99,"time":"2015-05-26T09:59:00Z"},{"closeValue":6386.57,"time":"2015-05-26T08:02:00Z"},{"closeValue":6386.57,"time":"2015-05-26T10:01:00Z"},{"closeValue":6386.42,"time":"2015-05-26T10:02:00Z"},{"closeValue":6387.83,"time":"2015-05-26T07:55:00Z"},{"closeValue":6387.83,"time":"2015-05-26T10:04:00Z"},{"closeValue":6387.93,"time":"2015-05-26T07:57:00Z"},{"closeValue":6388.0,"time":"2015-05-26T07:58:00Z"},{"closeValue":6388.0,"time":"2015-05-26T08:09:00Z"},{"closeValue":6388.0,"time":"2015-05-26T08:10:00Z"},{"closeValue":6388.0,"time":"2015-05-26T08:01:00Z"},{"closeValue":6388.0,"time":"2015-05-26T08:12:00Z"},{"closeValue":6388.01,"time":"2015-05-26T10:11:00Z"},{"closeValue":6388.01,"time":"2015-05-26T10:12:00Z"},{"closeValue":6388.08,"time":"2015-05-26T10:13:00Z"},{"closeValue":6388.08,"time":"2015-05-26T10:14:00Z"},{"closeValue":6388.48,"time":"2015-05-26T10:15:00Z"},{"closeValue":6388.58,"time":"2015-05-26T08:08:00Z"},{"closeValue":6388.6,"time":"2015-05-26T08:09:00Z"},{"closeValue":6388.83,"time":"2015-05-26T08:20:00Z"},{"closeValue":6388.83,"time":"2015-05-26T08:21:00Z"},{"closeValue":6388.85,"time":"2015-05-26T08:22:00Z"},{"closeValue":6388.86,"time":"2015-05-26T08:13:00Z"},{"closeValue":6388.86,"time":"2015-05-26T08:14:00Z"},{"closeValue":6388.87,"time":"2015-05-26T08:25:00Z"},{"closeValue":6388.88,"time":"2015-05-26T08:26:00Z"},{"closeValue":6388.88,"time":"2015-05-26T08:17:00Z"},{"closeValue":6388.88,"time":"2015-05-26T08:18:00Z"},{"closeValue":6388.88,"time":"2015-05-26T10:28:00Z"},{"closeValue":6389.12,"time":"2015-05-26T08:21:00Z"},{"closeValue":6389.15,"time":"2015-05-26T08:22:00Z"},{"closeValue":6389.2,"time":"2015-05-26T08:23:00Z"},{"closeValue":6389.17,"time":"2015-05-26T08:33:00Z"},{"closeValue":6389.85,"time":"2015-05-26T08:34:00Z"},{"closeValue":6389.92,"time":"2015-05-26T08:26:00Z"},{"closeValue":6389.82,"time":"2015-05-26T08:36:00Z"},{"closeValue":6389.76,"time":"2015-05-26T08:37:00Z"},{"closeValue":6389.76,"time":"2015-05-26T08:38:00Z"},{"closeValue":6389.76,"time":"2015-05-26T08:39:00Z"},{"closeValue":6389.71,"time":"2015-05-26T08:40:00Z"},{"closeValue":6389.71,"time":"2015-05-26T08:41:00Z"},{"closeValue":6389.7,"time":"2015-05-26T08:42:00Z"},{"closeValue":6389.37,"time":"2015-05-26T10:41:00Z"},{"closeValue":6388.54,"time":"2015-05-26T08:35:00Z"},{"closeValue":6388.61,"time":"2015-05-26T08:45:00Z"},{"closeValue":6388.59,"time":"2015-05-26T10:44:00Z"},{"closeValue":6388.59,"time":"2015-05-26T10:45:00Z"},{"closeValue":6388.52,"time":"2015-05-26T08:39:00Z"},{"closeValue":6388.52,"time":"2015-05-26T08:40:00Z"},{"closeValue":6388.41,"time":"2015-05-26T10:48:00Z"},{"closeValue":6388.34,"time":"2015-05-26T08:41:00Z"},{"closeValue":6388.3,"time":"2015-05-26T10:50:00Z"},{"closeValue":6388.26,"time":"2015-05-26T08:43:00Z"},{"closeValue":6388.21,"time":"2015-05-26T08:44:00Z"},{"closeValue":6388.06,"time":"2015-05-26T08:46:00Z"},{"closeValue":6389.95,"time":"2015-05-26T08:56:00Z"},{"closeValue":6389.9,"time":"2015-05-26T08:48:00Z"},{"closeValue":6389.91,"time":"2015-05-26T08:49:00Z"},{"closeValue":6389.91,"time":"2015-05-26T08:50:00Z"},{"closeValue":6390.58,"time":"2015-05-26T09:00:00Z"},{"closeValue":6390.32,"time":"2015-05-26T10:59:00Z"},{"closeValue":6390.32,"time":"2015-05-26T11:00:00Z"},{"closeValue":6390.32,"time":"2015-05-26T11:01:00Z"},{"closeValue":6390.32,"time":"2015-05-26T11:02:00Z"},{"closeValue":6390.32,"time":"2015-05-26T08:56:00Z"},{"closeValue":6390.32,"time":"2015-05-26T08:57:00Z"},{"closeValue":6390.32,"time":"2015-05-26T11:05:00Z"},{"closeValue":6390.32,"time":"2015-05-26T08:59:00Z"},{"closeValue":6390.32,"time":"2015-05-26T09:00:00Z"},{"closeValue":6390.32,"time":"2015-05-26T09:01:00Z"},{"closeValue":6390.32,"time":"2015-05-26T09:02:00Z"},{"closeValue":6390.32,"time":"2015-05-26T11:10:00Z"}];
+            if (!points) {
+                chartData.splice(0, chartData.length);
+                chart.validateData();
+                return;
+            }
+
+            $log.log("chart data", chartData.length);
+            $log.log('generate data', points.length);
+            chartData.splice(0, chartData.length);
+            chart.validateData();
+            for (var i = 0; points && i < points.length; i++) {
+                chartData.push({
+                    date: new Date(points[i].time),
+                    closeValue: points[i].closeValue
+                });
+            }
+            $log.log("chart data", chartData.length);
+            if ($scope.dateRange == 'DAY') {
+
+            } else if ($scope.dateRange == 'WEEK') {
+                chart.categoryAxis.dateFormats = [{period: 'mm', format: 'JJ:NN'}, {period: 'hh', format: 'JJ:NN'}, {period: 'DD', format: 'EEE'}, {period: 'WW', format: 'MMM DD'}, {period: 'MM', format: 'MMM'}, {period: 'YYYY', format: 'YYYY'}]
+
+            } else {
+                chart.categoryAxis.dateFormats = [{period: 'mm', format: 'JJ:NN'}, {period: 'hh', format: 'JJ:NN'}, {period: 'DD', format: 'DD'}, {period: 'WW', format: 'MMM DD'}, {period: 'MM', format: 'MMM'}, {period: 'YYYY', format: 'YYYY'}]
+            }
+
+            if (chart.chartCursor) {
+                if ($scope.dateRange == 'LAST_BUSINESS_DAY' || $scope.dateRange == 'DAY' || $scope.dateRange == 'WEEK') {
+                    chart.chartCursor.categoryBalloonDateFormat = "JJ:NN, DD MMMM YYYY";
+//                } else if ($scope.dateRange == 'YEAR' || $scope.dateRange == 'THREE_YEAR' || $scope.dateRange == 'SIX_MONTH' || $scope.dateRange == 'THREE_MONTH') {
+//                    chart.chartCursor.categoryBalloonDateFormat = "DD MMMM YYYY";
+                } else {
+                    chart.chartCursor.categoryBalloonDateFormat = "DD MMMM YYYY";
+                }
+            }
+            chart.validateData();
+        }
+
+        function drawChart(data, chartId) {
+            refreshing = false;
+            if (chart) {
+                $log.log("draw chart");
+                generateChartData(data.points);
+                unblockUI($(element).find("#chartdiv" + chartId));
+                return;
+            }
+
+            $log.log("draw chart");
+
+            chart = AmCharts.makeChart($(element).find("#chartdiv" + chartId)[0], {
+                type: "serial",
+                dataProvider: chartData,
+                categoryField: "date",
+                panEventsEnabled: $rootScope.device == 'DESKTOP' ? true : false,
+                autoMargins: true
+            });
+            charts.push(chart);
+
+            $timeout(function() {
+                generateChartData(data.points);
+
+
+                // AXES
+                // Category
+                var categoryAxis = chart.categoryAxis;
+                categoryAxis.parseDates = true; // in order char to understand dates, we should set parseDates to true
+                categoryAxis.autoGridCount = false;
+                chart.categoryAxis.gridCount = $rootScope.deviceType == 'DESKTOP' ? 8 : 6;
+                categoryAxis.autoWrap = true;
+                //categoryAxis.labelOffset = 10;
+                categoryAxis.labelRotation = 45;
+                //categoryAxis.centerLabelOnFullPeriod = true;
+                //categoryAxis.gridPosition = 'start';
+                categoryAxis.equalSpacing = false;
+                //categoryAxis.showLastLabel = false;
+                categoryAxis.minPeriod = "mm"; // as we have data with minute interval, we have to set "mm" here.
+                categoryAxis.gridAlpha = 0.07;
+                categoryAxis.axisColor = "#838587";
+                categoryAxis.firstDayOfWeek = 0;
+                categoryAxis.dateFormats = [{period: 'mm', format: 'JJ:NN'}, {period: 'hh', format: 'JJ:NN'}, {period: 'DD', format: 'EEE'}, {period: 'WW', format: 'MMM DD'}, {period: 'MM', format: 'MMM'}, {period: 'YYYY', format: 'YYYY'}]
+
+
+                // Value
+                var valueAxis = new AmCharts.ValueAxis();
+                valueAxis.gridAlpha = 0.07;
+                //valueAxis.title = "Close Value";
+                valueAxis.axisColor = '#838587';
+
+                chart.addValueAxis(valueAxis);
+                chart.backgroundColor = '#e4e4e5';
+                chart.backgroundAlpha = 1;
+                chart.plotAreaBorderAlpha = 1;
+                chart.plotAreaBorderColor = '#838587';
+                chart.plotAreaFillAlphas = 1;
+
+                // GRAPH
+                var graph = new AmCharts.AmGraph();
+                graph.type = "line"; // try to change it to "column"
+                graph.title = "red line";
+                graph.valueField = "closeValue";
+                graph.lineAlpha = 1;
+                graph.lineColor = "#728ca5";
+                graph.fillAlphas = 0.7; // setting fillAlphas to > 0 value makes it area graph
+                graph.fillColors = "#acc6df";
+                graph.connect = true;
+                graph.pointPosition = "start";
+                graph.showBalloonAt = "close";
+
+                chart.addGraph(graph);
+
+                // CURSOR
+                var chartCursor = new AmCharts.ChartCursor();
+                chartCursor.cursorPosition = "mouse";
+                chartCursor.categoryBalloonDateFormat = "JJ:NN, DD MMMM YYYY";
+                chartCursor.cursorColor = "#217dcb";
+
+                chart.chartCursor = $rootScope.device == 'DESKTOP' ? chartCursor : null;
+
+                chart.write($(element).find("#chartdiv" + chartId)[0]);
+            });
+        }
+
+
+        function refreshGraph($scope) {
+
+            if (refreshing) {
+                return;
+            }
+
+            if (!chartsReady) {
+                $timeout(function() { refreshGraph($scope); }, 500, false);
+            }
+
+
+            $log.log("refresh graph");
+            refreshing = true;
+
+            var from, to, date = new Date();
+
+            to = date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear();
+
+            switch ($scope.dateRange) {
+            case 'DAY':
+                if (chart) {
+                    chart.categoryAxis.gridCount = $rootScope.deviceType == 'DESKTOP' ? 8 : 6;
+                    chart.categoryAxis.equalSpacing = false;
+                    chart.graphs[0].connect = true;
+                }
+
+                from = to;
+                break;
+            case 'LAST_BUSINESS_DAY':
+                if (chart) {
+                    chart.categoryAxis.gridCount = $rootScope.deviceType == 'DESKTOP' ? 8 : 6;
+                    chart.categoryAxis.equalSpacing = false;
+                    chart.graphs[0].connect = true;
+                }
+
+                date.setDate(date.getDate() - 1);
+                to = date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear();
+                break;
+            case 'WEEK': 
+                if (chart) {
+                    chart.categoryAxis.gridCount = 7;
+                    chart.categoryAxis.equalSpacing = false;
+                    chart.graphs[0].connect = true;
+                }
+
+                date.setDate(date.getDate() - 6);
+                break;
+            case 'MONTH':
+                if (chart) {
+                    chart.categoryAxis.gridCount = $rootScope.deviceType == 'DESKTOP' ? 12 : 8;
+                    chart.categoryAxis.equalSpacing = false;
+                    chart.graphs[0].connect = true;
+                }
+
+                date.setMonth(date.getMonth() - 1);
+                break;
+            case 'THREE_MONTH':
+                if (chart) {
+                    chart.categoryAxis.gridCount = $rootScope.deviceType == 'DESKTOP' ? 12 : 8;
+                    chart.categoryAxis.equalSpacing = false;
+                    chart.graphs[0].connect = true;
+                }
+
+                date.setMonth(date.getMonth() - 3);
+                break;
+            case 'SIX_MONTH':
+                if (chart) {
+                    chart.categoryAxis.gridCount = $rootScope.deviceType == 'DESKTOP' ? 12 : 8;
+                    chart.categoryAxis.equalSpacing = false;
+                    chart.graphs[0].connect = true;
+                }
+
+                date.setMonth(date.getMonth() - 6);
+                break;
+            case 'YEAR':
+                if (chart) {
+                    chart.categoryAxis.gridCount = $rootScope.deviceType == 'DESKTOP' ? 12 : 8;
+                    chart.categoryAxis.equalSpacing = false;
+                    chart.graphs[0].connect = true;
+                }
+
+                date.setFullYear(date.getFullYear() - 1);
+                break;
+            case 'THREE_YEAR':
+                if (chart) {
+                    chart.categoryAxis.gridCount = $rootScope.deviceType == 'DESKTOP' ? 12 : 8;
+                    chart.categoryAxis.equalSpacing = false;
+                    chart.graphs[0].connect = true;
+                }
+
+                date.setFullYear(date.getFullYear() - 3);
+                break;
+            }
+
+            from = date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear();
+            var timeout = chart ? 0 : 500;
+            $timeout(function() {
+                blockUI($(element).find("#chartdiv" + $scope.chartId));
+                $http.get(appConfig.apiBaseURL + '/rest/v2/security/' + $scope.symbol + '/graph.json', {cache: false, params: {from: from, to: to}}).then(function(response) {
+                    var data = response.data;
+                    $log.log("chart data", data)
+                    if ($scope.dateRange == 'DAY') {
+                        date.setHours(0);
+                        date.setMinutes(0);
+                        date.setSeconds(0);
+                        date.setMilliseconds(0);
+                        if (data.points && data.points.length > 0 && date.getTime() > new Date(data.maxTime).getTime()) {
+                            //$scope.hideToday = true;
+                            $scope.dayLabel = "1 D";
+                        } else {
+                            //$scope.hideToday = false;
+                            $scope.dayLabel = "TODAY";
+
+                        }
+
+
+                    }
+                    $timeout(function() { drawChart(data, $scope.chartId) }, 500);
+                });
+            }, timeout);
+        }
+
+    }
+
+
+    return {
+        restrict: 'E',
+        link: link,
+        scope: {symbol: '=symbol', dateRange: '=dateRange'},
+        templateUrl: $rootScope.templateBaseUrl + "/html/template/snaBusinessGraph.html"
+    }
+}]);
+
+
+AmCharts.ready(function() {
+    chartsReady = true;
+    //console.log("charts ready");
+});

@@ -1,0 +1,828 @@
+/* global ScrollMagic, getIEVersion, isChrome, TweenLite, loadJWPlayer*/
+'use strict';
+snaApp.directive("snaVideo", ['$rootScope', '$interval', '$timeout', '$http', 'appConfig', '$log', '$window', 'videoPlayer', '$filter', '$sce',
+    function($rootScope, $interval, $timeout, $http, appConfig, $log, $window, videoPlayer, $filter, $sce) {
+        var controller = new ScrollMagic.Controller(), scrollUpScene, scrollDownScene, latestFlyingVideo, scrollUpSceneAutoplay, scrollDownSceneAutoplay,
+            isIE = getIEVersion() > 0, index = 0, jwIconVolumeOverlay = '#jw-icon-volume-overlay';
+
+            /**
+             * Directive link function.
+             */
+        function link(scope, element, attrs) {
+            var flyingout = false, player, scrollTop;
+            scope.playerLoaded = false;
+            scope.videoLoaded = false;
+            scope.id = index++;
+
+            var isNotSNAVideo = false;
+            var nonSNAVideoPlainAbsUrl = false;
+
+            if ( scope.$eval( attrs.showcaption ) ) {
+                scope.showCaption = true;
+            }
+
+            if (scope.$eval(attrs.isyoutube)) {
+                scope.isYoutube = true;
+            }
+
+            if (scope.$eval(attrs.autoplay) && (getIEVersion() == 0 || getIEVersion() > 8)) {
+                $(element).addClass('autoplay');
+                scope._autoplay = true;
+            }
+
+            scope.$watch('content', function(newValue) {
+                if (!newValue || newValue.noWatch) {
+                    return;
+                }
+
+                if (isIE && scope.content.videoUrl && scope.content.videoUrl[0].url.indexOf('https://www.youtube.com/watch?v') == 0) {
+                    scope.flyout = false;
+                }
+
+                try {
+                    jwplayer('videoPlayerContainer' + scope.id).remove();
+                } catch (error) {
+                    $log.debug("Error removing jwplayer", error);
+                }
+
+                scope.playerLoaded = false;
+                scope.videoLoaded = false;
+                $(element).find('#videoImg').on('load', function() {
+                    $(element).find('#defaultImg').css('visibility', 'hidden');
+                });
+
+                setVideoThumbnail();
+                if (!scope.postLoad || $rootScope.deviceType != 'DESKTOP' || (typeof $rootScope.device != 'undefined' && $rootScope.device != 'DESKTOP')) {
+                    scope.postLoad = false;
+                    $timeout(scope.playVideo, 1000);
+                } else {
+                    scope.videoLoaded = true;
+                }
+            });
+
+            // scope.toggleVideo = function(event) {
+            //     // player.setMute(false);
+            //     // $(element).find(jwIconVolumeOverlay).hide();
+            // }
+
+            scope.playVideo = function(event) {
+
+                event && event.preventDefault();
+                event && event.stopPropagation();
+                $rootScope.trackGAEvent( 'SNA_VIDEO', scope.content.headline );
+
+                $(element).find(jwIconVolumeOverlay).hide();
+
+                if (event && !scope.videoLoaded) {
+                    return;
+                }
+
+                if (event) {
+                    if (scope.videoLoaded) {
+                        scope.playerLoaded = true;
+                    }
+                //$timeout(function() {scope.playerLoaded = true;}, 1000);
+                }
+
+                if (scope.playerLoaded && scope.videoLoaded && !scope.postLoad) {
+                    if (scope._autoplay) {
+                        player.playOriginIsUser = true;
+                        player.autoplay = false;
+                    }
+
+                    player.play(true);
+                    player.setMute(false);
+                    return;
+                }
+
+                var urls = scope.content.videoUrl;
+
+
+                var ua = navigator.userAgent.toLowerCase();
+                var isAndroid = ua.indexOf("android") > -1 && ua.indexOf("iemobile") == -1;
+                var isIe9 = ua.indexOf("msie 9.0") > -1;
+                var useJwPlayer = true;
+
+            /**
+             * If device is android then check android version.
+             * JWPlayer works with android 4.1+
+             */
+                if (isAndroid) {
+                    var match = ua.match(/android\s([0-9\.]*)/i);
+                    if (match) {
+                        if (parseFloat(match[1]) < 4.1) {
+                            useJwPlayer = false;
+                        }
+                    } else {
+                        useJwPlayer = true;
+                    }
+                }
+
+//            if (typeof attrs.jwplayerKey != 'undefined') {
+//                window.jwplayer.key = attrs.jwplayerKey;
+//            } else {
+//                window.jwplayer.key = appConfig.jwplayerKey;
+//            }
+                if (window.jwplayerVersion == 8) {
+                    window.jwplayer.key = appConfig.jwplayerKey8;
+                    scope.jwplayer8 = true;
+                } else {
+                    window.jwplayer.key = appConfig.jwplayerKey7;
+                    scope.jwplayer7 = true;
+                }
+
+                if (useJwPlayer) {
+
+                    scope.tracksThumbnails = [];
+                    scope.playlistOffMuteControl = false;
+
+                    if (typeof scope.content.thumbnailUrl !== 'undefined') {
+                        scope.tracksThumbnails = [{
+                            file: scope.content.thumbnailUrl,
+                            kind: "thumbnails"
+                        }];
+                    } else if (typeof scope.content.mediaAsset !== 'undefined' && typeof scope.content.mediaAsset.thumbnailUrl !== 'undefined') {
+                        scope.tracksThumbnails = [{
+                            file: scope.content.mediaAsset.thumbnailUrl,
+                            kind: "thumbnails"
+                        }];
+                    }
+
+                    /*START: form the viewport object to pass to videoPlayer Service which is used 
+                    there for getting the right image
+                    */
+                    var viewPortWidthObj;
+                    viewPortWidthObj = {viewportWidth: null, noSidebar: false, maxWidthOfRoot: null, maxWidthLevel1: null}
+                    viewPortWidthObj.viewportWidth = scope.viewportWidth;
+                    viewPortWidthObj.noSidebar = scope.noSidebar;
+                    viewPortWidthObj.maxWidthOfRoot = scope.maxWidthOfRoot;
+                    viewPortWidthObj.maxWidthLevel1 = scope.maxWidthLevel1;
+                    /*END: form the viewport object to pass to videoPlayer Service which is used 
+                    there for getting the right image
+                    */  
+                    player = videoPlayer.jwplayer('videoPlayerContainer' + scope.id, urls, isAndroid, attrs.autoPlay == "true"
+                        || scope.postLoad, isNotSNAVideo ? nonSNAVideoPlainAbsUrl : scope.imageSrc, attrs.prerollTag, scope.isYoutube 
+                        , scope.tracksThumbnails, scope.content.relatedVideos
+                        , scope.jwPlayerMediaId, scope.content.headline, scope.muted, scope.content.id, scope.content, scope.isVrSupportedPlayer
+                        , viewPortWidthObj);
+
+
+                    player.on('ready', function() {
+
+
+                        !!scope.playerReady && scope.playerReady();
+                        scope.$applyAsync(function() {
+                            scope.videoLoaded = true;
+                        });
+
+                        if (scope._autoplay) {
+                            //initialize variables for the autoplay state
+                            player.playOriginIsUser = false;
+                            player.autoplay = true;
+                            //register the autoplay scenes onscroll
+                            createScenesAutoplay(element);
+                        }
+
+
+                        /*START: When player is ready, bind the MO to check when the particular class scenario 
+                        taht hides the control bar happens at that time hide the next prev arrow and show if not*/
+                        
+                        var ctrlBarMOtarget, ctrlbarMutationobserver;
+                        if (scope.showNavArrowOnControlIsOn && window.isMutationObserverSupported) {
+                            ctrlBarMOtarget = element[0].querySelector("[id^='videoPlayerContainer']");
+
+
+                            // create an observer instance
+                            ctrlbarMutationobserver = new MutationObserver(function(mutations) {
+                                mutations.forEach(function(mutation) {
+                                    /* eslint-disable max-len */
+                                    if (mutation.attributeName == 'class' 
+                                        && mutation.type == 'attributes' 
+                                        && (
+                                            jQuery(mutation.target).is('.jw-flag-ads-vpaid:not(.jw-flag-media-audio):not(.jw-flag-audio-player):not(.jw-flag-ads-vpaid-controls):not(.jw-flag-casting) ')
+                                            || jQuery(mutation.target).is('.jw-flag-user-inactive.jw-state-playing:not(.jw-flag-media-audio):not(.jw-flag-audio-player):not(.jw-flag-ads-vpaid-controls):not(.jw-flag-casting) ')
+                                            || jQuery(mutation.target).is('.jw-flag-user-inactive.jw-state-buffering:not(.jw-flag-media-audio):not(.jw-flag-audio-player):not(.jw-flag-ads-vpaid-controls):not(.jw-flag-casting) ')
+                                            || jQuery(mutation.target).is('.jwplayer.jw-flag-overlay-open-related'))
+                                    ) {
+                                        scope.showNavArrowOnControlIsOn({ isVisible: false });
+                                        // console.log("Control bar is hidden");
+
+                                    } else {
+                                        scope.showNavArrowOnControlIsOn({ isVisible: true });
+                                        // console.log("Control bar is visible");
+                                    }
+                                    /* eslint-disable max-len */
+
+                                });
+                            });
+
+                            // configuration of the observer:
+                            var config = { attributes: true, childList: false, characterData: false }
+
+                            // pass in the target node, as well as the observer options
+                            ctrlbarMutationobserver.observe(ctrlBarMOtarget, config);
+                        }
+
+                        /*END: When player is ready, bind the MO to check when the particular class scenario 
+                        taht hides the control bar happens at that time hide the next prev arrow and show if not*/
+
+
+                    });
+
+
+                    player.on('mute', function(state) {
+
+                        if (typeof state == 'undefined' || typeof state.mute == 'undefined' || player.getState().toLowerCase() == 'paused') {
+                            return;
+                        }
+
+                        if (scope._autoplay) {
+                            if (state.mute && !player.playOriginIsUser) {
+                                $(element).find(jwIconVolumeOverlay).show();
+                            } else {
+                                $(element).find(jwIconVolumeOverlay).hide();
+                            }
+                        }
+                    });
+
+                    player.on('complete', function() {
+                        scope.videoComplete();
+                        $(element).find(jwIconVolumeOverlay).hide();
+                    /**
+                     * If paused and not fly out then remove scenes.
+                     */
+                        if (!flyingout) {
+                            destroyScenes();
+                            latestFlyingVideo = null;
+                        }
+                    });
+
+                    player.on('playlist', function(playList) {
+                        if (typeof playList.playlist[0].image != 'undefined') {
+                            scope.$applyAsync(function() {
+                                scope.imageSrc = playList.playlist[0].image;
+                            });
+                        }
+
+                        $('.jw-nextup-close').on('click', function() {
+                            $(this).closest('.jw-nextup-container').addClass('jw-nextup-container-hidden');
+                        });
+                    });
+
+
+                    player.on('pause', function(state) {
+
+                        if (scope._autoplay) {
+                            if (typeof state !== 'undefined' && typeof state.pauseReason !== 'undefined'
+                                && state.pauseReason == 'interaction'
+                                && typeof state.newstate !== 'undefined'
+                                && state.newstate == 'paused') {
+                                player.autoplay = false;
+                                $(element).find(jwIconVolumeOverlay).hide();
+                            }
+
+                            if (typeof state !== 'undefined' && typeof state.pauseReason !== 'undefined'
+                                && state.pauseReason != 'interaction'
+                                && typeof state.newstate !== 'undefined'
+                                && state.newstate == 'paused') {
+                                $(element).find(jwIconVolumeOverlay).hide();
+                            }
+                        }
+
+                        scope.videoPause(state);
+                    /**
+                     * If paused and not fly out then remove scenes.
+                     */
+                        if (!flyingout && scope.flyout) {
+
+                            if (player.autoplay && !player.playOriginIsUser) {
+                                return;
+                            }
+
+                            destroyScenes();
+                            latestFlyingVideo = null;
+                        }
+
+                    });
+                    
+                    player.on('fullscreen', function(event) {
+                        if (event.fullscreen) {
+                            $("body").addClass('fullscreen-video');
+                            if ($rootScope.device == 'DESKTOP') {
+                                scrollTop = (document.documentElement && document.documentElement.scrollTop) || document.body.scrollTop;
+                            }
+                        } else {
+                            setTimeout(function() {
+                                $("body").removeClass('fullscreen-video');
+                            }, 1000);
+
+
+                    /*START: Chrome bug on return from full screen taking user to the top of the page. this behaviour is prevented using trick in gettig the
+                     * scroll pos before video go to full screen and make it scroll to same pos when return from full screen*/
+                            if (isChrome()) {
+                                setTimeout(function() {
+                                    if ($rootScope.device == 'DESKTOP' && $rootScope.flyoutVideoPresent) {
+                                        document.body.scrollTop = scrollTop;
+                                    }
+
+                                }, 1);
+                            }
+                    /*END:*/
+
+                        }
+                    });
+
+                    player.on('play', function(event) {
+
+                        if (scope._autoplay) {
+                            if (typeof event !== 'undefined' && typeof event.playReason !== 'undefined' && typeof player.playOriginIsUser !== 'undefined') {
+                                if (player.playOriginIsUser || (event.playReason == 'interaction')) {
+                                    $(element).find(jwIconVolumeOverlay).hide();
+                                    player.setMute(false);
+                                    player.autoplay = false;
+                                } else {
+                                    $(element).find(jwIconVolumeOverlay).show();
+                                    player.setMute(true);
+                                }
+                            }
+                        } else {
+                            //console.log('player.getConfig().autostart', player.getConfig());
+                            if (player.getConfig().playReason == 'autostart' && !scope.playlistOffMuteControl) {
+                                player.setMute(false);
+
+                                if (typeof player.getConfig() !== 'undefined' && 'playlist' in player.getConfig()) {
+                                    scope.playlistOffMuteControl = true;
+                                }
+                            }
+                        }
+
+                        if (this.snaPaused) {
+                            this.snaPaused = false;
+                            return;
+                        }
+
+                        scope.$applyAsync(function() {
+                            scope.playerLoaded = true;
+                        });
+
+                        scope.videoPlay();
+                        player.closeFlyout = scope.closeFlyout;
+                        if ($rootScope.device != 'DESKTOP') {
+                            scrollTop = parseInt(element.offset().top) - element[0].getBoundingClientRect().height / 2;
+                        }
+
+                        if (scope.flyout) {
+
+                            if (player.autoplay && !player.playOriginIsUser) {
+                                return;
+                            }
+
+                            if (latestFlyingVideo && latestFlyingVideo != element) {
+                                scrollDownLeave(latestFlyingVideo);
+                                createScenes(element);
+                            } else if (!latestFlyingVideo) {
+                                createScenes(element);
+                            } else if (!scrollDownScene) {
+                                createScenes(element);
+                            }
+
+                            latestFlyingVideo = element;
+                        } else if (latestFlyingVideo && latestFlyingVideo != element) {
+
+                            if (player.autoplay && !player.playOriginIsUser) {
+                                return;
+                            }
+                            
+                            scrollDownLeave(latestFlyingVideo);
+                            destroyScenes();
+                        }
+
+                    });
+
+                    player.on('playlistItem', function(data) {
+                        scope.playlistItemChange({data: data});
+                    });
+
+                    if (isIe9) {
+                        scope.videoLoaded = true;
+                        scope.playerLoaded = true;
+                    }
+
+
+                    if (attrs.autoPlay == "true") {
+                        if ($rootScope.device == 'DESKTOP') {
+                            scope.playerLoaded = true;
+                        }
+                    }
+                } else {
+                    $.each(urls, function(index, obj) {
+                        if (obj.platform == "MobileH264") {
+                            scope.androidVideoUrl = obj.url;
+                        }
+                    });
+                    scope.nativeAndroid = true;
+                }
+                return false;
+            };
+
+            scope.closeFlyout = function () {
+                if (!flyingout) {
+                    return;
+                }
+                flyingout = false;
+                destroyScenes();
+            //scrollDownLeave(element);
+                var video = $(element).find('.inline-video');
+                video.css({left: '', top: '', bottom: '', right: '', height: '', position: '', width: ''});
+                video.removeClass('flyout-prepare');
+                element.find('#flyoutButtonsDiv').hide();
+                player.pause(true);
+                if (player.getState().toLowerCase() == 'buffering') {
+                    player.snaPaused = true;
+                }
+            };
+
+            /**
+             * Initialize video image.
+             */
+            function setVideoThumbnail() {
+                scope.imageSrc = "";
+
+
+                if (scope.content.mediaAsset.imageUrl.indexOf('http://') == 0 || scope.content.mediaAsset.imageUrl.indexOf('https://') == 0) {
+                    scope.imageSrc = $sce.trustAsResourceUrl(scope.content.mediaAsset.imageUrl);
+                    if (typeof $sce.valueOf(scope.imageSrc) == "string") {
+                        isNotSNAVideo = true;
+                        nonSNAVideoPlainAbsUrl = $sce.valueOf(scope.imageSrc)                      
+                    }
+                } else if (scope.content.mediaAsset.imageUrl.indexOf("/" + $rootScope.webContext + "/images") == 0) {
+                    if (typeof scope.viewportWidth != "undefined") {
+                        scope.imageSrc = $filter('imageAdvFilter')(scope.content.mediaAsset.imageUrl, 
+                                         scope.viewportWidth, 0.563, scope.noSidebar, scope.maxWidthOfRoot, scope.maxWidthLevel1, true);
+                    } else {
+                        scope.imageSrc = $filter('imagefilter')(scope.content.mediaAsset.imageUrl,
+                                         [1000, $rootScope.deviceWidth, $rootScope.deviceWidth], 0.563);
+                    }
+                } else {
+                    if (typeof scope.viewportWidth != "undefined") {
+                        scope.imageSrc = "/" + $rootScope.webContext + "/images" 
+                                         + $filter('imageAdvFilter')(scope.content.mediaAsset.imageUrl, scope.viewportWidth, 
+                                           0.563, scope.noSidebar, scope.maxWidthOfRoot, scope.maxWidthLevel1, true);
+                    } else {
+                        scope.imageSrc = "/" + $rootScope.webContext + "/images" + $filter('imagefilter')(
+                            scope.content.mediaAsset.imageUrl, [1000, $rootScope.deviceWidth, $rootScope.deviceWidth], 0.563);
+                    }
+                    
+                }
+            }
+
+            /**
+             * Destroy ScrollMagic scenes for flyout video.
+             */
+            function destroyScenes () {
+                if (scrollDownScene && scrollUpScene) {
+                    scrollDownScene.remove();
+                    scrollDownScene = scrollDownScene.destroy();
+                    scrollUpScene.remove();
+                    scrollUpScene = scrollUpScene.destroy(true);
+
+                }
+            }
+
+            /**
+             * Create ScrollMagic scenes for autoplay video in back to back articles
+             */
+            function createScenesAutoplay(element) {
+                if ($rootScope.deviceType != 'DESKTOP' || (typeof $rootScope.device != undefined && $rootScope.device != 'DESKTOP')) {
+                    return;
+                }
+                
+                var autoplayDisabled = function () {
+                    //return false;
+                    return (typeof player !== 'undefined' && !player.autoplay) || player.playOriginIsUser;
+                };
+
+                $('<div id="jw-icon-volume-overlay">')
+                    .html('<div class="jw-icon-volume-overlay-content"><svg xmlns="http://www.w3.org/2000/svg" class="jw-svg-icon jw-svg-icon-volume-0" '
+                        + 'viewBox="0 0 240 240"><path d="M116.4,42.8v154.5c0,2.8-1.7,3.6-3.8,1.7l-54.1-48.1H28.9c-2.8,0-5.2-2.3-5.2-5.2V94.2c0-2.8,2.3-5'
+                        + '.2,5.2-5.2h29.6l54.1-48.1C114.6,39.1,116.4,39.9,116.4,42.8z M212.3,96.4l-14.6-14.6l-23.6,23.6l-23.6-23.6l-14.6,14.6l23.6,23.6l-'
+                        + '23.6,23.6l14.6,14.6l23.6-23.6l23.6,23.6l14.6-14.6L188.7,120L212.3,96.4z"></path></svg></div>')
+                    .on('click', function(event) {
+                        event && event.stopPropagation();
+
+                        //pause youtube video if its playing
+                        if (window.activeYtPlayer && typeof window.activeYtPlayer.pauseVideo != 'undefined') {
+                            window.activeYtPlayer.pauseVideo();
+                        }
+
+                        //pause the active player
+                        if (window.activeJWPlayer && window.activeJWPlayer.getState().toLowerCase() == 'buffering') {
+                            window.activeJWPlayer.snaPaused = true;
+                        }
+
+                        if (window.activeJWPlayer && window.activeJWPlayer.id != player.id) {
+                            window.activeJWPlayer.pause(true);
+                        }
+
+                        player.playOriginIsUser = true;
+                        player.autoplay = false;
+
+                        player.setMute(false);
+
+                        if (scope.flyout) {
+                            if (latestFlyingVideo && latestFlyingVideo != element) {
+                                scrollDownLeave(latestFlyingVideo);
+                                createScenes(element);
+                            } else if (!latestFlyingVideo) {
+                                createScenes(element);
+                            } else if (!scrollDownScene) {
+                                createScenes(element);
+                            }
+
+                            latestFlyingVideo = element;
+                        } else if (latestFlyingVideo && latestFlyingVideo != element) {
+                            scrollDownLeave(latestFlyingVideo);
+                            destroyScenes();
+                        }
+
+                        window.activeJWPlayer = player;
+                    })
+                    .prependTo($(element).find('#videoWrapper'));
+
+
+                scrollDownSceneAutoplay = new ScrollMagic.Scene({
+                    triggerElement: element[0], // start scene after scrolling for 100px
+                    offset: element[0].offsetHeight * 0.50,
+                    triggerHook: 1,
+                })
+                //.addIndicators()
+                .on('enter', function() {
+                    if (autoplayDisabled()) {
+                        return;
+                    }
+
+                    $timeout(function() {
+
+                        player.setMute(true);
+                        player.play(true);
+                        scope.$applyAsync(function() {
+                            scope.playerLoaded = true;
+                        });
+                    }, 100);
+                })
+                .on('leave', function() {
+                    if (autoplayDisabled()) {
+                        return;
+                    }
+
+                    player.play(false);
+                });
+
+                scrollUpSceneAutoplay = new ScrollMagic.Scene({
+                    triggerElement: element[0], // start scene after scrolling for 100px
+                    offset: element[0].offsetHeight * 0.50,
+                    triggerHook: 0,
+                })
+                //.addIndicators()
+                .on('enter', function() {
+                    if (autoplayDisabled()) {
+                        return;
+                    }
+
+                    $timeout(function() {
+                        player.setMute(true);
+                        player.play(false);
+                    }, 100);
+                })
+                .on('leave', function() {
+                    if (autoplayDisabled()) {
+                        return;
+                    }
+
+                    player.play(true);
+                    scope.$applyAsync(function() {
+                        scope.playerLoaded = true;
+                    });
+                });
+
+                controller.addScene(scrollUpSceneAutoplay);
+                controller.addScene(scrollDownSceneAutoplay);
+            }
+
+
+            /**
+             * Create ScrollMagic scenes for flyout video.
+             */
+            function createScenes(element) {
+                if ($rootScope.deviceType != 'DESKTOP' || (typeof $rootScope.device != undefined && $rootScope.device != 'DESKTOP')) {
+                    return;
+                }
+                if (scrollDownScene && scrollUpScene) {
+                    scrollDownScene.remove();
+                    scrollDownScene = scrollDownScene.destroy();
+                    scrollUpScene.remove();
+                    scrollUpScene = scrollUpScene.destroy(true);
+                }
+                scrollDownScene = new ScrollMagic.Scene({
+                    triggerElement: element[0], // start scene after scrolling for 100px
+                    offset: element[0].offsetHeight * 0.50,
+                    triggerHook: 0,
+                })
+            //.addIndicators()
+            .on('enter', function() {
+                if (player.getFullscreen()) {
+                    return;
+                } else if (player.getState().toLowerCase() == 'idle' || player.getState().toLowerCase() == 'paused') {
+                    return;
+                }
+
+                scrollDownEnter(element);
+                flyingout = true;
+            })
+            .on('leave', function() {
+                if (player.getFullscreen()) {
+                    return;
+                }
+                scrollDownLeave(element);
+                flyingout = false;
+            });
+
+                scrollUpScene = new ScrollMagic.Scene({
+                    triggerElement: element[0], // start scene after scrolling for 100px
+                    offset: element[0].offsetHeight * 0.50,
+                    duration: 0,
+                    triggerHook: 1,
+                })
+            //.addIndicators()
+            .on('enter', function() {
+                if (player.getFullscreen() || !flyingout) {
+                    return;
+                }
+                scrollUpEnter(element);
+                //scrollUpScene.offset(0);
+                flyingout = false;
+            }).on('leave', function() {
+                if (player.getFullscreen()) {
+                    return;
+                } else if (player.getState().toLowerCase() == 'idle' || player.getState().toLowerCase() == 'paused') {
+                    return;
+                }
+                scrollUpLeave(element);
+                //scrollUpScene.offset(element.height() + 100);
+                flyingout = true;
+            });
+
+                controller.addScene(scrollUpScene);
+                controller.addScene(scrollDownScene);
+            }
+
+            /**
+             * Handling scroll down enter for flyout video.
+             */
+            function scrollDownEnter(element) {
+                element.find('#flyoutButtonsDiv').show();
+            
+                var video = $(element).find('.inline-video'); //, offset = element[0].getBoundingClientRect();
+
+                video.css({left: '', top: '100px', bottom: '', right: '', height: '', position: ''});
+                video.css({bottom: -190, left: $(window).width() - 340, width: 340, height: 190, top: ''});
+                //video.css({bottom: -190, right: ($(window).width() - $('.main-content').width())/2 + 140, width: 340, height: 190, top: ''});
+                
+
+                video.addClass('flyout-prepare');
+                TweenLite.to(video, 0.2, {
+                    // left: $(window).width() - 340,
+                    bottom: 0,
+                    //top: window.innerHeight - 222.75,
+                    // width: 340,
+                    // height: 'auto',
+                    "onComplete": function() {
+                        video.css({top: ''});
+                    }
+                });
+            }
+
+            /**
+             * Handling scroll down leave for flyout video.
+             */
+            function scrollDownLeave(element) {
+                element.find('#flyoutButtonsDiv').hide();
+                var video = $(element).find('.inline-video'), offset = element[0].getBoundingClientRect();
+            //$log.log('elelemt offset', offset);
+                if (offset.bottom < 0) {
+                    offset = {bottom: $(window).height(), left: offset.left, right: offset.right, top: offset.top};
+                }
+                video.css({position: 'absolute', left: 0});
+                video.removeClass('flyout-prepare');
+                video.css({left: '', top: '', bottom: '', position: '', width: '', height: ''});       
+                /*TweenLite.to(video, 0.4, {left: offset.left, height: element.height(), onComplete: function() {
+/*                TweenLite.to(video, 0.2, {left: offset.left, height: element.height(), onComplete: function() {
+                    video.css({position: 'absolute', left: 0});
+                    video.removeClass('flyout-prepare');
+                    TweenLite.to(video, 0.2, {width: element.width(), height: element.height(), onComplete: function() {
+                        video.css({left: '', top: '', bottom: '', height: '', position: ''});
+                    }});
+                }, onUpdate: function () {
+                    if (video.css('position') == 'absolute') {
+                        this.kill();
+                        video.css({position: 'absolute', left: 0});
+                        video.removeClass('flyout-prepare');
+                        TweenLite.to(video, 0.2, {width: element.width(), height: element.height(), onComplete: function() {
+                            video.css({left: '', top: '', bottom: '', height: '', position: ''});
+                        }});
+                    }
+                }});
+
+                TweenLite.to(video, 0.2, {bottom: offset.bottom + video.height(), onUpdate: function() {
+                    offset = element[0].getBoundingClientRect();
+                    var videoOffset = video[0].getBoundingClientRect();     
+                //$log.log('video bottom', videoOffset.bottom);
+                //$log.log("offset bottom", offset.bottom);
+                    if (offset.bottom > 0 && videoOffset.bottom < offset.bottom) {
+                    //$log.log('greater than');
+                        video.css({position: 'absolute', bottom: '', left: 0, right: '', "zIndex": 13});
+                        this.kill();
+                    }
+                }, onComplete: function() {
+                    video.css({position: 'absolute', bottom: '', left: 0, right: '', "zIndex": 13});
+
+                }});*/
+            }
+
+            /**
+             * Handling scrolling up leave flayout video
+             */
+            function scrollUpLeave(element) {
+                element.find('#flyoutButtonsDiv').show();
+            //$log.log("element rectangle", element[0].getBoundingClientRect());
+                var video = $(element).find('.inline-video'); //, offset = element[0].getBoundingClientRect();
+
+                video.css({left: '', top: '', bottom: '', right: '', height: '', position: ''});
+                video.css({bottom: -190, left: $(window).width() - 340, width: 340, height: 190, top: ''});
+                //video.css({bottom: -190, right: ($(window).width() - $('.main-content').width())/2 + 140, width: 340, height: 190, top: ''});
+
+                video.addClass('flyout-prepare');
+                TweenLite.to(video, 0.2, {bottom: 0});
+            }
+
+            /**
+             * Handling scrolling up enter flyout video.
+             */
+            function scrollUpEnter(element) {
+                element.find('#flyoutButtonsDiv').hide();
+                var video = $(element).find('.inline-video'); //, offset = element[0].getBoundingClientRect();
+                video.css({position: 'absolute', left: 0});
+                video.removeClass('flyout-prepare');
+                video.css({left: '', top: '', bottom: '', position: '', width: '', height: ''});       
+                /*TweenLite.to(video, 0.4, {left: offset.left, height: element.height(), onComplete: function() {
+                    video.css({position: 'absolute', left: 0});
+                    video.removeClass('flyout-prepare');
+                    TweenLite.to(video, 0.1, {width: element.width(), height: element.height(), onComplete: function() {
+                        video.css({left: '', top: '', bottom: '', height: '', position: ''});
+                    }});
+                }, onUpdate: function () {
+                    if (video.css('position') == 'absolute') {
+                        this.kill();
+                        video.css({position: 'absolute', left: 0});
+                        video.removeClass('flyout-prepare');
+                        TweenLite.to(video, 0.1, {width: element.width(), height: element.height(), onComplete: function() {
+                            video.css({left: '', top: '', bottom: '', height: '', position: ''});
+                        }});
+                    }
+                }});
+
+                TweenLite.to(video, 0.4, {bottom: element.height() + 100, onUpdate: function() {
+                    offset = element[0].getBoundingClientRect();
+                    var videoOffset = video[0].getBoundingClientRect();
+                //$log.log('video bottom', videoOffset.bottom);
+                //$log.log("offset bottom", offset.bottom);
+                    if (videoOffset.bottom < offset.bottom) {
+                    //$log.log('greater than');
+                        video.css({position: 'absolute', bottom: '', left: 0, right: '', "zIndex": 13});
+                        this.kill();
+                    }
+                }, onComplete: function() {
+                    video.css({position: 'absolute', bottom: '', left: 0, right: '', "zIndex": 13});
+
+                }});*/
+            }
+
+        }
+
+        return {
+            restrict: 'E',
+            scope: {content: '=content', videoComplete: '&videoComplete', videoPause: '&videoPause',
+                videoPlay: '&videoPlay', flyout: '=flyout', autoplay: '=autoplay', postLoad: '=postload',
+
+                contentUrl: '=contentUrl', playerReady: "&playerReady", jwPlayerMediaId: "=", playlistItemChange: "&", muted: "=",
+                isVrSupportedPlayer: '@', viewportWidth: '@', noSidebar: '@', maxWidthOfRoot: '@', maxWidthLevel1: '@', showNavArrowOnControlIsOn: '&'
+
+            },
+
+            link: link,
+            templateUrl: $rootScope.templateBaseUrl + "/html/template/snaVideo.html"
+        }
+
+    }]);
+
+loadJWPlayer();

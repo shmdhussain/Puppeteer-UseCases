@@ -1,0 +1,1318 @@
+/* global Foundation, $, jQuery, angular, moment, Modernizr, ga, WURFL, _ */
+/* exported snaApp, deviceType, getIEVersion, getCurrentTime, blockUI, unblockUI, isAndroidNativeBrowser,
+sendGAPageView, isIEBrowser, isIEEdge, findScrollBarWidth, isFirefox, isAndroidOS, scrollableRootEl, nativeMobileSocialShare
+sendFBPixelPageView, sendFBPixelEvent, debounce,  elemOffset, triggerFnBasedOnElemPosInScreenDebounce,
+triggerFnBasedOnElemPosInScreenRaff, injectStyleRule, loadJWPlayer*/
+
+"use strict";
+
+//Foundation JavaScript
+//Documentation can be found at: http://foundation.zurb.com/docs
+Foundation.global.namespace = '';
+
+/*START: Fix for console log in IE9*/
+if (!window.console) {
+    window.console = {};
+}
+
+if (!window.console.log) {
+    window.console.log = function () { return; };
+}
+
+if (isSafari() && getDeviceType() == 'DESKTOP') {
+    $('body').addClass('safari-browser-desktop');
+}
+
+/*END: Fix for console log in IE9*/
+
+var snaApp, deviceType, windowWidth = 0, windowHeight = 0, windowOrientation,
+    snaConsole = window.console;
+    //snaConsole = {log: function(){}, warn: function(){}, error: function(){}};
+
+(function(window) {
+    var initData = $('[data-sna-init]').data('sna-init');
+    if (!initData) {
+        //alert("no initialization data");
+        //snaConsole.error("no initialization data");
+        return;
+    }
+    window.appAssetsUrl = initData.appAssetsUrl;
+
+    /**
+     * This is a fix to issue on IE 9 happens when api & www are served from 2 different CDNs with different SSL Certificate
+     */
+    if (getIEVersion() == 9 && typeof (initData.apiBaseUrl) != "undefined" && initData.apiBaseUrl.indexOf("https://api.skynewsarabia.com/web") == 0) {
+        window.apiBaseUrl = 'https://www.skynewsarabia.com/web';
+    } else {
+        window.apiBaseUrl = initData.apiBaseUrl;
+    }
+
+    window.webContext = initData.webContext;
+
+    if (typeof moment != 'undefined') {
+        moment.locale('ar-ma', {
+            months: 'يناير_فبراير_مارس_أبريل_مايو_يونيو_يوليو_أغسطس_سبتمبر_أكتوبر_نوفمبر_ديسمبر'.split('_'),
+            monthsShort: 'يناير_فبراير_مارس_أبريل_مايو_يونيو_يوليو_أغسطس_سبتمبر_أكتوبر_نوفمبر_ديسمبر'.split('_')
+        });
+    }
+
+    Modernizr.addTest('passiveeventlisteners', function() {
+        var supportsPassiveOption = false;
+        try {
+            var opts = Object.defineProperty({}, 'passive', {
+                get: function() {
+                    supportsPassiveOption = true;
+                }
+            });
+            window.addEventListener('test', null, opts);
+        } catch (e) {
+            snaConsole.log("error", e);
+        }
+        return supportsPassiveOption;
+    });
+    var evenListenerFunction = window.addEventListener;
+    window.addEventListener = function (event, callback, param, notBindScrollEvent) {
+        if (event && event == 'mousewheel') {
+            return evenListenerFunction("mousewheel",
+                callback,
+                Modernizr.passiveeventlisteners ? {passive: true} : false);
+        } else if (event && event == 'scroll' && (jQuery("body").hasClass("body-scroll-only")) && !notBindScrollEvent) {
+            $("body").scroll(callback);
+        } else {
+            return evenListenerFunction(event, callback, param)
+        }
+    }
+
+})(window);
+
+
+(function() {
+    snaApp = angular.module("snaApp", ['checklist-model', 'ngCookies', 'ngDfp', 'ngSanitize', 'classy'])
+    .config(['$compileProvider', '$httpProvider', 'DoubleClickProvider', '$sceDelegateProvider', 'snaDFPConfigurerProvider',
+        function($compileProvider, $httpProvider, DoubleClickProvider, $sceDelegateProvider, snaDFPConfigurerProvider) {
+            $sceDelegateProvider.resourceUrlWhitelist(['self', 'https://www.googleapis.com/**', 'https://query.yahooapis.com/**'])
+            $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|mailto|whatsapp|fb|intent|javascript):/);
+            $compileProvider.debugInfoEnabled(true);
+            var initData = $('[data-sna-init]').data('sna-init');
+            if (!initData) {
+                // snaConsole.error("no initialization data");
+                return;
+            }
+
+            /**
+              * If init data is not an object.
+              */
+            if (typeof initData.initData !== 'object') {
+                initData.initData = {};
+            }
+
+            /*START: DFP New Implementation*/
+            var dfpConfig = $("[data-dfp-ad-unit]").data('dfp-ad-unit');
+
+            if (typeof dfpConfig == 'object') {
+                // configDFPAdSlot(DoubleClickProvider, dfpConfig);
+                snaDFPConfigurerProvider.configAdSlot();
+            }
+
+            /*END: DFP New Implementation*/
+
+         /*START: Setting the Current Time Received from the server through API call*/
+            $httpProvider.interceptors.push(function() {
+                return {
+                    'response': function(response) {
+                // same as above
+
+                        if (!(typeof response.data.envelope == "undefined") && !(typeof response.data.envelope.serverTime == "undefined")) {
+                            window.currentTime = new Date(response.data.envelope.serverTime);
+                        } else if (!(typeof response.data == "undefined") && !(typeof response.data.serverTime == "undefined")) {
+                            window.currentTime = new Date(response.data.serverTime);
+                        } else {
+                            window.currentTime = window.currentTime || new Date();
+                        }
+                        return response;
+                    }
+                };
+            });
+        /*END: Setting the Current Time Received from the server through API call*/
+        }])
+    .run(["$rootScope", "$log", "$timeout", "$interval", "appConfig", '$sce', '$location', 'getDeviceOSService', '$cookies',
+        function ($rootScope, $log, $timeout, $interval, appConfig, $sce, $location, getDeviceOSService, $cookies) {
+            window.$rootScope = $rootScope;
+
+        /**
+         * Load initializtion data and put it into root scope
+         */
+            var initData = $('[data-sna-init]').data('sna-init');
+            if (!initData) {
+                //alert("no initialization data");
+                return;
+            }
+
+            if (location.pathname.indexOf("article") != -1) {
+                $rootScope.adsMobile = ["134538"];
+                initData.initData.mrecSiteIds = ["108387", "108386", "134576", "108383", "134540"];
+                $rootScope.adsTablet = ["141001"];
+            }
+
+            /*START: Ad implementation for maddoct mobile and tablet old configuration*/
+
+            if (initData.initData.adsMobile) {
+                $rootScope.adsMobile = initData.initData.adsMobile.split(",");
+                initData.initData.mrecSiteIds = ["108387", "108386", "134576", "108383", "134540"];
+            }
+
+            if (initData.initData.adsTablet) {
+                $rootScope.adsTablet = initData.initData.adsTablet.split(",");
+            }
+            /*END: Ad implementation for maddoct mobile and tablet old configuration*/
+
+
+            $rootScope.initData = initData.initData;
+            $rootScope.appAssetsUrl = initData.appAssetsUrl;
+            $rootScope.webContext = initData.webContext;
+            $rootScope.webHost = appConfig.webHost;
+            $rootScope.baseUrl = appConfig.baseUrl;
+            $rootScope.isMagazineView = false;
+            $rootScope.templateBaseUrl = appConfig.templateBaseUrl;
+
+            updateMenuLocation($rootScope, $location, appConfig);
+
+            $rootScope.deviceType = getDeviceType();
+            $rootScope.deviceWidth = window.innerWidth;
+            $rootScope.device = getDevice();
+
+            $rootScope.webPathname = location.pathname;
+
+            $rootScope.showHeaderSearch = function () {
+                $('body').addClass('search-open');
+                var searchQueryArea = $('.search-query-area');
+                if (!searchQueryArea.is(':visible')) {
+                    $('#searchIcon').addClass("play");
+                } else {
+                    $('#searchIcon').removeClass("play");
+                }
+                searchQueryArea.slideToggle('fast', function () {
+                    $('.search-query-area input').focus();
+                });
+                $(document).foundation('equalizer', 'reflow');
+            };
+
+        /*$rootScope.hideHeaderSearch = function () {
+            $('.search-query-area').slideUp('fast');
+            $('body').removeClass('search-open');
+        };*/
+
+            $rootScope.playRadio = function(event) {
+                event && event.preventDefault();
+                playRadio();
+            }
+
+            $rootScope.trackGAEvent = function (category, label) {
+                ga('send', 'event', category, 'click', label);
+                if (window.secondAnalyticsPropertyEnabled) {
+                    ga('b.send', 'event', category, 'click', label);
+                }
+            };
+
+            /*START: Check whether flexbox is supported or not*/
+            $rootScope.isFlexSupportedBrowser = false;
+            $rootScope.isFlexSupportedBrowser = $("html").hasClass("flexbox");
+            /*END: Check whether flexbox is supported or not*/
+
+            /*START: DFP New Implementation, check dfp object is present then show the dfp ad divs using rootscope variable*/
+            var dfpConfig = $("[data-dfp-ad-unit]").data('dfp-ad-unit');
+            if (typeof dfpConfig == 'object') {
+                $rootScope.dfpConfigPresent = true;
+            }
+            /*END: DFP New Implementation, check dfp object is present then show the dfp ad divs using rootscope variable*/
+
+        /**
+         * This is for interchange
+         * After including content reload interchange to show images
+         */
+            $rootScope.$on('$includeContentLoaded', function() {
+                $timeout(function() {
+                    try {
+                        updateDeskTopMenuHeight(event, $rootScope.deviceType);
+                        var event = new Event("orientationchange");
+                        event.programatically = true;
+                        window.dispatchEvent(event);
+                    } catch (error) {
+                        snaConsole.log("orientationchange not supported");
+                        $rootScope.orientationNotSupported = true;
+                    }
+                    $(document).foundation({
+                        equalizer: {
+                        // Specify if Equalizer should make elements equal height once they become stacked.
+                            use_tallest: true,
+                            equalize_on_stack: false,
+                            check_window_height_width: true,
+                        },
+                        accordion: {
+                            multi_expand: true
+                        }
+
+                    });
+                    registerMenuCloseEvent();
+                }, 1000, false);
+            });
+            $rootScope.activeYtPlayers = [] //collect all youtube iFrame Players
+            $(function() {
+                var sectionPageIdsToExcludeIEJumpIssue = [41, 42];
+                var isIEJumpFixExcludedPage = function() {
+                    var initDataObj = initData.initData;
+                    if ((initDataObj && initDataObj.id && sectionPageIdsToExcludeIEJumpIssue.indexOf(initDataObj.id) > -1)
+                        || (window.lodash.get($("[data-sna-init]").data('sna-init'), "initData.showLoadMore", null)) ) {
+                        return true;
+                    }
+                    return false;
+                }
+
+                if (!isIEJumpFixExcludedPage()) {
+
+
+                    if (navigator.userAgent.match(/Edge\/12\./) || navigator.userAgent.match(/Edge\/13\./)) {
+                        // to get the info that html scroll is disabled and body scroll enabled
+                        jQuery("body").addClass("body-scroll-only");
+                        $('html').css({'overflow': 'hidden', 'height': '100%'})
+                        $('body').css({'overflow': 'auto', 'height': '100%'})
+                        $('body').on("mousewheel", function () {
+                            event.preventDefault();
+                            var wd = event.wheelDelta;
+                            var csp = window.pageYOffset;
+                            window.scrollTo(0, csp - wd);
+                        });
+                    }
+
+                    if (navigator.userAgent.match(/Trident\/7\./)) {
+                        // to get the info that html scroll is disabled and body scroll enabled
+                        jQuery("body").addClass("body-scroll-only");
+                        $('html').css({'overflow': 'hidden', 'height': '100%'})
+                        $('body').css({'overflow': 'auto', 'height': '100%'})
+                    }
+                }
+
+                if ($rootScope.device == 'DESKTOP') {
+                //$("html").niceScroll({nativeparentscrolling: true, preservenativescrolling: true, mousescrollstep: 60});
+                }
+                var ua = navigator.userAgent.toLowerCase();
+                if (ua.indexOf("iemobile") > -1) {
+                    $('html').addClass('iemobile');
+                }
+                registerMenuCloseEvent();
+            /**
+             * Load info.json
+             */
+                $.get(appConfig.apiBaseURL + '/rest/info.json').success(function(data) {
+                    $rootScope.$applyAsync(function() {
+                        $rootScope.appInfo = data;
+                        $rootScope.appInfo.radio_stream.radio_stream_url[0].url = $sce.trustAsResourceUrl(data.radio_stream.radio_stream_url[0].url);
+
+                    /**
+                     * Create Audio Element.
+                     */
+                        if (data.radio_stream.enabled && data.radio_stream.radio_stream_url[0].url) {
+                    /**
+                        This code has been delayed by a timeout because it was conflicting with pie chart in match page and blocking
+                        Pie chart drawing
+                    **/
+                            $timeout(function() {
+                                $('#headerDiv').append('<audio id="radioAudio" controls preload="none" style="height: 0; width: 0"><source src="'
+                                    + data.radio_stream.radio_stream_url[0].url + '" type="audio/mp3"></audio>')
+                                $('#radioAudio').on('play playing', function() {
+                                    $('.radio-link').removeClass("loading");
+                                    $('.radio-link').addClass("playing");
+                                    var activeVideoElements = document.getElementsByTagName("video");
+                                    if (activeVideoElements.length > 0) {
+                                        for (var i = 0; i < activeVideoElements.length; i++) {
+                                            activeVideoElements[i].pause();
+                                            if ($("#controlForLiveStream").length > 0) {
+                                                $(".playCtrl").addClass("play");
+                                                $(".playCtrl").removeClass("pause");
+                                                if ($rootScope.device == "DESKTOP") {
+                                                    $("#playIconBigLiveCont").show();
+                                                }
+                                                $rootScope.isLiveStreamPausedIE = true;
+                                                $rootScope.isLiveStreamPaused = true;
+                                            }
+                                        }
+                                    }
+                                    if (window.activeJWPlayer) {
+                                        window.activeJWPlayer.pause(true);
+                                    }
+                                    window.activeYtPlayer && typeof window.activeYtPlayer.pauseVideo != 'undefined' && window.activeYtPlayer.pauseVideo();
+                                });
+                            }, 2000)
+
+                        }
+
+                    /*START: Get Default Page For US - Election*/
+                        var defaultUSElectionPage = '';
+                         /*START: Map the type  for the "results" type to "live_map_results"*/
+                        var mapTypeToUrl = function(menuItems) {
+                            for (var i = 0; i < menuItems.length; i++) {
+                                if (menuItems[i].type == 'RESULTS') {
+                                    menuItems[i].type = 'LIVE_MAP_RESULTS';
+                                }
+                                if (menuItems[i].type == 'PROJECTION') {
+                                    menuItems[i].type = 'RESULTS';
+                                }
+                            }
+                            return menuItems;
+                        }
+                         /*END: Map the type for the "results" type to "live_map_results"*/
+                        if (data.us_election_menu_items_v2 && data.us_election_menu_items_v2.length > 0) {
+                            data.us_election_menu_items_v2 = mapTypeToUrl(data.us_election_menu_items_v2);
+                            defaultUSElectionPage = data.us_election_menu_items_v2[0].type.toLowerCase();
+                        }
+                    /*END: Get Default Page For US - Election*/
+
+                    /*START: Show/Hide US Interstitials*/
+                        var regexFindUSElectionPage = /^http:\/\/\S+\/web\/\S+\/us_election.*/ig;
+
+                        $rootScope.showUSElectionInterstitial = false;
+                    //console.log("$cookies.get('usInterstitial') == true", $cookies.get('usInterstitial'))
+                        if (data.us_election_menu_items_enable) {
+                            if (sessionStorage.getItem("USElectionInterstitialClosed")
+                                || regexFindUSElectionPage.test(window.location.href)
+                                || $cookies.get('usInterstitial') == "true") {
+                                $rootScope.showUSElectionInterstitial = false;
+                            } else {
+                                $rootScope.showUSElectionInterstitial = true;
+                                var interstitialExpiresDate = new Date();
+                                interstitialExpiresDate.setHours(interstitialExpiresDate.getHours() + data.us_election_interstitial_threshold_hour);
+                                $cookies.put('usInterstitial', true, {path: "/", "expires": interstitialExpiresDate});
+                                jQuery("html,body").addClass('InterstitialOn');
+                                if (getDeviceOSService.getDeviceOS == 'iOS') {
+                                    jQuery("html").addClass('ios-interstitial');
+                                }
+                            }
+                        }
+                    // $rootScope.showUSElectionInterstitial = false;
+                        $rootScope.USElectionInterstitialOn = $rootScope.showUSElectionInterstitial;
+                        $rootScope.showUSElectionBannerInHomePage = data.show_us_election_header_on_home_page;
+                    // $rootScope.showUSElectionBannerInHomePage = true;
+                        $rootScope.hideInterstitialsForThisSession = function($event, goDefaultPage) {
+                            if ($($event.target).hasClass('no-close')) {
+                                return;
+                            }
+                            $event.preventDefault();
+                            $event.stopPropagation();
+                            if (goDefaultPage) {
+                                window.location = $rootScope.webHost + $rootScope.webContext + '/' + defaultUSElectionPage + '/us_election';
+                                return;
+                            }
+                            jQuery("html,body").removeClass('InterstitialOn');
+                            jQuery("html").removeClass('landscape-orientation');
+                            sessionStorage.setItem("USElectionInterstitialClosed", true);
+                            $(window).off('resize.usInterStitial');
+                            document.body.scrollTop = 0;
+                            $rootScope.showUSElectionInterstitial = false;
+
+                        };
+                        var windowOrientationNew;
+                        if ($rootScope.deviceType == 'MOBILE') {
+                            windowOrientationNew = windowOrientation || ( window.innerHeight > window.innerWidth ? 'portrait' : 'landscape');
+                            if (windowOrientationNew == 'landscape') {
+                                jQuery("html").addClass('landscape-orientation');
+                            }
+                            $(window).on('resize.usInterStitial', function () {
+                                windowOrientationNew = ( window.innerHeight > window.innerWidth ? 'portrait' : 'landscape');
+                                if (windowOrientationNew == 'landscape') {
+                                    jQuery("html").addClass('landscape-orientation');
+                                } else {
+                                    jQuery("html").removeClass('landscape-orientation');
+                                }
+                            });
+                        }
+
+                /*END: Show/Hide US Interstitials*/
+
+                    });
+                })
+                try {
+                    var event = new Event("orientationchange");
+                    event.programatically = true;
+                    window.dispatchEvent(event);
+                } catch (error) {
+                    snaConsole.log("orientationchange not supported");
+                    $rootScope.orientationNotSupported = true;
+                }
+            });
+
+
+            $(window).on('resize', function (event) {
+                var height = $(window).height(), width = $(window).width();
+                windowOrientation = width > height ? 'landscape' : 'portrait';
+                if (height != windowHeight && width != windowWidth) {
+                    windowHeight = height;
+                    windowWidth = width;
+                    event = $.Event( "sna-orientation-change" );
+                    event.orientation = windowOrientation;
+                    $(window).trigger(event);
+                }
+
+                var deviceType = getDeviceType();
+                if ($rootScope.deviceType && $rootScope.deviceType != deviceType) {
+                    $('.off-canvas-wrap').foundation('offcanvas', 'hide', 'move-left');
+                    $('.off-canvas-wrap').removeClass('move-left');
+                }
+
+                $rootScope.$applyAsync(function () {
+                    $rootScope.deviceType = deviceType;
+                });
+                updateDeskTopMenuHeight(event, $rootScope.deviceType);
+            });
+
+            $timeout(function() {
+                $('body').show();
+                $rootScope.bodyVisible = true;
+            }, 1000, false);
+
+            $rootScope.expandPushDown = function () {
+                $("#div-gpt-ad-764910473463829741-6 iframe").height(418);
+            }
+
+            $rootScope.collapsePushDown = function () {
+                $("#div-gpt-ad-764910473463829741-6 iframe").height(90);
+            }
+        }]);
+
+})();
+
+/**
+ * Update menu location of current page.
+ */
+function updateMenuLocation($rootScope, $location, appConfig) {
+    /**
+     * Menu location
+     */
+    var locationUrl = $location.protocol() + "://";
+    locationUrl += $location.host();
+    locationUrl += $location.port() && $location.port() != 80 && $location.port() != 443 ? ":" + $location.port() : '';
+    locationUrl += "/" + appConfig.webContext;
+     /**
+      * If sub section then set location
+      */
+    if ($rootScope.initData && $rootScope.initData.topSectionUrl) {
+        $rootScope.menuLocationUrl = locationUrl + $rootScope.initData.topSectionUrl;
+    }
+}
+
+/**
+ * Update menu height for current page.
+ */
+function updateDeskTopMenuHeight(event, deviceType) {
+    var menuHeight = $(window).height() - ($('#megaMenu').innerHeight() - $('#megaMenu').height());
+    if ($('#sideMenuDiv').height() > menuHeight && deviceType == 'DESKTOP') {
+        $('#sideMenuDiv').height(menuHeight);
+        $('#sideMenuDiv').addClass("menu-scrollable");
+    } else {
+        if (!event.programatically) {
+            $('#sideMenuDiv').removeClass("menu-scrollable");
+            $('#sideMenuDiv').css('height', 'auto');
+        }
+    }
+    var overlayMenuHeight = $(window).height() - $("#headerDiv").outerHeight();
+    if ($(".overlay-menu").height() > overlayMenuHeight) {
+        $(".overlay-menu").height(overlayMenuHeight);
+    }
+
+}
+
+/**
+ * Register menu close event.
+ */
+function registerMenuCloseEvent() {
+    $("body")
+        .on('open.fndtn.offcanvas', '[data-offcanvas]', function() {
+            var deviceType = getDeviceType();
+            window.scroll(0, 0);
+            $('body').css('overflow', 'hidden');
+            $('#menuButton').addClass('is-active');
+            $('.inner-wrap').css('position', 'absolute');
+
+            /*START: If DFP Ad sticky ad is on in mobile include that ad (50px) also in*/
+            if ($("body").hasClass("dfp-ad-mobile-sticky-leaderboard-on")) {
+                $(".right-off-canvas-menu").height(window.innerHeight - $("#headerDiv").outerHeight() - 50);
+                // console.log(window.innerHeight - $("#headerDiv").outerHeight());
+            } else {
+                $(".right-off-canvas-menu").height(window.innerHeight - $("#headerDiv").outerHeight());
+            }
+            /*END: If DFP Ad sticky ad is on in mobile include that ad (50px) also in*/
+
+            $("body").css("min-height", window.innerHeight);
+            var overlayMaxHeight = window.innerHeight - $("#headerDiv").outerHeight();
+            if (deviceType == 'MOBILE' || $("#offCanvasDiv .overlay-menu").height() != overlayMaxHeight) {
+                $("#offCanvasDiv .overlay-menu").height($(window).height() - $("#headerDiv").outerHeight());
+            }
+        })
+        .on('close.fndtn.offcanvas', '[data-offcanvas]', function() {
+            $('body').css('overflow', '');
+            $("body").css("min-height", "");
+            $('.overlay-menu').hide().css({opacity: 0});
+            $('#offCanvasDiv .opened').removeClass('opened');
+            $('#menuButton').removeClass('is-active');
+            $('.inner-wrap').css('position', 'relative');
+            return true;
+        });
+}
+
+
+/**
+ * Get the type of current device pased on viewport.
+ */
+function getDeviceType() {
+    var isMobile = Modernizr.mq('only screen and (max-width: 47.9375em)')
+    var isTablet = Modernizr.mq('only screen and (min-width: 48em) and (max-width: 79.9376em)')
+    //var isDeskTop = Modernizr.mq('only screen and (min-width: 79.9377em) and (max-width: 99999999em)')
+
+    if (isMobile) {
+        deviceType = 'MOBILE';
+        return "MOBILE";
+    } else if (isTablet) {
+        deviceType = 'TABLET';
+        return "TABLET";
+    } else {
+        deviceType = 'DESKTOP';
+        return "DESKTOP";
+    }
+
+}
+
+/**
+ * Using WURFL get device type.
+ * @returns {String}
+ */
+function getDevice() {
+
+//    var isMobile = Modernizr.mq('only screen and (max-width: 47.9375em)')
+//    var isTablet = Modernizr.mq('only screen and (min-width: 48em) and (max-width: 79.9376em)')
+//    var isDeskTop = Modernizr.mq('only screen and (min-width: 79.9377em) and (max-width: 99999999em)')
+
+    if (typeof WURFL == "undefined" ) {
+        return getDeviceType();
+    } else if (WURFL.form_factor == "Smartphone" || WURFL.form_factor == "Other Mobile" || WURFL.form_factor == "Feature Phone") {
+        return "MOBILE";
+    } else if (WURFL.form_factor == "Tablet") {
+        return "TABLET";
+    } else {
+        return getDeviceType();
+    }
+}
+
+/**
+ * Play radio stream.
+ */
+function playRadio(pause) {
+    if ($('#radioAudio').length == 0) {
+        return;
+    }
+    if ($('#radioAudio')[0].paused && !pause) {
+        $('.radio-link').addClass("loading");
+        $('#radioAudio')[0].play();
+    } else {
+        $('.radio-link').removeClass("loading");
+        $('.radio-link').removeClass("playing");
+        $('#radioAudio')[0].pause();
+    }
+}
+
+/**
+ * get current time based on global variable current time which is updated by server request call.
+ */
+function getCurrentTime() {
+    if (window.currentTime) {
+        return window.currentTime;
+    } else {
+        window.currentTime = new Date();
+    }
+    return window.currentTime;
+}
+
+
+/**
+ * Show Loader and block page/element.
+ * @param element
+ */
+function blockUI(element) {
+    if ($ && $.blockUI && $.blockUI.defaults && $.blockUI.defaults.css) {
+        $.blockUI.defaults.overlayCSS = {
+            opacity: 0.5,
+            cursor: 'wait',
+            backgroundColor: '#fff'
+        };
+
+        $.blockUI.defaults.showOverlay = true;
+        if (element) {
+            $(element).block({message: '<h2><img src="' + window.appAssetsUrl + '/img/loader.gif"/></h2>'});
+        } else {
+            $.block({message: '<h2><img src="' + window.appAssetsUrl + '/img/loader.gif"/></h2>'});
+        }
+    }
+}
+
+/**
+ * Hide loader and unblock page/element
+ * @param element
+ */
+function unblockUI(element) {
+    if (element) {
+        $(element).unblock();
+    } else {
+        $.unblock();
+    }
+}
+
+/**
+ * START: Script For Google Analytics to Send PageView  Manually
+ */
+function sendGAPageView(context, type, id, urlFriendlySuffix, pageTitle, sectionName) {
+    // console.log(`context is :: ${context}`);
+    // console.log(`type is :: ${type}`);
+    
+    var pageurl;
+    if (sectionName) {
+        pageurl = urlFriendlySuffix ? sectionName + '/' + id + '-' + urlFriendlySuffix : sectionName + '/' + id;
+    } else {
+        pageurl = urlFriendlySuffix ? '/' + type + '/' + id + '-' + urlFriendlySuffix : '/' + type + '/' + id;
+    }
+    snaConsole.log("pageurl " + pageurl);
+    ga('send', 'pageview', {page: pageurl, title: pageTitle});
+}
+/*END: Script For Google Analytics to Send PageView Manually */
+/**
+ * START: Script For Facebook Pixel to Send PageView  Manually
+ */
+function sendFBPixelPageView() {
+    window.pushInFbqSafeCallQueue(function () {
+        window.fbq('track', 'PageView');
+        window.fbq('track', 'ViewContent');
+    });
+}
+/*END: Script For Facebook Pixel to Send PageView Manually */
+
+/**
+ * START:Send events to FB Pixel
+ */
+function sendFBPixelEvent(eventName, searchParamObj) {
+    window.pushInFbqSafeCallQueue(function () {
+        window.fbq('track', eventName, searchParamObj);
+    });
+}
+ /*END: Send events to FB Pixel*/
+/**
+ * Configuration for google dfp.
+ * Define various slots for different ad types.
+ */
+// function dfpAd(DoubleClickProvider, dfpAdUnit, dfpTarget) {
+//     if (angular.isArray(dfpAdUnit)) {
+//         for (var i = 0; i < dfpAdUnit.length; i++) {
+//             var adSlot = dfpAdUnit[i];
+//             /**
+//              * Check Ad slot type.
+//              */
+//             switch (adSlot[0].toLowerCase()) {
+//             case 'leaderboard':
+//                 DoubleClickProvider.defineSlot('/13259764/' + adSlot[1], [[728, 90], [970, 90]], 'div-gpt-ad-764910473463829741-' + (adSlot[2] - 1));
+//                 break;
+//             case 'billboard':
+//                 DoubleClickProvider.defineSlot('/13259764/' + adSlot[1], [[970, 250]], 'div-gpt-ad-764910473463829741-' + (adSlot[2] - 1));
+//                 break;
+//             case 'superleaderboard':
+//                 DoubleClickProvider.defineSlot('/13259764/' + adSlot[1], [[728, 90], [970, 90]], 'div-gpt-ad-764910473463829741-' + (adSlot[2] - 1));
+//                 break;
+//             case 'mpu':
+//                 DoubleClickProvider.defineSlot('/13259764/' + adSlot[1], [[300, 250], [300, 600]], 'div-gpt-ad-764910473463829741-2');
+//                 break;
+//             case 'skyscraper':
+//                 DoubleClickProvider.defineSlot('/13259764/' + adSlot[1], [[160, 600]], 'div-gpt-ad-764910473463829741-3');
+//                 DoubleClickProvider.defineSlot('/13259764/' + adSlot[1], [[160, 600]], 'div-gpt-ad-764910473463829741-4');
+//                 break;
+//             case 'spacebanner':
+//                 DoubleClickProvider.defineSlot('/13259764/' + adSlot[1], [[220, 550]], 'div-gpt-ad-764910473463829741-5');
+//                 break;
+//             case 'pushdownbanner':
+//                 DoubleClickProvider.defineSlot('/13259764/' + adSlot[1], [[970, 418], [970, 90]], 'div-gpt-ad-764910473463829741-6');
+//                 break;
+//             }
+//         }
+//     } else {
+//         /**
+//          * Ad unit for programs
+//          */
+//         DoubleClickProvider.defineSlot('/13259764/' + dfpAdUnit, [[728, 90], [970, 90]], 'div-gpt-ad-764910473463829741-0');
+
+//         /**
+//          * Mpu ads.
+//          */
+//         DoubleClickProvider.defineSlot('/13259764/' + dfpAdUnit, [[300, 250], [300, 600]], 'div-gpt-ad-764910473463829741-2');
+//     }
+//     /**
+//      * To collapse ad div when no ad received.
+//      */
+//     DoubleClickProvider.collapseEmptyDivs();
+
+//     /**
+//      * Custom targeting for sections.
+//      */
+//     DoubleClickProvider.setPageTargeting('zone', dfpTarget);
+// }
+
+window.onload = function () {
+    windowWidth = $(window).width();
+    windowHeight = $(window).height();
+    windowOrientation = $(window).width() > $(window).height() ? 'landscape' : 'portrait';
+    /**
+     * Subscribe for pushwoosh.
+     */
+    /*pushwooshSubscribe();*/
+};
+
+/**
+ * Override Foundation behavior for equalizer.
+ * @param $
+ * @param window
+ * @param document
+ * @param undefined
+ */
+(function ($, window) {
+    Foundation.libs.equalizer = {
+        name: 'equalizer',
+        version: '5.5.1',
+        settings: {
+            use_tallest: true,
+            before_height_change: $.noop,
+            after_height_change: $.noop,
+            equalize_on_stack: false,
+            check_window_height_width: false
+        },
+
+        orientation: window.windowOrientation,
+
+        init: function (scope, method, options) {
+            Foundation.inherit(this, 'image_loaded');
+            this.bindings(method, options);
+            this.reflow(options);
+        },
+
+        events: function () {
+            this.S(window).off('.equalizer').on('resize.fndtn.equalizer', function () {
+            //alert(window.orientation);
+                if (this.settings.check_window_height_width && this.orientation != window.windowOrientation) {
+                    this.reflow();
+                    this.orientation = window.windowOrientation;
+                } else if (!this.settings.check_window_height_width) {
+                    this.reflow();
+                }
+            }.bind(this));
+        },
+
+        equalize: function (equalizer) {
+            var isStacked = false,
+                vals = equalizer.find('[' + this.attr_name() + '-watch]:visible'),
+                settings = equalizer.data(this.attr_name(true) + '-init');
+            if (vals.length === 0) {
+                return;
+            }
+            var firstTopOffset = vals.first().offset().top;
+            settings.before_height_change();
+            equalizer.trigger('before-height-change').trigger('before-height-change.fndth.equalizer');
+            vals.height('inherit');
+            vals.each(function () {
+                var el = $(this);
+                if (el.offset().top !== firstTopOffset) {
+                    isStacked = true;
+                }
+            });
+
+            if (settings.equalize_on_stack === false) {
+                if (isStacked) {
+                    return;
+                }
+            }
+
+            var heights = vals.map(function () { return $(this).outerHeight(false) }).get();
+
+            if (settings.use_tallest) {
+                var max = Math.max.apply(null, heights);
+                vals.css('height', max);
+            } else {
+                var min = Math.min.apply(null, heights);
+                vals.css('height', min);
+            }
+            settings.after_height_change();
+            equalizer.trigger('after-height-change').trigger('after-height-change.fndtn.equalizer');
+        },
+
+        reflow: function (element) {
+            var self = this;
+            this.S((element != null ? element : '') + ' [' + this.attr_name() + ']', this.scope).each(function () {
+                var $eqTarget = $(this);
+                self.image_loaded(self.S('img', this), function () {
+                    self.equalize($eqTarget)
+                });
+            });
+        }
+    };
+})(jQuery, window, window.document);
+
+/**
+ * Check if browser type is Internet Explorer and return its specific version.
+ */
+function getIEVersion() {
+    var sAgent = window.navigator.userAgent;
+    var Idx = sAgent.indexOf("MSIE");
+
+    // If IE, return version number.
+    if (Idx > 0) {
+        return parseInt(sAgent.substring(Idx + 5, sAgent.indexOf(".", Idx)));
+    } else if (navigator.userAgent.match(/Trident\/7\./)) { // If IE 11 then look for Updated user agent string.
+        return 11;
+    } else {
+        return 0; //It is not IE
+    }
+}
+
+/**
+ * find the IE till IE Edge
+ */
+function isIEBrowser() {
+    return !!(!!getIEVersion() || !!(window.navigator.userAgent.indexOf("Edge") > -1));
+}
+
+/**
+ *  find the IE Edge
+ */
+function isIEEdge() {
+    return !!(window.navigator.userAgent.indexOf("Edge") > -1);
+}
+
+/**
+ * Check if it is android native browser.
+ */
+function isAndroidNativeBrowser() {
+    var nua = navigator.userAgent;
+    //alert(nua);
+    return nua.indexOf('Mozilla/5.0') > -1 && nua.indexOf('Android ') > -1 && nua.indexOf('AppleWebKit') > -1 && nua.indexOf('Version') > -1;
+}
+
+
+/*START: find the browser is chrome, does not consider ios Chrome as chrome*/
+/**
+ * Check if current browser is chrome.
+ */
+function isChrome() {
+    // please note,
+    // that IE11 now returns undefined again for window.chrome
+    // and new Opera 30 outputs true for window.chrome
+    // and new IE Edge outputs to true now for window.chrome
+    // and if not iOS Chrome check
+    // so use the below updated condition
+    var isChromium = window.chrome,
+        winNav = window.navigator,
+        vendorName = winNav.vendor,
+        isOpera = winNav.userAgent.indexOf("OPR") > -1,
+        isIEedge = winNav.userAgent.indexOf("Edge") > -1,
+        isIOSChrome = winNav.userAgent.match("CriOS");
+
+    if (isIOSChrome) {
+       // is Google Chrome on IOS
+        return false;
+    } else if (isChromium !== null && isChromium !== undefined && vendorName === "Google Inc." && isOpera == false && isIEedge == false) {
+       // is Google Chrome
+        return true;
+    } else {
+       // not Google Chrome
+        return false;
+    }
+}
+/*END: find the browser is chrome, does not consider ios Chrome as chrome*/
+
+/*START: is Safari Browser*/
+/**
+ * Check if current browser is Safari.
+ */
+function isSafari() {
+    return !!navigator.userAgent.match(/safari/i)
+        && !navigator.userAgent.match(/chrome/i)
+        && typeof document.body.style.webkitFilter !== "undefined" && !window.chrome;
+}
+/*END: is Safari Browser*/
+
+/*START: Move to scroll pos before go to full screen this is happening only in chrome*/
+
+if (isChrome() || isSafari()) {
+    var scrollPosBeforeGoFullScreenPeriod = 0;
+    goToCurrentScrollPosAfterFullScreen();
+    document.addEventListener("scroll", function() {
+        if (document.webkitFullscreenElement) {
+            return;
+        }
+        scrollPosBeforeGoFullScreenPeriod = (window.pageYOffset || document.scrollTop) - (document.clientTop || 0);
+     // console.log(scrollPosBeforeGoFullScreenPeriod);
+    });
+}
+
+/**
+ * Used to fix issue on chrome when go to full screen the browser scroll to top.
+ * This function scrolls back to the original scroll position before going full screen
+ */
+function goToCurrentScrollPosAfterFullScreen() {
+    if (isChrome() || isSafari()) {
+        document.addEventListener("webkitfullscreenchange", function() {
+            snaConsole.log("full screen event for app");
+//            if ((event.target.tagName && event.target.tagName.toLowerCase() != 'iframe')
+//                && window.$rootScope.flyoutVideoPresent && window.$rootScope.device == 'DESKTOP') {
+//                return;
+//            }
+            if (document.webkitFullscreenElement) {
+                snaConsole.log("")
+            } else {
+                document.body.scrollTop = scrollPosBeforeGoFullScreenPeriod;
+            }
+        });
+    }
+}
+/*END: Move to scroll pos before go to full screen this is happening only in chrome*/
+
+/*START: Find the scrollbar width, applicable to desktop only*/
+/**
+ *  Find the scrollbar width, applicable to desktop only
+ */
+function findScrollBarWidth() {
+    var scrollDiv = document.createElement("div");
+    scrollDiv.className = "scrollbar-measure";
+    document.body.appendChild(scrollDiv);
+
+    // Get the scrollbar width
+    var scrollbarWidth = scrollDiv.offsetWidth - scrollDiv.clientWidth;
+    // console.log("***********************************");
+    // console.warn(scrollbarWidth); // Mac:  15
+    // console.log("***********************************");
+
+    // Delete the DIV
+    document.body.removeChild(scrollDiv);
+    return scrollbarWidth;
+}
+/*END: Find the scrollbar width, applicable to desktop only*/
+
+/**
+ * START:Find the element poition from the top of the document
+ */
+function elemOffset(el) {
+    var rect = el.getBoundingClientRect(),
+        scrollLeft = window.pageXOffset || document.documentElement.scrollLeft,
+        scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    return {top: rect.top + scrollTop, left: rect.left + scrollLeft}
+}
+/*END: Find the element poition from the top of the document*/
+
+
+/**
+ * START:Utility function for debounce
+ */
+function debounce(func, wait, immediate) {
+    var timeout;
+    return function() {
+        var context = this,
+            args = arguments;
+        var later = function() {
+            timeout = null;
+            if (!immediate) {
+                func.apply(context, args);
+            }
+        };
+        var callNow = immediate && !timeout;
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+        if (callNow) {
+            func.apply(context, args)
+        }
+    };
+}
+/*END: Utility function for debounce*/
+
+/**
+ * START:function for triggering function when the user scrolls to the particular element based on request animation frame
+ parameters: elemSelector       --> element where the user scrolls
+             screenPosInPercent --> trigger when the element comes visible to the user screen
+                                    (100 means trigger when the element's top touches the bottom visible in screen)
+                                    (75  means trigger when the element's top touches the 3/4 visible part of the user screen)
+                                    (25   means trigger when the element's top touches the 1/4 visible part of the user screen)
+                                    (0    means trigger when the element's top touches the top of the user screen)
+ */
+function triggerFnBasedOnElemPosInScreenRaff(elemSelector, screenPosInPercent, eventNameSpace, func) {
+
+
+    var lastScrollY;
+    var ticking = false;
+    var lastFocusedElem;
+    var funcToCallOnScroll = function() {
+        lastScrollY = window.pageYOffset;
+        requestRaff();
+
+
+    };
+
+    /**
+     * START:Requesting Raff
+     */
+    function requestRaff() {
+        if (!ticking) {
+            requestAnimationFrame(domOperations);
+        }
+        ticking = true;
+    }
+
+     /*END: Requesting Raff*/
+
+    /**
+      * START:Costly dom Operations move here
+      */
+    function domOperations() {
+        // reset the tick so we can
+        // capture the next onScroll
+
+
+        var currentScrollY = lastScrollY;
+
+        // read offset of DOM elements
+        // and compare to the currentScrollY value
+        // then apply some CSS classes
+        // to the visible items
+
+        var elem = document.querySelector(elemSelector);
+        if (!elem) {
+            ticking = false;
+            return;
+        }
+        var elOffset = elemOffset(elem);
+        var heightOfScreen = document.documentElement.clientHeight;
+        var triggerPointInscreen = (screenPosInPercent / 100) * heightOfScreen;
+        //console.log(elOffset.top - triggerPointInscreen - currentScrollY);
+        if ((elOffset.top - triggerPointInscreen - currentScrollY <= 0) && !($(elem).is(lastFocusedElem))) {
+            lastFocusedElem = elem;
+            func();
+        }
+        ticking = false;
+    }
+
+    /*END: Costly dom Operations move here*/
+    $(window).on("scroll." + eventNameSpace, funcToCallOnScroll);
+
+
+    return eventNameSpace;
+}
+ /*END:triggering function when the user scrolls to the particular element */
+/**
+ * START:function for triggering function when the user scrolls to the particular element based on debouncing
+ parameters: elemSelector       --> element where the user scrolls
+             screenPosInPercent --> trigger when the element comes visible to the user screen
+                                    (100 means trigger when the element's top touches the bottom visible in screen)
+                                    (75  means trigger when the element's top touches the 3/4 visible part of the user screen)
+                                    (25   means trigger when the element's top touches the 1/4 visible part of the user screen)
+                                    (0    means trigger when the element's top touches the top of the user screen)
+ */
+function triggerFnBasedOnElemPosInScreenDebounce(elemSelector, screenPosInPercent, eventNameSpace, func, debounceWaitSec, immediate) {
+
+
+    debounceWaitSec = debounceWaitSec || 1000;
+    immediate = immediate || false;
+
+    var funcToCall = function() {
+        var elem = document.querySelector(elemSelector);
+        var elOffset = elemOffset(elem);
+        var heightOfScreen = document.documentElement.clientHeight;
+        var triggerPointInscreen = (screenPosInPercent / 100) * heightOfScreen;
+        var pageScrollPos = window.pageYOffset;
+        if (elOffset.top - triggerPointInscreen - pageScrollPos <= 0) {
+            func();
+        }
+    };
+    $("body").on("scroll." + eventNameSpace, debounce(funcToCall, debounceWaitSec, immediate));
+    return eventNameSpace;
+}
+ /*END:triggering function when the user scrolls to the particular element */
+/**
+ * START:RAFF Polyfill
+ */
+// http://paulirish.com/2011/requestanimationframe-for-smart-animating/
+// http://my.opera.com/emoller/blog/2011/12/20/requestanimationframe-for-smart-er-animating
+
+// requestAnimationFrame polyfill by Erik Möller. fixes from Paul Irish and Tino Zijdel
+
+// MIT license
+
+(function() {
+    var lastTime = 0;
+    var vendors = ['ms', 'moz', 'webkit', 'o'];
+    for (var x = 0; x < vendors.length && !window.requestAnimationFrame; ++x) {
+        window.requestAnimationFrame = window[vendors[x] + 'RequestAnimationFrame'];
+        window.cancelAnimationFrame = window[vendors[x] + 'CancelAnimationFrame'] || window[vendors[x] + 'CancelRequestAnimationFrame'];
+    }
+
+    if (!window.requestAnimationFrame) {
+        window.requestAnimationFrame = function(callback) {
+            var currTime = new Date().getTime();
+            var timeToCall = Math.max(0, 16 - (currTime - lastTime));
+            var id = window.setTimeout(function() { callback(currTime + timeToCall); },
+                timeToCall);
+            lastTime = currTime + timeToCall;
+            return id;
+        };
+    }
+    if (!window.cancelAnimationFrame) {
+        window.cancelAnimationFrame = function(id) {
+            clearTimeout(id);
+        };
+    }
+}());
+
+ /*END: RAFF Polyfill*/
+
+/**
+ * START:Snippet to inject style viaJS
+ */
+function injectStyleRule(rule, id) {
+    var div = $("<div />", {
+        html: '&shy;<style id=' + id + '>' + rule + '</style>'
+    }).appendTo("body");
+    div.hide();
+}
+/*END: Snippet to inject style viaJS*/
+
+/*START: Make "_" available to underscore.js and make lodash to use new variable*/
+window.lodash = _.noConflict();
+/*END: Make "_" available to underscore.js and make lodash to use new variable*/
+/**
+ * START:check if the browser is firefox
+ */
+function isFirefox() {
+    var userAgent = navigator.userAgent.toLowerCase();
+    var isFirefox = userAgent.indexOf("firefox") > -1;
+    return isFirefox;
+}
+/*END: check if the browser is firefox*/
+
+/**
+ * START:Check If it is android device
+ */
+function isAndroidOS() {
+    var userAgent = navigator.userAgent.toLowerCase();
+    var isAndroid = userAgent.indexOf("android") > -1;
+    return isAndroid;
+}
+ /*END: Check If it is android device*/
+/*
+ Fix for zoom issue
+ document.documentElement.addEventListener('touchstart', function (event) {
+    if (event.touches.length > 1) {
+//        event.preventDefault();
+        $('.sticky').css("position", "absolute");
+        //setTimeout(isZoomed, 1000);
+    }
+  }, false);*/
+
+/**
+ * START:Get The scrollbale root element, as we did the fix for search the text
+ which make html(window) not scrollbale made only the body scrollable
+ if (navigator.userAgent.match(/Edge\/12\./) || navigator.userAgent.match(/Edge\/13\./)) {
+in app.js
+Return: scrollable root
+ */
+function scrollableRootEl() {
+    if (navigator.userAgent.match(/Edge\/12\./) || navigator.userAgent.match(/Edge\/13\./)) {
+        return $("body");
+    }
+    if (navigator.userAgent.match(/Trident\/7\./)) {
+        return $("body");
+    }
+    return $(window);
+}
+ /*END: Get The scrollbale root element, as we did the fix for search the text
+ which make html(window) not scrollbale made only the body scrollable
+ if (navigator.userAgent.match(/Edge\/12\./) || navigator.userAgent.match(/Edge\/13\./)) {
+in app.js*/
+
+/*START: check for the latest feature supported and assign in rootscope to use in template*/
+
+/*END: check for the latest feature supported and assign in rootscope to use in template*/
+
+/**
+ * START:Native Sharing Web API function
+ */
+function nativeMobileSocialShare(url, title, text) {
+    if (navigator.share) {
+        navigator.share({
+            title: title,
+            text: text,
+            url: url
+        }).then(function() { snaConsole.log('Successful share') })
+        .catch(function() { snaConsole.log('Error sharing') });
+    }
+}
+ /*END: Native Sharing Web API function*/
+
+ /**
+  * START:Check NAtive sharing is enabled and assign it to rootscope variable
+  */
+function isNativeSocialShareEnabled() {
+    window.nativeSocialShareEnabled = false;
+    if (navigator.share) {
+        window.nativeSocialShareEnabled = true;
+        return true;
+    }
+    return false;
+}
+isNativeSocialShareEnabled();
+  /*END: Check NAtive sharing is enabled and assign it to rootscope variable*/
+
+/**
+* START:Check Intersection Observer is supported and assign it to global variable
+*/
+function checkIntersectionObserverSupported() {
+    window.isIntersectionObserverSupported = false;
+    if (typeof window.IntersectionObserver == "function") {
+        window.isIntersectionObserverSupported = true;
+        jQuery("body").addClass("intersection-observer-supported");
+        return true;
+    }
+    return false;
+}
+checkIntersectionObserverSupported();
+/*END: Check Intersection Observer is supported and assign it to global variable*/
+
+/**
+ * Function to load jwplayer js files. It will load jwplayer 7 for IE 9, 10, Android native and jwplayer 8 otherwise.
+ */
+function loadJWPlayer() {
+    var resource = document.createElement('script');
+    resource.type = 'text/javascript';
+    resource.defer = true;
+    if ((getIEVersion() != 0 && getIEVersion() <= 10) || isAndroidNativeBrowser() || window.location.href.indexOf("/streaming") > -1 || false) {
+        window.jwplayerVersion = 7;
+        resource.src = window.appAssetsUrl + '/js/lib/jwplayer-7.8.7/jwplayer.js';
+    } else {
+        window.jwplayerVersion = 8;
+        resource.src = window.appAssetsUrl + '/js/lib/jwplayer-8.1.2/jwplayer.js';
+    }
+
+    var firstScriptTag = document.getElementsByTagName('script')[0];
+    firstScriptTag.parentNode.insertBefore(resource, firstScriptTag);
+}
+
+/**
+* START:Check Mutation Observer is supported and assign it to global variable
+*/
+function checkMutationObserverSupported() {
+    window.isMutationObserverSupported = false;
+    if (typeof window.MutationObserver == "function") {
+        window.isMutationObserverSupported = true;
+        jQuery("body").addClass("mutation-observer-supported");
+        return true;
+    }
+    return false;
+}
+checkMutationObserverSupported();
+/*END: Check Mutation Observer is supported and assign it to global variable*/

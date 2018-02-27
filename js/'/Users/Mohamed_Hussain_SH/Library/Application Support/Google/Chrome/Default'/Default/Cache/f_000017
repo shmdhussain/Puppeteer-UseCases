@@ -1,0 +1,2286 @@
+/* global Foundation, $, snaApp, jQuery, angular, moment, Modernizr, ga, WURFL, lodash, getDeviceType */
+/*eslint-disable require-jsdoc, no-unused-vars, no-multiple-empty-lines, operator-linebreak, camelcase*/
+
+"use strict";
+snaApp.provider('snaDFPConfigurer', ['DoubleClickProvider', 'appConfig', function(DoubleClickProvider, appConfig) {
+
+    //variable accessed across this provider
+    var dfpConfig;
+    var viewportWidth;
+    var initData = $('[data-sna-init]').data('sna-init');
+    var deviceType = getDeviceType();
+
+
+    /*START: Get the DFP config from dfp init data object*/
+    function getDFPInitData() {
+        dfpConfig = $("[data-dfp-ad-unit]").data('dfp-ad-unit');
+    }
+
+    /*END: Get the DFP config from dfp init data object*/
+
+    /*START: setViewPortWidth*/
+    function setViewPortWidth() {
+        viewportWidth = document.documentElement.clientWidth;
+    }
+    /*END: setViewPortWidth*/
+
+    /*START: Set the targeting for the page*/
+    function setPageTargeting() {
+        if (lodash.get(dfpConfig, "target", false)) {
+            for (var dfpTargetProp in dfpConfig.target) {
+                if (dfpConfig.target.hasOwnProperty(dfpTargetProp)) {
+                    DoubleClickProvider.setPageTargeting(dfpTargetProp, dfpConfig.target[dfpTargetProp]);
+
+                }
+            }
+        }
+    }
+    /*END: Set the targeting for the page*/
+
+    /*START: Collpase the empty divs when there is no ads*/
+    function collapseEmptyDivs() {
+        // DoubleClickProvider.collapseEmptyDivs();
+    }
+    /*END: Collpase the empty divs when there is no ads*/
+
+    /*START: enable Lazy Laoding*/
+    function enableLazyLoad() {
+        DoubleClickProvider.setDisableInitialLoad(true);
+    }
+    /*END: enable Lazy Laoding*/
+
+
+    /*START: determine any section which is not child of any existing section i.e, it will come with unknown targeting value than the 7 defined section values*/
+    function getUnknownSection(){
+
+        /*START: Not a section --> return*/
+        var pageType = lodash.get(dfpConfig, "page", false);
+        if(pageType != 'section'){
+            return null;
+        }
+        /*END: Not a section --> return*/
+
+
+        var definedSections = ["homepage", "sport", "middle-east", "world", "sport", "business", "technology"];
+        var currentSection = lodash.get(dfpConfig, "target.section", false);
+        var isDefinedSection = definedSections.indexOf(currentSection) > -1 ? true : false;
+        if(isDefinedSection){
+          return null;  
+        } 
+        if(currentSection){
+            return currentSection;
+        }
+
+        return null;
+        
+    }
+    /*END: determine any section which is not child of any existing section i.e, it will come with unknown targeting value than the 7 defined section values*/
+
+
+    /*START: check if all the ads are disabled from the emergency switch from prop file, if so add this class to body*/
+    
+    function setClassWhenAdsAreDisabled() {
+        
+        // for testing disabled all ad units
+        // dfpConfig.leaderBoard1 = false;
+        // dfpConfig.leaderBoard2 = false;
+        // dfpConfig.sideMPUEnabled = false;
+        // dfpConfig.halfPage1Enabled = false;
+        // dfpConfig.halfPage2Enabled = false;
+        // dfpConfig.halfPage3Enabled = false;
+        // dfpConfig.halfPage4Enabled = false;
+        // dfpConfig.halfPage5Enabled = false;
+        // dfpConfig.inReadVideoAdEnabled = false;
+
+
+
+        if ((!lodash.get(dfpConfig, "leaderBoard1", false) )&&
+            (!lodash.get(dfpConfig, "leaderBoard2", false) )&&
+            (!lodash.get(dfpConfig, "sideMPUEnabled", false) )&&
+            (!lodash.get(dfpConfig, "halfPage1Enabled", false) )&&
+            (!lodash.get(dfpConfig, "halfPage2Enabled", false) )&&
+            (!lodash.get(dfpConfig, "halfPage3Enabled", false) )&&
+            (!lodash.get(dfpConfig, "halfPage4Enabled", false) )&&
+            (!lodash.get(dfpConfig, "halfPage5Enabled", false) )&&
+            (!lodash.get(dfpConfig, "inReadVideoAdEnabled", false))) {
+
+            jQuery("body").addClass("all-dfp-ads-disabled");
+            // console.log("all ads are disabled");
+
+        }
+
+        if ((!lodash.get(dfpConfig, "halfPage1Enabled", false) )&&
+            (!lodash.get(dfpConfig, "halfPage2Enabled", false) )) {
+
+            jQuery("body").addClass("halfpage-ad-1-and-2-disabled");
+            // console.log("all ads are disabled");
+
+        }
+
+    }
+
+
+    /*END: check if all the ads are disabled from the emergency switch from prop file, if so add this class to body*/
+    /*START: when the ad slot is rendered , call this callback and do some actions like 
+                adding the extra height of the stcky ad to the .header-fill placeholder*/
+    function slotRenderEndedEventCallback() {
+
+        var _slotRenderEnded = DoubleClickProvider._slotRenderEnded;
+        DoubleClickProvider._slotRenderEnded = function(event) {
+            _slotRenderEnded(event);
+            var adSlotDomId = event.slot.getSlotId().getDomId();
+
+            //made the if cond to false as we are having problem in displaying the HTML5 ad
+            if (false && ($("#" + adSlotDomId).find('iframe:not([id*=hidden])')
+                .map(function() { return this.contentWindow.document; })
+                .find("body")
+                .children().length === 0)) {
+
+                //ad is empty
+            //made the if cond to true as we are having problem in displaying the HTML5 ad
+            } else if (true || ($("#" + adSlotDomId).find('iframe:not([id*=hidden])')
+                .map(function() { return this.contentWindow.document; })
+                .find("body")
+                .children().length > 0)) {
+
+                //ad is not empty
+
+                /*START: If leader board 1 for mobile is sticky and have contents*/
+                if(adSlotDomId == "div-gpt-ad-ldb-bb-mobile-sticky-1"){
+                    jQuery("body").addClass("dfp-ad-mobile-sticky-leaderboard-on")
+                    console.log("Mobile sticky header is rendered");
+                }
+                /*END: If leader board 1 for mobile is sticky and have contents*/
+
+            }
+
+            // console.log("add render callback " + event.slot.getSlotId().getDomId(), event);
+        }
+    }
+    /*END: when the ad slot is rendered , call this callback and do some actions like adding 
+    the extra height of the stcky ad to the .header-fill placeholder*/
+
+
+
+    return {
+
+
+        configAdSlot: function() {
+
+            /*START: For Info anf topic lisitng repeating ads variables*/
+
+            var totalNoOfItems;
+            var itemDfpUnitIndex;
+            var intervalToShowAdDesktop;
+            var i;
+            /*END: For Info anf topic lisitng repeating ads variables*/
+
+            /*START: General Constants*/
+            var adNetworkId = "/13259764/";
+            var smallDesktopMinWidth = 1280;
+            var smallDesktopMaxWidth = 1556;
+            /*END: General Constants*/
+
+            /*START: Section Pages variables*/
+            var noOfMainComponents = lodash.get(initData, "initData.sectionComponentIds.length");
+            /*END: Section Pages variables*/
+
+
+            collapseEmptyDivs();
+            setViewPortWidth();
+            getDFPInitData();
+            setPageTargeting();
+            enableLazyLoad();
+            setClassWhenAdsAreDisabled();
+
+            slotRenderEndedEventCallback();
+
+
+            /*START: check the ad unit obj (page target object) is available if not do not do anything return */
+            if (!(dfpConfig &&
+                    lodash.get(dfpConfig, "target.section", false) &&
+                    lodash.get(dfpConfig, "page", false))) {
+
+                return;
+
+            }
+            /*END: check the ad unit obj (page target object) is available if not do not do anything return */
+
+
+            /*START: Leader Board1*/
+            function ldb_bb_1(sizeArrObj, slotDivId) {
+                /*START: Ad is not enabled then return dont create slot*/
+                if (!dfpConfig.leaderBoard1) {
+                    return;
+                }
+                /*END: Ad is not enabled then return dont create slot*/
+                slotDivId = slotDivId || 'div-gpt-ad-ldb-bb-desktop-1';
+                DoubleClickProvider.defineSlot(adNetworkId + dfpConfig.leaderBoard1UnitId,
+                    sizeArrObj, slotDivId);
+            }
+            /*END: Leader Board1*/
+
+
+            /*START: Leader Board2*/
+            function ldb_bb_2(sizeArrObj, slotDivId) {
+                /*START: Ad is not enabled then return dont create slot*/
+                if (!dfpConfig.leaderBoard2) {
+                    return;
+                }
+                /*END: Ad is not enabled then return dont create slot*/
+                slotDivId = slotDivId || 'div-gpt-ad-ldb-bb-desktop-2';
+                DoubleClickProvider.defineSlot(adNetworkId + dfpConfig.leaderBoard2UnitId,
+                    sizeArrObj, slotDivId);
+            }
+            /*END: Leader Board2*/
+
+            /*START: MPU 1*/
+            function mpu_1(sizeArrObj, slotDivId) {
+                /*START: Ad is not enabled then return dont create slot*/
+                if (!dfpConfig.sideMPUEnabled) {
+                    return;
+                }
+                /*END: Ad is not enabled then return dont create slot*/
+                DoubleClickProvider.defineSlot(adNetworkId + dfpConfig.sideMPUUnitId,
+                    sizeArrObj, slotDivId);
+            }
+            /*END: MPU 1*/
+
+            /*START: halfpage 1*/
+            function halfpage_1(sizeArrObj, slotDivId) {
+                /*START: Ad is not enabled then return dont create slot*/
+                if (!dfpConfig.halfPage1Enabled) {
+                    return;
+                }
+                /*END: Ad is not enabled then return dont create slot*/
+                DoubleClickProvider.defineSlot(adNetworkId + dfpConfig.halfPage1UnitId,
+                    sizeArrObj, slotDivId);
+            }
+            /*END: halfpage 1*/
+
+            /*START: halfpage 2*/
+            function halfpage_2(sizeArrObj, slotDivId) {
+                /*START: Ad is not enabled then return dont create slot*/
+                if (!dfpConfig.halfPage2Enabled) {
+                    return;
+                }
+                /*END: Ad is not enabled then return dont create slot*/
+                DoubleClickProvider.defineSlot(adNetworkId + dfpConfig.halfPage2UnitId,
+                    sizeArrObj, slotDivId);
+            }
+            /*END: halfpage 2*/
+
+            /*START: halfpage 3*/
+            function halfpage_3(sizeArrObj, slotDivId) {
+                /*START: Ad is not enabled then return dont create slot*/
+                if (!dfpConfig.halfPage3Enabled) {
+                    return;
+                }
+                /*END: Ad is not enabled then return dont create slot*/
+                DoubleClickProvider.defineSlot(adNetworkId + dfpConfig.halfPage3UnitId,
+                    sizeArrObj, slotDivId);
+            }
+            /*END: halfpage 3*/
+
+            /*START: halfpage 4*/
+            function halfpage_4(sizeArrObj, slotDivId) {
+                /*START: Ad is not enabled then return dont create slot*/
+                if (!dfpConfig.halfPage4Enabled) {
+                    return;
+                }
+                /*END: Ad is not enabled then return dont create slot*/
+                DoubleClickProvider.defineSlot(adNetworkId + dfpConfig.halfPage4UnitId,
+                    sizeArrObj, slotDivId);
+            }
+            /*END: halfpage 4*/
+
+            /*START: halfpage 5*/
+            function halfpage_5(sizeArrObj, slotDivId) {
+                /*START: Ad is not enabled then return dont create slot*/
+                if (!dfpConfig.halfPage5Enabled) {
+                    return;
+                }
+                /*END: Ad is not enabled then return dont create slot*/
+                DoubleClickProvider.defineSlot(adNetworkId + dfpConfig.halfPage5UnitId,
+                    sizeArrObj, slotDivId);
+            }
+            /*END: halfpage 5*/
+
+
+            /*START: inread 1*/
+            function inread_1(sizeArrObj, slotDivId) {
+                /*START: Ad is not enabled then return dont create slot*/
+                if (!dfpConfig.inReadVideoAdEnabled) {
+                    return;
+                }
+                /*END: Ad is not enabled then return dont create slot*/
+                DoubleClickProvider.defineSlot(adNetworkId + dfpConfig.inReadVideoAdUnitId,
+                    sizeArrObj, slotDivId);
+            }
+            /*END: inread 1*/
+
+
+
+
+
+
+
+
+            /*START: For every intervalToShowAd items, place the adunits leaderBoard1UnitId and leaderBoard2UnitId 
+                    or (halfpage 1 and halfpage 2) aternatively , for info and topic lisiting pages*/
+            function repeat_info_topic_listing_ad(intervalToShowAd) {
+
+                totalNoOfItems = lodash.get(initData, "initData.count", 0);
+                itemDfpUnitIndex;
+
+                var sizeArr = [
+                    [728, 90],
+                    [970, 90],
+                    [970, 250]
+                ];
+                var adSlotDivIdPrefix = 'div-gpt-ad-ldb-bb-desktop-';
+
+
+                if (deviceType == "TABLET") {
+                    sizeArr = [
+                        [728, 90]
+                    ];
+
+                    adSlotDivIdPrefix = 'div-gpt-ad-ldb-bb-tablet-';
+                } else if (deviceType == "MOBILE") {
+                    sizeArr = [
+                        [300, 250]
+                    ];
+                    adSlotDivIdPrefix = 'div-gpt-ad-halfpage-mobile-';
+                    intervalToShowAd = 4;
+                }
+
+
+
+
+                if (totalNoOfItems > 0) {
+                    for (i = intervalToShowAd; i < totalNoOfItems; i = i + intervalToShowAd) {
+
+                        itemDfpUnitIndex = (i / intervalToShowAd) + 1;
+
+                        if (deviceType == "MOBILE") {
+
+                            if (itemDfpUnitIndex == 2) {
+                                /*START: MOBILE:: HALFPAGE 1 , halfpage_1(sizeArrObj, slotDivId)*/
+                                halfpage_1(sizeArr, adSlotDivIdPrefix + itemDfpUnitIndex);
+                                /*END: MOBILE:: HALFPAGE 1 , halfpage_1(sizeArrObj, slotDivId)*/
+                            }else if (itemDfpUnitIndex == 3) {
+                                /*START: MOBILE:: HALFPAGE 2 , halfpage_2(sizeArrObj, slotDivId)*/
+                                halfpage_2(sizeArr, adSlotDivIdPrefix + itemDfpUnitIndex);
+                                /*END: MOBILE:: HALFPAGE 2 , halfpage_2(sizeArrObj, slotDivId)*/
+                            }else if (itemDfpUnitIndex == 4) {
+                                /*START: MOBILE:: HALFPAGE 3 , halfpage_3(sizeArrObj, slotDivId)*/
+                                halfpage_3(sizeArr, adSlotDivIdPrefix + itemDfpUnitIndex);
+                                /*END: MOBILE:: HALFPAGE 3 , halfpage_3(sizeArrObj, slotDivId)*/
+                            }else if (itemDfpUnitIndex == 5) {
+                                /*START: MOBILE:: HALFPAGE 4 , halfpage_4(sizeArrObj, slotDivId)*/
+                                halfpage_4(sizeArr, adSlotDivIdPrefix + itemDfpUnitIndex);
+                                /*END: MOBILE:: HALFPAGE 4 , halfpage_4(sizeArrObj, slotDivId)*/
+                            }else if (itemDfpUnitIndex == 6){
+                                /*START: MOBILE:: HALFPAGE 5 , halfpage_5(sizeArrObj, slotDivId)*/
+                                halfpage_5(sizeArr, adSlotDivIdPrefix + itemDfpUnitIndex);
+                                /*END: MOBILE:: HALFPAGE 5 , halfpage_5(sizeArrObj, slotDivId)*/
+                            }
+
+                        } else if (deviceType == "TABLET" || deviceType == "DESKTOP") {
+
+                            /*START: DESKTOP and TABLET:: leader board 2  size range and ldb_bb_2(sizeArrObj, slotDivId<optional>)*/
+                            ldb_bb_2(sizeArr, adSlotDivIdPrefix + itemDfpUnitIndex);
+                            /*END: DESKTOP and TABLET:: leader board 2  size range and ldb_bb_2(sizeArrObj, slotDivId<optional>)*/
+                        }
+                    }
+                }
+
+
+
+            }
+            /*END: For every intervalToShowAd items, place the adunits leaderBoard1UnitId and leaderBoard2UnitId 
+                    or (halfpage 1 and halfpage 2) aternatively , for info and topic lisiting pages*/
+
+            
+            
+            /*START:repeat ad after after bottom of every component except first comp*/
+            function repeat_ldb_bb_ad_section_comp(sizeArr, adSlotDivIdPrefix) {
+                sizeArr = sizeArr || [
+                    [320, 50]
+                ];
+                adSlotDivIdPrefix = adSlotDivIdPrefix || 'div-gpt-ad-ldb-bb-tablet-2-';
+
+
+                for (i = 0; i < (noOfMainComponents); i++) {
+                    ldb_bb_2(sizeArr, adSlotDivIdPrefix + i);
+                }
+            }
+            /*END:repeat ad after after bottom of every component except first comp*/
+
+            /*START:repeat ad after after 2nd , 4th, 5th 6th component and after 1st in sidebar compoenent*/
+            function repeat_halfpage_section_comp(sizeArr, adSlotDivIdPrefix) {
+                sizeArr = sizeArr || [
+                    [300, 250]
+                ];
+                halfpage_1.apply(null, [sizeArr, "div-gpt-ad-halfpage-main-section-comp-1"]);
+                halfpage_2.apply(null, [sizeArr, "div-gpt-ad-halfpage-main-section-comp-3"]);
+                halfpage_3.apply(null, [sizeArr, "div-gpt-ad-halfpage-main-section-comp-4"]);
+                halfpage_4.apply(null, [sizeArr, "div-gpt-ad-halfpage-main-section-comp-5"]);
+                halfpage_5.apply(null, [sizeArr, "div-gpt-ad-halfpage-side-section-comp-1"]);
+            }
+            /*END:repeat ad after after 2nd , 4th, 5th 6th component and after 1st in sidebar compoenent*/
+
+            /*START: MOBILE repeat halfpage 1 to 5 after every 6 (first iteration after 5) in blog, image, video listing page*/
+            function repeat_blog_image_listing(sizeArr, adSlotDivIdPrefix) {
+                sizeArr = sizeArr || [
+                    [300, 250]
+                ];
+                adSlotDivIdPrefix = 'div-gpt-ad-halfpage-listing-mobile-';
+
+                halfpage_1(sizeArr, adSlotDivIdPrefix + "1")
+                halfpage_2(sizeArr, adSlotDivIdPrefix + "2")
+                halfpage_3(sizeArr, adSlotDivIdPrefix + "3")
+                halfpage_4(sizeArr, adSlotDivIdPrefix + "4")
+                halfpage_5(sizeArr, adSlotDivIdPrefix + "5")
+            }
+            /*END: MOBILE repeat halfpage 1 to 5 after every 6 (first iteration after 5) in blog, image, video listing page*/
+
+            /*START: DESKTOP  halfpage 1 and halfpage 2 in topstories 3rd and 5th topstories component*/
+            function section_topstories_dfp_ad(sizeArr, adSlotDivIdPrefix) {
+                sizeArr = sizeArr || [
+                    [300, 600]
+                ];
+                adSlotDivIdPrefix = 'div-gpt-ad-halfpage-topstories-desktop-';
+
+                halfpage_1(sizeArr, adSlotDivIdPrefix + "1");
+                halfpage_2(sizeArr, adSlotDivIdPrefix + "2");
+            }
+            /*END: DESKTOP  halfpage 1 and halfpage 2 in topstories 3rd and 5th topstories component*/
+
+
+            /*START: Article Body Ads*/
+            function articlePageAds() {
+
+                var arg_temp;
+
+
+                /*START: MOBILE:: leader board 2 size range and ldb_bb_1(sizeArrObj, slotDivId<optional>)
+                         For every even(2,4,6 th article) number article , show the leader board 2 after the sharing*/
+                if (deviceType == "MOBILE" && dfpConfig.page == 'Article') {
+                    //enable the lazy load by setting page param
+                    // DoubleClickProvider.setDisableInitialLoad(true);
+                    for (i = 1; i < appConfig.maxNoOfAutoScrollArticles; i = i + 1) {
+                        ldb_bb_2([
+                            [320, 50]
+                        ], 'div-gpt-ad-ldb-bb-article-body-mobile-' + i);
+                    }
+                }
+                /*END: MOBILE:: leader board 2 size range and ldb_bb_1(sizeArrObj, slotDivId<optional>)
+                         For every even(2,4,6 th article) number article , show the leader board 2 after the sharing*/
+
+
+
+                /*START: MOBILE:: halfpage ad unit (rotate b/w 5 half page ads) size range and halfpage_1(or 2)(sizeArrObj, slotDivId)
+                        For every even(1,3,5 th article) number article , show the halfpage adunit1 for first slot then  halfpage adunit2 for rest 
+                        after every article before popular*/
+                if (deviceType == "MOBILE" && dfpConfig.page == 'Article') {
+                    for (i = 0; i < appConfig.maxNoOfAutoScrollArticles; i = i + 1) {
+                        arg_temp = [
+                            [
+                                [300, 250]
+                            ], 'div-gpt-ad-halfpage-article-body-mobile-' + i
+                        ];
+                        switch (i) {
+                            case 0:
+                                halfpage_1.apply(null, arg_temp);
+                                break;
+                            default:
+                                halfpage_2.apply(null, arg_temp);
+                                break;
+                        }
+                    }
+                }
+                /*END:  MOBILE:: halfpage ad unit (rotate b/w 5 half page ads) size range and halfpage_1(or 2)(sizeArrObj, slotDivId)
+                        For every even(1,3,5 th article) number article , show the halfpage adunit1 for first slot then  halfpage adunit2 for rest 
+                        after every article before popular*/
+
+
+                /*START: DESKTOP:: halfpage ad unit1 for first article then HM2 for rest 9 articles and halfpage_1(sizeArrObj, slotDivId)*/
+                if (deviceType == "DESKTOP" && dfpConfig.page == 'Article') {
+                    for (i = 0; i < appConfig.maxNoOfAutoScrollArticles; i++) {
+                        arg_temp = [
+                            [
+                                [300, 600],
+                                [300, 250]
+                            ], 'div-gpt-ad-halfpage-article-body-desktop-' + i
+                        ];
+                        switch (i / 2) {
+                            case 0:
+                                halfpage_1.apply(null, arg_temp);
+                                break;
+
+                            default:
+                                halfpage_2.apply(null, arg_temp);
+                                break;
+                        }
+                    }
+                }
+                /*END: DESKTOP:: halfpage ad unit1 for first article then HM2 for rest 9 articles and halfpage_1(sizeArrObj, slotDivId)*/
+                /*END: DESKTOP:: halfpage ad unit1 for each article and halfpage_1(sizeArrObj, slotDivId)*/
+
+                /*START: TABLET:: after every article show the leader board2*/
+                if (deviceType == "TABLET" && dfpConfig.page == 'Article') {
+                    for (i = 0; i < appConfig.maxNoOfAutoScrollArticles; i++) {
+                        arg_temp = [
+                            [
+                                [728, 90]
+                            ], 'div-gpt-ad-ldb-bb-article-body-tablet-' + i
+                        ];
+                        ldb_bb_2.apply(null, arg_temp);
+                    }
+                }
+                /*END: TABLET:: after every article show the leader board2*/
+
+
+
+                /*START: ALL:: In Read Ads from Third Party buzeef for 1st and third article*/
+                if (dfpConfig.page == 'Article') {
+                    inread_1([
+                        [1, 1]
+                    ], 'div-gpt-ad-inread-ad-desktop-0');
+
+                    inread_1([
+                        [1, 1]
+                    ], 'div-gpt-ad-inread-ad-desktop-2');
+                }
+                /*END: ALL:: In Read Ads from Third Party buzeef for 1st and third article*/
+
+            }
+            /*END: Article Body Ads*/
+
+
+
+
+            switch (lodash.get(dfpConfig, "target.section", "")) {
+                case "homepage":
+
+                    /*START: DESKTOP:: leader board 1  size range and ldb_bb_1(sizeArrObj, slotDivId<optional>)*/
+                    if (deviceType == 'DESKTOP') {
+                        ldb_bb_1([
+                            [728, 90],
+                            [970, 90],
+                            [970, 250]
+                        ]);
+                    }
+                    /*END: DESKTOP:: leader board 1  size range and ldb_bb_1(sizeArrObj, slotDivId<optional>)*/
+
+                    /*START: TABLET:: leader board 1  size range and ldb_bb_1(sizeArrObj, slotDivId<optional>)*/
+                    if (deviceType == 'TABLET') {
+                        ldb_bb_1([
+                            [728, 90]
+                        ], 'div-gpt-ad-ldb-bb-tablet-1');
+                    }
+                    /*END: TABLET:: leader board 1  size range and ldb_bb_1(sizeArrObj, slotDivId<optional>)*/
+
+                    /*START: DESKTOP::  halfpage 1 and halfpage 2 in topstories 3rd and 5th topstories component*/
+                    if (deviceType == 'DESKTOP') {
+                        section_topstories_dfp_ad();
+                    }
+                    /*END: DESKTOP::  halfpage 1 and halfpage 2 in topstories 3rd and 5th topstories component*/
+
+
+
+                    /*START: DESKTOP:: leader board 2  size range and ldb_bb_2(sizeArrObj, slotDivId<optional>)*/
+                    if (deviceType == 'DESKTOP') {
+                        if (viewportWidth >= smallDesktopMinWidth && viewportWidth <= smallDesktopMaxWidth) {
+                            console.log("ldb 2 small");
+                            ldb_bb_2([
+                                [728, 90]
+                            ]);
+                        } else {
+                            console.log("ldb 2 big");
+
+                            ldb_bb_2([
+                                [728, 90],
+                                [970, 90],
+                                [970, 250]
+                            ]);
+                        }
+                    }
+                    /*END: DESKTOP:: leader board 2  size range and ldb_bb_2(sizeArrObj, slotDivId<optional>)*/
+
+                    /*START: TABLET:: Leader Board2 - place ldb2 after bottom of every component except first comp - tablet*/
+                    if (deviceType == 'TABLET') {
+                        repeat_ldb_bb_ad_section_comp();
+                    }
+                    /*END: TABLET:: Leader Board2 - place ldb2 after bottom of every component except first comp - tablet*/
+
+                    /*START: MOBILE:: leader board 1 size range and ldb_bb_1(sizeArrObj, slotDivId<optional>)*/
+                    if (deviceType == 'MOBILE') {
+                        ldb_bb_1([
+                            [320, 50]
+                        ], 'div-gpt-ad-ldb-bb-mobile-sticky-1');
+                    }
+                    /*END: MOBILE:: leader board 1 size range and ldb_bb_1(sizeArrObj, slotDivId<optional>)*/
+
+
+                    /*START:  MOBILE:: leader board 2 mobile size range and ldb_bb_2(sizeArrObj, slotDivId<optional>)*/
+                    if (deviceType == 'MOBILE') {
+                        ldb_bb_2([
+                            [320, 50]
+                        ], 'div-gpt-ad-ldb-bb-mobile-2');
+                    }
+                    /*END:  MOBILE:: leader board 2 mobile size range and ldb_bb_2(sizeArrObj, slotDivId<optional>)*/
+
+
+                    /*START: Video Widget mpu1 desktop size range and mpu_1(sizeArrObj, slotDivId<must>)*/
+                    if (deviceType == 'DESKTOP') {
+                        mpu_1([
+                            [300, 250]
+                        ], 'div-gpt-ad-mpu-video-wgt-desktop-1');
+                    }
+                    /*END: Video Widget mpu1 desktop size range and mpu_1(sizeArrObj, slotDivId<must>)*/
+
+                    /*START: MOBILE:: show HALFPAGE after 2nd , 4th, 5th 6th component and after 1st in sidebar compoenent*/
+                    if (deviceType == 'MOBILE') {
+                        repeat_halfpage_section_comp();
+                    }
+                    /*END: MOBILE:: show HALFPAGE after 2nd , 4th, 5th 6th component and after 1st in sidebar compoenent*/
+
+                    break;
+
+                case "Article":
+
+                    /*START: DESKTOP:: leader board 1  size range and ldb_bb_1(sizeArrObj, slotDivId<optional>)*/
+                    if (deviceType == 'DESKTOP') {
+                        ldb_bb_1([
+                            [728, 90],
+                            [970, 90],
+                            [970, 250]
+                        ]);
+                    }
+                    /*END: DESKTOP:: leader board 1  size range and ldb_bb_1(sizeArrObj, slotDivId<optional>)*/
+
+                    /*START: TABLET:: leader board 1  size range and ldb_bb_1(sizeArrObj, slotDivId<optional>)*/
+                    if (deviceType == 'TABLET') {
+                        ldb_bb_1([
+                            [728, 90]
+                        ], 'div-gpt-ad-ldb-bb-tablet-1');
+                    }
+                    /*END: TABLET:: leader board 1  size range and ldb_bb_1(sizeArrObj, slotDivId<optional>)*/
+
+
+                    /*START: MOBILE:: leader board 1 size range and ldb_bb_1(sizeArrObj, slotDivId<optional>)*/
+                    if (deviceType == 'MOBILE') {
+                        ldb_bb_1([
+                            [320, 50]
+                        ], 'div-gpt-ad-ldb-bb-mobile-sticky-1');
+                    }
+                    /*END: MOBILE:: leader board 1 size range and ldb_bb_1(sizeArrObj, slotDivId<optional>)*/
+
+                    break;
+                case "videos":
+
+                    /*START: add the dark background class to body to apply the dark background to the sticky ad*/
+                    jQuery("body").addClass("dark-bg-content");
+                    /*END: add the dark background class to body to apply the dark background to the sticky ad*/
+                    /*START: DESKTOP:: leader board 1  size range and ldb_bb_1(sizeArrObj, slotDivId<optional>)*/
+                    if (deviceType == 'DESKTOP') {
+                        ldb_bb_1([
+                            [728, 90],
+                            [970, 90],
+                            [970, 250]
+                        ]);
+                    }
+                    /*END: DESKTOP:: leader board 1  size range and ldb_bb_1(sizeArrObj, slotDivId<optional>)*/
+
+                    /*START: TABLET:: leader board 1  size range and ldb_bb_1(sizeArrObj, slotDivId<optional>)*/
+                    if (deviceType == 'TABLET') {
+                        ldb_bb_1([
+                            [728, 90]
+                        ], 'div-gpt-ad-ldb-bb-tablet-1');
+                    }
+                    /*END: TABLET:: leader board 1  size range and ldb_bb_1(sizeArrObj, slotDivId<optional>)*/
+
+
+                    /*START: MOBILE:: leader board 1 size range and ldb_bb_1(sizeArrObj, slotDivId<optional>)*/
+                    if (deviceType == 'MOBILE') {
+                        ldb_bb_1([
+                            [320, 50]
+                        ], 'div-gpt-ad-ldb-bb-mobile-sticky-1');
+                    }
+                    /*END: MOBILE:: leader board 1 size range and ldb_bb_1(sizeArrObj, slotDivId<optional>)*/
+
+
+
+                    /*START: Listing page special cases*/
+                    
+                    if (dfpConfig.page == 'VideoListing' ||
+                        dfpConfig.page == 'ImageGalleryListing' ||
+                        dfpConfig.page == 'BlogListing'
+
+                    ) {
+
+                        /*START: MOBILE: Halfpage 1 to 5 after every 6 articles in image blog and video lisitng pages*/
+                        if (deviceType == 'MOBILE'){
+
+                            repeat_blog_image_listing();
+                        }
+                        /*END: MOBILE: Halfpage 1 to 5 after every 6 articles in image blog and video lisitng pages*/
+
+                        /*START: TABLET:: image_gallery, video, blog Listing Pages ad comes in first and third group*/
+                        if (deviceType == 'TABLET') {
+                            ldb_bb_2([
+                                [728, 90]
+                            ], 'div-gpt-ad-ldb-bb-tablet-0');
+
+                            ldb_bb_2([
+                                [728, 90]
+                            ], 'div-gpt-ad-ldb-bb-tablet-2');
+                        }
+                        /*END: TABLET:: image_gallery, video, blog Listing Pages ad comes in first and third group*/
+
+                        /*START: DESKTOP:: halfpage 1 ad comes in image_gallery, video, blog Listing Pages ad comes in third group*/
+                        if (deviceType == 'DESKTOP') {
+                            halfpage_1([
+                                [300, 600]
+                            ], 'div-gpt-ad-halfpage-desktop-ig_vdo_blg-listing-page-1');
+                        }
+                        /*END: DESKTOP:: HAlfpage 1 ad comes in image_gallery, video, blog Listing Pages ad comes in  third group*/
+
+
+
+                    }
+                    /*END: Listing page special cases*/
+
+
+                    /*START: DESKTOP:: show half page/mpu(HM1 Unit) for images, videos, blog, infographic, programs, livestream  detial page*/
+
+                    if (dfpConfig.page == 'ImageGallery' ||
+                        dfpConfig.page == 'Video' ||
+                        dfpConfig.page == 'Blog' ||
+                        dfpConfig.page == 'Program' ||
+                        dfpConfig.page == 'Episode' ||
+                        dfpConfig.page == 'Infographic' ||
+                        dfpConfig.page == 'LiveStream'
+
+                    ) {
+
+                        if (deviceType == 'DESKTOP') {
+                            halfpage_1([
+                                [300, 600],
+                                [300, 250]
+                            ], 'div-gpt-ad-halfpage-detail-pages-desktop-1');
+                        }
+
+                    }
+
+                    /*END: DESKTOP:: show half page/mpu(HM1 Unit) for images, videos, blog, infographic, programs, livestream  detial page*/
+
+                    /*START: MOBILE:: halfpage ad unit1 for image_gallery(before), video(after), infographic(before), episode(after), live stream(after), blog(before) detail page 
+                    at the end of image_gallery, video, infographic, episode body before/after the related articles*/
+                    if (dfpConfig.page == 'ImageGallery' ||
+                        dfpConfig.page == 'Video' ||
+                        dfpConfig.page == 'Episode' ||
+                        dfpConfig.page == 'Infographic' ||
+                        dfpConfig.page == 'Blog' ||
+                        dfpConfig.page == 'LiveStream'
+
+                    ) {
+                        if (deviceType == "MOBILE") {
+                            halfpage_1([
+                                [300, 250]
+                            ], 'div-gpt-ad-halfpage-content-bottom-mobile-1');
+                        }
+                    }
+
+                    /*END: MOBILE:: halfpage ad unit1 for image_gallery(before), video(after), infographic(before), episode(after), live stream(after), blog(before) detail page 
+                    at the end of image_gallery, video, infographic, episode body before/after the related articles*/
+
+
+
+                    /*START: TABLET:: LEADER BOARD 2  for image_gallery(before), video(before), blog(before) , infographic(before), episode(after), live stream(after) detail page 
+                    at the end of image_gallery, video, infographic, episode body before/after the related articles*/
+                    if (dfpConfig.page == 'ImageGallery' ||
+                        dfpConfig.page == 'Video' ||
+                        dfpConfig.page == 'Episode' ||
+                        dfpConfig.page == 'Infographic' ||
+                        dfpConfig.page == 'Blog' ||
+                        dfpConfig.page == 'LiveStream'
+
+                    ) {
+                        if (deviceType == "TABLET") {
+                            ldb_bb_2([
+                                [728, 90]
+                            ], 'div-gpt-ad-ldb-bb-content-tablet-1');
+                        }
+                    }
+
+                    /*END: TABLET:: LEADER BOARD 2  for image_gallery(before), video(before), blog(before) , infographic(before), episode(after), live stream(after) detail page 
+                    at the end of image_gallery, video, infographic, episode body before/after the related articles*/
+
+
+
+
+
+                    break;
+                case "images":
+
+                    /*START: add the dark background class to body to apply the dark background to the sticky ad*/
+                    jQuery("body").addClass("dark-bg-content");
+                    /*END: add the dark background class to body to apply the dark background to the sticky ad*/
+
+                    /*START: DESKTOP:: leader board 1  size range and ldb_bb_1(sizeArrObj, slotDivId<optional>)*/
+                    if (deviceType == 'DESKTOP') {
+                        ldb_bb_1([
+                            [728, 90],
+                            [970, 90],
+                            [970, 250]
+                        ]);
+                    }
+                    /*END: DESKTOP:: leader board 1  size range and ldb_bb_1(sizeArrObj, slotDivId<optional>)*/
+
+                    /*START: TABLET:: leader board 1  size range and ldb_bb_1(sizeArrObj, slotDivId<optional>)*/
+                    if (deviceType == 'TABLET') {
+                        ldb_bb_1([
+                            [728, 90]
+                        ], 'div-gpt-ad-ldb-bb-tablet-1');
+                    }
+                    /*END: TABLET:: leader board 1  size range and ldb_bb_1(sizeArrObj, slotDivId<optional>)*/
+
+
+                    /*START: MOBILE:: leader board 1 size range and ldb_bb_1(sizeArrObj, slotDivId<optional>)*/
+                    if (deviceType == 'MOBILE') {
+                        ldb_bb_1([
+                            [320, 50]
+                        ], 'div-gpt-ad-ldb-bb-mobile-sticky-1');
+                    }
+                    /*END: MOBILE:: leader board 1 size range and ldb_bb_1(sizeArrObj, slotDivId<optional>)*/
+                    /*START: Listing page special cases*/
+                    
+                    if (dfpConfig.page == 'VideoListing' ||
+                        dfpConfig.page == 'ImageGalleryListing' ||
+                        dfpConfig.page == 'BlogListing'
+
+                    ) {
+
+                        /*START: MOBILE: Halfpage 1 to 5 after every 6 articles in image blog and video lisitng pages*/
+                        if (deviceType == 'MOBILE'){
+
+                            repeat_blog_image_listing();
+                        }
+                        /*END: MOBILE: Halfpage 1 to 5 after every 6 articles in image blog and video lisitng pages*/
+
+                        /*START: TABLET:: image_gallery, video, blog Listing Pages ad comes in first and third group*/
+                        if (deviceType == 'TABLET') {
+                            ldb_bb_2([
+                                [728, 90]
+                            ], 'div-gpt-ad-ldb-bb-tablet-0');
+
+                            ldb_bb_2([
+                                [728, 90]
+                            ], 'div-gpt-ad-ldb-bb-tablet-2');
+                        }
+                        /*END: TABLET:: image_gallery, video, blog Listing Pages ad comes in first and third group*/
+                        /*START: DESKTOP:: halfpage 1 ad comes in image_gallery, video, blog Listing Pages ad comes in third group*/
+                        if (deviceType == 'DESKTOP') {
+                            halfpage_1([
+                                [300, 600]
+                            ], 'div-gpt-ad-halfpage-desktop-ig_vdo_blg-listing-page-1');
+                        }
+                        /*END: DESKTOP:: HAlfpage 1 ad comes in image_gallery, video, blog Listing Pages ad comes in  third group*/
+
+                    }
+                    /*END: Listing page special cases*/
+
+                    /*START: DESKTOP:: show half page/mpu(HM1 Unit) for images, videos, blog, infographic, programs, livestream  detial page*/
+
+                    if (dfpConfig.page == 'ImageGallery' ||
+                        dfpConfig.page == 'Video' ||
+                        dfpConfig.page == 'Blog' ||
+                        dfpConfig.page == 'Program' ||
+                        dfpConfig.page == 'Episode' ||
+                        dfpConfig.page == 'Infographic' ||
+                        dfpConfig.page == 'LiveStream'
+
+                    ) {
+
+                        if (deviceType == 'DESKTOP') {
+                            halfpage_1([
+                                [300, 600],
+                                [300, 250]
+                            ], 'div-gpt-ad-halfpage-detail-pages-desktop-1');
+                        }
+
+                    }
+
+                    /*END: DESKTOP:: show half page/mpu(HM1 Unit) for images, videos, blog, infographic, programs, livestream  detial page*/
+
+                    /*START: MOBILE:: halfpage ad unit1 for image_gallery(before), video(after), infographic(before), episode(after), live stream(after), blog(before) detail page 
+                    at the end of image_gallery, video, infographic, episode body before/after the related articles*/
+                    if (dfpConfig.page == 'ImageGallery' ||
+                        dfpConfig.page == 'Video' ||
+                        dfpConfig.page == 'Episode' ||
+                        dfpConfig.page == 'Infographic' ||
+                        dfpConfig.page == 'Blog' ||
+                        dfpConfig.page == 'LiveStream'
+
+                    ) {
+                        if (deviceType == "MOBILE") {
+                            halfpage_1([
+                                [300, 250]
+                            ], 'div-gpt-ad-halfpage-content-bottom-mobile-1');
+                        }
+                    }
+
+                    /*END: MOBILE:: halfpage ad unit1 for image_gallery(before), video(after), infographic(before), episode(after), live stream(after), blog(before) detail page 
+                    at the end of image_gallery, video, infographic, episode body before/after the related articles*/
+
+
+
+                    /*START: TABLET:: LEADER BOARD 2  for image_gallery(before), video(before), blog(before) , infographic(before), episode(after), live stream(after) detail page 
+                    at the end of image_gallery, video, infographic, episode body before/after the related articles*/
+                    if (dfpConfig.page == 'ImageGallery' ||
+                        dfpConfig.page == 'Video' ||
+                        dfpConfig.page == 'Episode' ||
+                        dfpConfig.page == 'Infographic' ||
+                        dfpConfig.page == 'Blog' ||
+                        dfpConfig.page == 'LiveStream'
+
+                    ) {
+                        if (deviceType == "TABLET") {
+                            ldb_bb_2([
+                                [728, 90]
+                            ], 'div-gpt-ad-ldb-bb-content-tablet-1');
+                        }
+                    }
+
+                    /*END: TABLET:: LEADER BOARD 2  for image_gallery(before), video(before), blog(before) , infographic(before), episode(after), live stream(after) detail page 
+                    at the end of image_gallery, video, infographic, episode body before/after the related articles*/
+
+
+
+                    break;
+                case "blog":
+
+                    /*START: DESKTOP:: leader board 1  size range and ldb_bb_1(sizeArrObj, slotDivId<optional>)*/
+                    if (deviceType == 'DESKTOP') {
+                        ldb_bb_1([
+                            [728, 90],
+                            [970, 90],
+                            [970, 250]
+                        ]);
+                    }
+                    /*END: DESKTOP:: leader board 1  size range and ldb_bb_1(sizeArrObj, slotDivId<optional>)*/
+
+                    /*START: TABLET:: leader board 1  size range and ldb_bb_1(sizeArrObj, slotDivId<optional>)*/
+                    if (deviceType == 'TABLET') {
+                        ldb_bb_1([
+                            [728, 90]
+                        ], 'div-gpt-ad-ldb-bb-tablet-1');
+                    }
+                    /*END: TABLET:: leader board 1  size range and ldb_bb_1(sizeArrObj, slotDivId<optional>)*/
+
+
+                    /*START: MOBILE:: leader board 1 size range and ldb_bb_1(sizeArrObj, slotDivId<optional>)*/
+                    if (deviceType == 'MOBILE') {
+                        ldb_bb_1([
+                            [320, 50]
+                        ], 'div-gpt-ad-ldb-bb-mobile-sticky-1');
+                    }
+                    /*END: MOBILE:: leader board 1 size range and ldb_bb_1(sizeArrObj, slotDivId<optional>)*/
+
+                    /*START: Listing page special cases*/
+                    
+                    if (dfpConfig.page == 'VideoListing' ||
+                        dfpConfig.page == 'ImageGalleryListing' ||
+                        dfpConfig.page == 'BlogListing'
+
+                    ) {
+
+                        /*START: MOBILE: Halfpage 1 to 5 after every 6 articles in image blog and video lisitng pages*/
+                        if (deviceType == 'MOBILE'){
+
+                            repeat_blog_image_listing();
+                        }
+                        /*END: MOBILE: Halfpage 1 to 5 after every 6 articles in image blog and video lisitng pages*/
+
+                        /*START: TABLET:: image_gallery, video, blog Listing Pages ad comes in first and third group*/
+                        if (deviceType == 'TABLET') {
+                            ldb_bb_2([
+                                [728, 90]
+                            ], 'div-gpt-ad-ldb-bb-tablet-0');
+
+                            ldb_bb_2([
+                                [728, 90]
+                            ], 'div-gpt-ad-ldb-bb-tablet-2');
+                        }
+                        /*END: TABLET:: image_gallery, video, blog Listing Pages ad comes in first and third group*/
+
+                        /*START: DESKTOP:: halfpage 1 ad comes in image_gallery, video, blog Listing Pages ad comes in third group*/
+                        if (deviceType == 'DESKTOP') {
+                            halfpage_1([
+                                [300, 600]
+                            ], 'div-gpt-ad-halfpage-desktop-ig_vdo_blg-listing-page-1');
+                        }
+                        /*END: DESKTOP:: HAlfpage 1 ad comes in image_gallery, video, blog Listing Pages ad comes in  third group*/
+
+                    }
+                    /*END: Listing page special cases*/
+
+
+                    /*START: Spcial cases Blog Detial page*/
+
+                    /*START: MOBILE:: halfpage ad unit1 for image_gallery(before), video(after), infographic(before), episode(after), live stream(after), blog(before) detail page 
+                    at the end of image_gallery, video, infographic, episode body before/after the related articles*/
+                    if (dfpConfig.page == 'ImageGallery' ||
+                        dfpConfig.page == 'Video' ||
+                        dfpConfig.page == 'Episode' ||
+                        dfpConfig.page == 'Infographic' ||
+                        dfpConfig.page == 'Blog' ||
+                        dfpConfig.page == 'LiveStream'
+
+                    ) {
+                        if (deviceType == "MOBILE") {
+                            halfpage_1([
+                                [300, 250]
+                            ], 'div-gpt-ad-halfpage-content-bottom-mobile-1');
+                        }
+                    }
+
+                    /*END: MOBILE:: halfpage ad unit1 for image_gallery(before), video(after), infographic(before), episode(after), live stream(after), blog(before) detail page 
+                    at the end of image_gallery, video, infographic, episode body before/after the related articles*/
+
+                    /*START: TABLET:: LEADER BOARD 2  for image_gallery(before), video(before), blog(before) , infographic(before), episode(after), live stream(after) detail page 
+                    at the end of image_gallery, video, infographic, episode body before/after the related articles*/
+                    if (dfpConfig.page == 'ImageGallery' ||
+                        dfpConfig.page == 'Video' ||
+                        dfpConfig.page == 'Episode' ||
+                        dfpConfig.page == 'Infographic' ||
+                        dfpConfig.page == 'Blog' ||
+                        dfpConfig.page == 'LiveStream'
+
+                    ) {
+                        if (deviceType == "TABLET") {
+                            ldb_bb_2([
+                                [728, 90]
+                            ], 'div-gpt-ad-ldb-bb-content-tablet-1');
+                        }
+                    }
+
+                    /*END: TABLET:: LEADER BOARD 2  for image_gallery(before), video(before), blog(before) , infographic(before), episode(after), live stream(after) detail page 
+                    at the end of image_gallery, video, infographic, episode body before/after the related articles*/
+
+                    /*START: DESKTOP:: show half page/mpu(HM1 Unit) for images, videos, blog, infographic, programs, livestream  detial page*/
+
+                    if (dfpConfig.page == 'ImageGallery' ||
+                        dfpConfig.page == 'Video' ||
+                        dfpConfig.page == 'Blog' ||
+                        dfpConfig.page == 'Program' ||
+                        dfpConfig.page == 'Episode' ||
+                        dfpConfig.page == 'Infographic' ||
+                        dfpConfig.page == 'LiveStream'
+
+                    ) {
+
+                        if (deviceType == 'DESKTOP') {
+                            halfpage_1([
+                                [300, 600],
+                                [300, 250]
+                            ], 'div-gpt-ad-halfpage-detail-pages-desktop-1');
+                        }
+
+                    }
+
+                    /*END: DESKTOP:: show half page/mpu(HM1 Unit) for images, videos, blog, infographic, programs, livestream  detial page*/
+
+                    /*END: Spcial cases Blog Detial page*/
+
+                    break;
+                case "livestream":
+
+
+                    /*START: add the dark background class to body to apply the dark background to the sticky ad*/
+                    jQuery("body").addClass("dark-bg-content");
+                    /*END: add the dark background class to body to apply the dark background to the sticky ad*/
+
+                    /*START: DESKTOP:: leader board 1  size range and ldb_bb_1(sizeArrObj, slotDivId<optional>)*/
+                    if (deviceType == 'DESKTOP') {
+                        ldb_bb_1([
+                            [728, 90],
+                            [970, 90],
+                            [970, 250]
+                        ]);
+                    }
+                    /*END: DESKTOP:: leader board 1  size range and ldb_bb_1(sizeArrObj, slotDivId<optional>)*/
+
+                    /*START: TABLET:: leader board 1  size range and ldb_bb_1(sizeArrObj, slotDivId<optional>)*/
+                    if (deviceType == 'TABLET') {
+                        ldb_bb_1([
+                            [728, 90]
+                        ], 'div-gpt-ad-ldb-bb-tablet-1');
+                    }
+                    /*END: TABLET:: leader board 1  size range and ldb_bb_1(sizeArrObj, slotDivId<optional>)*/
+
+
+                    /*START: MOBILE:: leader board 1 size range and ldb_bb_1(sizeArrObj, slotDivId<optional>)*/
+                    if (deviceType == 'MOBILE') {
+                        ldb_bb_1([
+                            [320, 50]
+                        ], 'div-gpt-ad-ldb-bb-mobile-sticky-1');
+                    }
+                    /*END: MOBILE:: leader board 1 size range and ldb_bb_1(sizeArrObj, slotDivId<optional>)*/
+
+
+                    /*START: DESKTOP:: show half page/mpu(HM1 Unit) for images, videos, blog, infographic, programs, livestream  detial page*/
+                    if (dfpConfig.page == 'ImageGallery' ||
+                        dfpConfig.page == 'Video' ||
+                        dfpConfig.page == 'Blog' ||
+                        dfpConfig.page == 'Program' ||
+                        dfpConfig.page == 'Episode' ||
+                        dfpConfig.page == 'Infographic' ||
+                        dfpConfig.page == 'LiveStream'
+
+                    ) {
+
+                        if (deviceType == 'DESKTOP') {
+                            halfpage_1([
+                                [300, 600],
+                                [300, 250]
+                            ], 'div-gpt-ad-halfpage-detail-pages-desktop-1');
+                        }
+
+                    }
+                    /*END: DESKTOP:: show half page/mpu(HM1 Unit) for images, videos, blog, infographic, programs, livestream  detial page*/
+
+                    /*START: MOBILE:: halfpage ad unit1 for image_gallery(before), video(after), infographic(before), episode(after), live stream(after), blog(before) detail page 
+                    at the end of image_gallery, video, infographic, episode body before/after the related articles*/
+                    if (dfpConfig.page == 'ImageGallery' ||
+                        dfpConfig.page == 'Video' ||
+                        dfpConfig.page == 'Episode' ||
+                        dfpConfig.page == 'Infographic' ||
+                        dfpConfig.page == 'Blog' ||
+                        dfpConfig.page == 'LiveStream'
+
+                    ) {
+                        if (deviceType == "MOBILE") {
+                            halfpage_1([
+                                [300, 250]
+                            ], 'div-gpt-ad-halfpage-content-bottom-mobile-1');
+                        }
+                    }
+
+                    /*END: MOBILE:: halfpage ad unit1 for image_gallery(before), video(after), infographic(before), episode(after), live stream(after), blog(before) detail page 
+                    at the end of image_gallery, video, infographic, episode body before/after the related articles*/
+
+
+
+                    /*START: TABLET:: LEADER BOARD 2  for image_gallery(before), video(before), blog(before) , infographic(before), episode(after), live stream(after) detail page 
+                    at the end of image_gallery, video, infographic, episode body before/after the related articles*/
+                    if (dfpConfig.page == 'ImageGallery' ||
+                        dfpConfig.page == 'Video' ||
+                        dfpConfig.page == 'Episode' ||
+                        dfpConfig.page == 'Infographic' ||
+                        dfpConfig.page == 'Blog' ||
+                        dfpConfig.page == 'LiveStream'
+
+                    ) {
+                        if (deviceType == "TABLET") {
+                            ldb_bb_2([
+                                [728, 90]
+                            ], 'div-gpt-ad-ldb-bb-content-tablet-1');
+                        }
+                    }
+
+                    /*END: TABLET:: LEADER BOARD 2  for image_gallery(before), video(before), blog(before) , infographic(before), episode(after), live stream(after) detail page 
+                    at the end of image_gallery, video, infographic, episode body before/after the related articles*/
+
+
+
+
+                    break;
+                case "topic":
+
+                    
+
+                    /*START: TABLET:: leader board 1  size range and ldb_bb_1(sizeArrObj, slotDivId<optional>)*/
+                    if (deviceType == 'TABLET') {
+                        ldb_bb_1([
+                            [728, 90]
+                        ], 'div-gpt-ad-ldb-bb-tablet-1');
+                    }
+                    /*END: TABLET:: leader board 1  size range and ldb_bb_1(sizeArrObj, slotDivId<optional>)*/
+
+
+                    /*START: MOBILE:: leader board 1 size range and ldb_bb_1(sizeArrObj, slotDivId<optional>)*/
+                    if (deviceType == 'MOBILE') {
+                        ldb_bb_1([
+                            [320, 50]
+                        ], 'div-gpt-ad-ldb-bb-mobile-sticky-1');
+                    }
+                    /*END: MOBILE:: leader board 1 size range and ldb_bb_1(sizeArrObj, slotDivId<optional>)*/
+
+
+                    /*START: Special cases: Listing Page*/
+                    if (dfpConfig.page == 'TopicListing') {
+                        /*START: DESKTOP:: leader board 1  size range and ldb_bb_1(sizeArrObj, slotDivId<optional>)*/
+                        if (deviceType == 'DESKTOP') {
+                            ldb_bb_1([
+                                [728, 90],
+                                [970, 90],
+                                [970, 250]
+                            ]);
+                        }
+                        /*END: DESKTOP:: leader board 1  size range and ldb_bb_1(sizeArrObj, slotDivId<optional>)*/
+                        /*START: For every eight  item, place the adunits leaderBoard1UnitId and leaderBoard2UnitId aternatively*/
+                        repeat_info_topic_listing_ad(8);
+                        /*END: For every eight  item, place the adunits leaderBoard1UnitId and leaderBoard2UnitId aternatively*/
+                    }
+                    /*END: Special cases:  Listing Page*/
+
+
+                    /*START: Special cases:  Detail Page*/
+                    if (dfpConfig.page == 'Topic') {
+                        /*START: DESKTOP:: leader board 1  size range and ldb_bb_1(sizeArrObj, slotDivId<optional>)*/
+                        if (deviceType == 'DESKTOP') {
+                            ldb_bb_1([
+                                [728, 90],
+                                [970, 90]
+                                // [970, 250]
+                            ]);
+                        }
+                        /*END: DESKTOP:: leader board 1  size range and ldb_bb_1(sizeArrObj, slotDivId<optional>)*/
+                        /*START: MOBILE:: comes after the first article topstories component in topic detail page*/
+                        if (deviceType == "MOBILE") {
+                            halfpage_1([
+                                [300, 250]
+                            ], 'div-gpt-ad-halfpage-content-topic-mobile-1');
+
+                            halfpage_2([
+                                [300, 250]
+                            ], 'div-gpt-ad-halfpage-content-topic-mobile-2');
+                        }
+                        /*END: MOBILE:: comes after the first article topstories component in topic detail page*/
+
+                        /*START: TABLET:: LEADER BOARD 2  topic details(after first articles set)*/
+                        if (deviceType == "TABLET") {
+                            ldb_bb_2([
+                                [320, 50]
+                            ], 'div-gpt-ad-ldb-bb-content-tablet-1');
+                        }
+                        /*END: TABLET:: LEADER BOARD 2  topic details(after first articles set)*/
+
+                         /*START: DESKTOP:: Halfpage inside content in the first article set, embedded that set as topstories comp*/
+                        if (deviceType == "DESKTOP") {
+                            halfpage_1([
+                                [300, 600]
+                            ], 'div-gpt-ad-halfpage-topstories-desktop-1');
+                        }
+                         /*END: DESKTOP:: Halfpage inside content in the first article set, embedded that set as topstories comp*/
+
+
+                    }
+                    /*END: Special cases:  Detail Page*/
+
+                    break;
+                case "infographic":
+
+                    /*START: DESKTOP:: leader board 1  size range and ldb_bb_1(sizeArrObj, slotDivId<optional>)*/
+                    if (deviceType == 'DESKTOP') {
+                        ldb_bb_1([
+                            [728, 90],
+                            [970, 90],
+                            [970, 250]
+                        ]);
+                    }
+                    /*END: DESKTOP:: leader board 1  size range and ldb_bb_1(sizeArrObj, slotDivId<optional>)*/
+
+                    /*START: TABLET:: leader board 1  size range and ldb_bb_1(sizeArrObj, slotDivId<optional>)*/
+                    if (deviceType == 'TABLET') {
+                        ldb_bb_1([
+                            [728, 90]
+                        ], 'div-gpt-ad-ldb-bb-tablet-1');
+                    }
+                    /*END: TABLET:: leader board 1  size range and ldb_bb_1(sizeArrObj, slotDivId<optional>)*/
+
+
+                    /*START: MOBILE:: leader board 1 size range and ldb_bb_1(sizeArrObj, slotDivId<optional>)*/
+                    if (deviceType == 'MOBILE') {
+                        ldb_bb_1([
+                            [320, 50]
+                        ], 'div-gpt-ad-ldb-bb-mobile-sticky-1');
+                    }
+                    /*END: MOBILE:: leader board 1 size range and ldb_bb_1(sizeArrObj, slotDivId<optional>)*/
+
+                    /*START: Special cases:  Listing Page*/
+                    if (dfpConfig.page == 'InfographicListing') {
+
+                        /*START: For every eight  item, place the adunits leaderBoard1UnitId and leaderBoard2UnitId aternatively*/
+                        repeat_info_topic_listing_ad(8);
+                        /*END: For every eight  item, place the adunits leaderBoard1UnitId and leaderBoard2UnitId aternatively*/
+
+                    }
+                    /*END: Special cases:  Listing Page*/
+
+                    /*START: DESKTOP:: show half page/mpu(HM1 Unit) for images, videos, blog, infographic, programs, livestream  detial page*/
+
+                    if (dfpConfig.page == 'ImageGallery' ||
+                        dfpConfig.page == 'Video' ||
+                        dfpConfig.page == 'Blog' ||
+                        dfpConfig.page == 'Program' ||
+                        dfpConfig.page == 'Episode' ||
+                        dfpConfig.page == 'Infographic' ||
+                        dfpConfig.page == 'LiveStream'
+
+                    ) {
+
+                        if (deviceType == 'DESKTOP') {
+                            halfpage_1([
+                                [300, 600],
+                                [300, 250]
+                            ], 'div-gpt-ad-halfpage-detail-pages-desktop-1');
+                        }
+
+                    }
+
+                    /*END: DESKTOP:: show half page/mpu(HM1 Unit) for images, videos, blog, infographic, programs, livestream  detial page*/
+
+                    /*START: MOBILE:: halfpage ad unit1 for image_gallery(before), video(after), infographic(before), episode(after), live stream(after), blog(before) detail page 
+                    at the end of image_gallery, video, infographic, episode body before/after the related articles*/
+                    if (dfpConfig.page == 'ImageGallery' ||
+                        dfpConfig.page == 'Video' ||
+                        dfpConfig.page == 'Episode' ||
+                        dfpConfig.page == 'Infographic' ||
+                        dfpConfig.page == 'Blog' ||
+                        dfpConfig.page == 'LiveStream'
+
+                    ) {
+                        if (deviceType == "MOBILE") {
+                            halfpage_1([
+                                [300, 250]
+                            ], 'div-gpt-ad-halfpage-content-bottom-mobile-1');
+                        }
+                    }
+
+                    /*END: MOBILE:: halfpage ad unit1 for image_gallery(before), video(after), infographic(before), episode(after), live stream(after), blog(before) detail page 
+                    at the end of image_gallery, video, infographic, episode body before/after the related articles*/
+
+
+
+                    /*START: TABLET:: LEADER BOARD 2  for image_gallery(before), video(before), blog(before) , infographic(before), episode(after), live stream(after) detail page 
+                    at the end of image_gallery, video, infographic, episode body before/after the related articles*/
+                    if (dfpConfig.page == 'ImageGallery' ||
+                        dfpConfig.page == 'Video' ||
+                        dfpConfig.page == 'Episode' ||
+                        dfpConfig.page == 'Infographic' ||
+                        dfpConfig.page == 'Blog' ||
+                        dfpConfig.page == 'LiveStream'
+
+                    ) {
+                        if (deviceType == "TABLET") {
+                            ldb_bb_2([
+                                [728, 90]
+                            ], 'div-gpt-ad-ldb-bb-content-tablet-1');
+                        }
+                    }
+
+                    /*END: TABLET:: LEADER BOARD 2  for image_gallery(before), video(before), blog(before) , infographic(before), episode(after), live stream(after) detail page 
+                    at the end of image_gallery, video, infographic, episode body before/after the related articles*/
+
+
+
+                    break;
+
+                case "programs":
+
+                    /*START: add the dark background class to body to apply the dark background to the sticky ad*/
+                    jQuery("body").addClass("darker-bg-content");
+                    /*END: add the dark background class to body to apply the dark background to the sticky ad*/
+                    
+                    /*START: DESKTOP:: leader board 1  size range and ldb_bb_1(sizeArrObj, slotDivId<optional>)*/
+                    if (deviceType == 'DESKTOP') {
+                        ldb_bb_1([
+                            [728, 90],
+                            [970, 90],
+                            [970, 250]
+                        ]);
+                    }
+                    /*END: DESKTOP:: leader board 1  size range and ldb_bb_1(sizeArrObj, slotDivId<optional>)*/
+
+                    /*START: TABLET:: leader board 1  size range and ldb_bb_1(sizeArrObj, slotDivId<optional>)*/
+                    if (deviceType == 'TABLET') {
+                        ldb_bb_1([
+                            [728, 90]
+                        ], 'div-gpt-ad-ldb-bb-tablet-1');
+                    }
+                    /*END: TABLET:: leader board 1  size range and ldb_bb_1(sizeArrObj, slotDivId<optional>)*/
+
+
+                    /*START: MOBILE:: leader board 1 size range and ldb_bb_1(sizeArrObj, slotDivId<optional>)*/
+                    if (deviceType == 'MOBILE') {
+                        ldb_bb_1([
+                            [320, 50]
+                        ], 'div-gpt-ad-ldb-bb-mobile-sticky-1');
+                    }
+                    /*END: MOBILE:: leader board 1 size range and ldb_bb_1(sizeArrObj, slotDivId<optional>)*/
+
+                    /*START: Special cases: Program Listing Page*/
+                    if (dfpConfig.page == 'ProgramListing') {
+
+                        /*START: Leader Board2 - desktop*/
+                        if (deviceType == 'DESKTOP') {
+                            ldb_bb_2([
+                                [728, 90],
+                                [970, 90],
+                                [970, 250]
+                            ]);
+                        }
+                        /*END: Leader Board2 - desktop*/
+
+
+                        /*START: TABLET:: Leader Board2 - tablet*/
+                        if (deviceType == 'TABLET') {
+                            ldb_bb_2([
+                                [728, 90]
+                            ], 'div-gpt-ad-ldb-bb-tablet-2');
+                        }
+                        /*END: TABLET:: Leader Board2 - tablet*/
+
+                        /*START: MOBILE:: Leader Board2 - MOBILE*/
+                        if (deviceType == 'MOBILE') {
+                            halfpage_1([
+                                [300, 250]
+                            ], 'div-gpt-ad-halfpage-listing-mobile-1');
+
+                            halfpage_2([
+                                [300, 250]
+                            ], 'div-gpt-ad-halfpage-listing-mobile-2');
+                        }
+                        /*END: MOBILE:: Leader Board2 - MOBILE*/
+
+                        /*START:  MOBILE:: leader board 2 mobile size range and ldb_bb_2(sizeArrObj, slotDivId<optional>)*/
+                        if (deviceType == 'MOBILE') {
+                            ldb_bb_2([
+                                [320, 50]
+                            ], 'div-gpt-ad-ldb-bb-mobile-2');
+                        }
+                        /*END:  MOBILE:: leader board 2 mobile size range and ldb_bb_2(sizeArrObj, slotDivId<optional>)*/
+
+
+                    }
+                    /*END: Special cases: Program Listing Page*/
+
+                    
+                    /*START: Special Cases: Program Detail Page*/
+                    if (dfpConfig.page == 'Program') {
+
+                        /*START: MOBILE:: HM1 comes after the fourth item in program detail page before the load more button*/
+                        
+                        if (deviceType == 'MOBILE') {
+                            halfpage_1([
+                                [300, 250]
+                            ], 'div-gpt-ad-halfpage-mobile-1');
+                        }
+                        /*END: MOBILE:: HM1 comes after the fourth item in program detail page before the load more button*/
+
+                    }
+                    /*END: Special Cases: Program Detail Page*/
+                    /*START: DESKTOP:: show half page/mpu(HM1 Unit) for images, videos, blog, infographic, programs, livestream  detial page*/
+
+                    if (dfpConfig.page == 'ImageGallery' ||
+                        dfpConfig.page == 'Video' ||
+                        dfpConfig.page == 'Blog' ||
+                        dfpConfig.page == 'Program' ||
+                        dfpConfig.page == 'Episode' ||
+                        dfpConfig.page == 'Infographic' ||
+                        dfpConfig.page == 'LiveStream'
+
+                    ) {
+                        if (deviceType == 'DESKTOP') {
+                            halfpage_1([
+                                [300, 600],
+                                [300, 250]
+                            ], 'div-gpt-ad-halfpage-detail-pages-desktop-1');
+                        }
+                    }
+
+                    /*END: DESKTOP:: show half page/mpu(HM1 Unit) for images, videos, blog, infographic, programs, livestream  detial page*/
+
+                    /*START: MOBILE:: halfpage ad unit1 for image_gallery(before), video(after), infographic(before), episode(after), live stream(after), blog(before) detail page 
+                    at the end of image_gallery, video, infographic, episode body before/after the related articles*/
+                    if (dfpConfig.page == 'ImageGallery' ||
+                        dfpConfig.page == 'Video' ||
+                        dfpConfig.page == 'Episode' ||
+                        dfpConfig.page == 'Infographic' ||
+                        dfpConfig.page == 'Blog' ||
+                        dfpConfig.page == 'LiveStream'
+
+                    ) {
+                        if (deviceType == "MOBILE") {
+                            halfpage_1([
+                                [300, 250]
+                            ], 'div-gpt-ad-halfpage-content-bottom-mobile-1');
+                        }
+                    }
+
+                    /*END: MOBILE:: halfpage ad unit1 for image_gallery(before), video(after), infographic(before), episode(after), live stream(after), blog(before) detail page 
+                    at the end of image_gallery, video, infographic, episode body before/after the related articles*/
+
+
+
+                    /*START: TABLET:: LEADER BOARD 2  for image_gallery(before), video(before), blog(before) , infographic(before), episode(after), live stream(after) detail page 
+                    at the end of image_gallery, video, infographic, episode body before/after the related articles*/
+                    if (dfpConfig.page == 'ImageGallery' ||
+                        dfpConfig.page == 'Video' ||
+                        dfpConfig.page == 'Episode' ||
+                        dfpConfig.page == 'Infographic' ||
+                        dfpConfig.page == 'Blog' ||
+                        dfpConfig.page == 'LiveStream'
+
+                    ) {
+                        if (deviceType == "TABLET") {
+                            ldb_bb_2([
+                                [728, 90]
+                            ], 'div-gpt-ad-ldb-bb-content-tablet-1');
+                        }
+                    }
+
+                    /*END: TABLET:: LEADER BOARD 2  for image_gallery(before), video(before), blog(before) , infographic(before), episode(after), live stream(after) detail page 
+                    at the end of image_gallery, video, infographic, episode body before/after the related articles*/
+
+                    /*START: TABLET:: LEADER BOARD 2  program details(after featured episode)*/
+                    if (dfpConfig.page == 'Program') {
+                        if (deviceType == "TABLET") {
+                            ldb_bb_2([
+                                [320, 50]
+                            ], 'div-gpt-ad-ldb-bb-content-tablet-1');
+                        }
+                    }
+                    /*END: TABLET:: LEADER BOARD 2  program details(after featured episode)*/
+
+
+
+                    break;
+                case "sport":
+
+                    /*START: DESKTOP:: leader board 1  size range and ldb_bb_1(sizeArrObj, slotDivId<optional>)*/
+                    if (deviceType == 'DESKTOP') {
+                        ldb_bb_1([
+                            [728, 90],
+                            [970, 90],
+                            [970, 250]
+                        ]);
+                    }
+                    /*END: DESKTOP:: leader board 1  size range and ldb_bb_1(sizeArrObj, slotDivId<optional>)*/
+
+                    /*START: TABLET:: leader board 1  size range and ldb_bb_1(sizeArrObj, slotDivId<optional>)*/
+                    if (deviceType == 'TABLET') {
+                        ldb_bb_1([
+                            [728, 90]
+                        ], 'div-gpt-ad-ldb-bb-tablet-1');
+                    }
+                    /*END: TABLET:: leader board 1  size range and ldb_bb_1(sizeArrObj, slotDivId<optional>)*/
+
+
+                    /*START: MOBILE:: leader board 1 size range and ldb_bb_1(sizeArrObj, slotDivId<optional>)*/
+                    if (deviceType == 'MOBILE') {
+                        ldb_bb_1([
+                            [320, 50]
+                        ], 'div-gpt-ad-ldb-bb-mobile-sticky-1');
+                    }
+                    /*END: MOBILE:: leader board 1 size range and ldb_bb_1(sizeArrObj, slotDivId<optional>)*/
+
+                    /*START: Match competition and team detail page exclude*/
+                    if (dfpConfig.page == 'MatchDetail' || dfpConfig.page == 'TeamDetail' || dfpConfig.page == 'CompetitionDetail') {
+                        break; 
+                    }
+                    /*END: Match competition and team detail page exclude*/
+
+                    /*START: Article Page ads Special cases*/
+                    if (dfpConfig.page == 'Article') {
+                        articlePageAds();
+                        break; // For article page we need to show only desktop and mobile leader board 1 unit and repeat the logic
+                    }
+                    /*END: Article Page ads Special cases*/
+
+
+                    /*START: For Other Section pages than article page*/
+
+                    /*START: DESKTOP::  halfpage 1 and halfpage 2 in topstories 3rd and 5th topstories component*/
+                    if (deviceType == 'DESKTOP') {
+                        section_topstories_dfp_ad();
+                    }
+                    /*END: DESKTOP::  halfpage 1 and halfpage 2 in topstories 3rd and 5th topstories component*/
+
+                    /*START: DESKTOP:: leader board 2  size range and ldb_bb_2(sizeArrObj, slotDivId<optional>)*/
+                    if (deviceType == 'DESKTOP') {
+                        if (viewportWidth >= smallDesktopMinWidth && viewportWidth <= smallDesktopMaxWidth) {
+                            console.log("ldb 2 small");
+                            ldb_bb_2([
+                                [728, 90]
+                            ]);
+                        } else {
+                            console.log("ldb 2 big");
+
+                            ldb_bb_2([
+                                [728, 90],
+                                [970, 90],
+                                [970, 250]
+                            ]);
+                        }
+                    }
+                    /*END: DESKTOP:: leader board 2  size range and ldb_bb_2(sizeArrObj, slotDivId<optional>)*/
+
+                    /*START: TABLET:: Leader Board2 - place ldb2 after bottom of every component except first comp - tablet*/
+                    if (deviceType == 'TABLET') {
+                        repeat_ldb_bb_ad_section_comp();
+                    }
+                    /*END: TABLET:: Leader Board2 - place ldb2 after bottom of every component except first comp - tablet*/
+
+                    /*START:  MOBILE:: leader board 2 mobile size range and ldb_bb_2(sizeArrObj, slotDivId<optional>)*/
+                    if (deviceType == 'MOBILE') {
+                        ldb_bb_2([
+                            [320, 50]
+                        ], 'div-gpt-ad-ldb-bb-mobile-2');
+                    }
+                    /*END:  MOBILE:: leader board 2 mobile size range and ldb_bb_2(sizeArrObj, slotDivId<optional>)*/
+
+
+
+                    /*START: DESKTOP:: show mpu() for the sidebar in all sections except homepage*/
+                    if (deviceType == 'DESKTOP') {
+                        mpu_1([
+                            [300, 250]
+                        ], 'div-gpt-ad-mpu-sidebar-desktop-1');
+                    }
+                    /*END: DESKTOP:: show mpu() for the sidebar in all sections except homepage*/
+
+                    /*START: MOBILE:: show HALFPAGE after 2nd , 4th, 5th 6th component and after 1st in sidebar compoenent*/
+                    if (deviceType == 'MOBILE') {
+                        repeat_halfpage_section_comp();
+                    }
+                    /*END: MOBILE:: show HALFPAGE after 2nd , 4th, 5th 6th component and after 1st in sidebar compoenent*/
+
+
+                    /*END: For Other Section pages than article page*/
+
+                    break;
+
+
+                case "business":
+
+                    /*START: DESKTOP:: leader board 1  size range and ldb_bb_1(sizeArrObj, slotDivId<optional>)*/
+                    if (deviceType == 'DESKTOP') {
+                        ldb_bb_1([
+                            [728, 90],
+                            [970, 90],
+                            [970, 250]
+                        ]);
+                    }
+                    /*END: DESKTOP:: leader board 1  size range and ldb_bb_1(sizeArrObj, slotDivId<optional>)*/
+
+                    /*START: TABLET:: leader board 1  size range and ldb_bb_1(sizeArrObj, slotDivId<optional>)*/
+                    if (deviceType == 'TABLET') {
+                        ldb_bb_1([
+                            [728, 90]
+                        ], 'div-gpt-ad-ldb-bb-tablet-1');
+                    }
+                    /*END: TABLET:: leader board 1  size range and ldb_bb_1(sizeArrObj, slotDivId<optional>)*/
+
+
+                    /*START: MOBILE:: leader board 1 size range and ldb_bb_1(sizeArrObj, slotDivId<optional>)*/
+                    if (deviceType == 'MOBILE') {
+                        ldb_bb_1([
+                            [320, 50]
+                        ], 'div-gpt-ad-ldb-bb-mobile-sticky-1');
+                    }
+                    /*END: MOBILE:: leader board 1 size range and ldb_bb_1(sizeArrObj, slotDivId<optional>)*/
+
+                    /*START: market detail page exclude*/
+                    if (dfpConfig.page == 'MarketDetail') {
+                        break; 
+                    }
+                    /*END: market page exclude*/
+
+                    /*START: Article Page ads Special cases*/
+                    if (dfpConfig.page == 'Article') {
+                        articlePageAds();
+                        break; // For article page we need to show only desktop and mobile leader board 1 unit and repeat the logic
+                    }
+                    /*END: Article Page ads Special cases*/
+
+
+                    /*START: For Other Section pages than article page*/
+
+                    /*START: DESKTOP::  halfpage 1 and halfpage 2 in topstories 3rd and 5th topstories component*/
+                    if (deviceType == 'DESKTOP') {
+                        section_topstories_dfp_ad();
+                    }
+                    /*END: DESKTOP::  halfpage 1 and halfpage 2 in topstories 3rd and 5th topstories component*/
+
+                    /*START: DESKTOP:: leader board 2  size range and ldb_bb_2(sizeArrObj, slotDivId<optional>)*/
+                    if (deviceType == 'DESKTOP') {
+                        if (viewportWidth >= smallDesktopMinWidth && viewportWidth <= smallDesktopMaxWidth) {
+                            console.log("ldb 2 small");
+                            ldb_bb_2([
+                                [728, 90]
+                            ]);
+                        } else {
+                            console.log("ldb 2 big");
+
+                            ldb_bb_2([
+                                [728, 90],
+                                [970, 90],
+                                [970, 250]
+                            ]);
+                        }
+                    }
+                    /*END: DESKTOP:: leader board 2  size range and ldb_bb_2(sizeArrObj, slotDivId<optional>)*/
+
+                    /*START: TABLET:: Leader Board2 - place ldb2 after bottom of every component except first comp - tablet*/
+                    if (deviceType == 'TABLET') {
+                        repeat_ldb_bb_ad_section_comp();
+                    }
+                    /*END: TABLET:: Leader Board2 - place ldb2 after bottom of every component except first comp - tablet*/
+
+                    /*START:  MOBILE:: leader board 2 mobile size range and ldb_bb_2(sizeArrObj, slotDivId<optional>)*/
+                    if (deviceType == 'MOBILE') {
+                        ldb_bb_2([
+                            [320, 50]
+                        ], 'div-gpt-ad-ldb-bb-mobile-2');
+                    }
+                    /*END:  MOBILE:: leader board 2 mobile size range and ldb_bb_2(sizeArrObj, slotDivId<optional>)*/
+
+
+
+                    /*START: DESKTOP:: show mpu() for the sidebar in all sections except homepage*/
+                    if (deviceType == 'DESKTOP') {
+                        mpu_1([
+                            [300, 250]
+                        ], 'div-gpt-ad-mpu-sidebar-desktop-1');
+                    }
+                    /*END: DESKTOP:: show mpu() for the sidebar in all sections except homepage*/
+
+
+                    /*START: MOBILE:: show HALFPAGE after 2nd , 4th, 5th 6th component and after 1st in sidebar compoenent*/
+                    if (deviceType == 'MOBILE') {
+                        repeat_halfpage_section_comp();
+                    }
+                    /*END: MOBILE:: show HALFPAGE after 2nd , 4th, 5th 6th component and after 1st in sidebar compoenent*/
+
+
+                    /*END: For Other Section pages than article page*/
+                    break;
+                case "middle-east":
+
+                    /*START: DESKTOP:: leader board 1  size range and ldb_bb_1(sizeArrObj, slotDivId<optional>)*/
+                    if (deviceType == 'DESKTOP') {
+                        ldb_bb_1([
+                            [728, 90],
+                            [970, 90],
+                            [970, 250]
+                        ]);
+                    }
+                    /*END: DESKTOP:: leader board 1  size range and ldb_bb_1(sizeArrObj, slotDivId<optional>)*/
+
+                    /*START: TABLET:: leader board 1  size range and ldb_bb_1(sizeArrObj, slotDivId<optional>)*/
+                    if (deviceType == 'TABLET') {
+                        ldb_bb_1([
+                            [728, 90]
+                        ], 'div-gpt-ad-ldb-bb-tablet-1');
+                    }
+                    /*END: TABLET:: leader board 1  size range and ldb_bb_1(sizeArrObj, slotDivId<optional>)*/
+
+
+                    /*START: MOBILE:: leader board 1 size range and ldb_bb_1(sizeArrObj, slotDivId<optional>)*/
+                    if (deviceType == 'MOBILE') {
+                        ldb_bb_1([
+                            [320, 50]
+                        ], 'div-gpt-ad-ldb-bb-mobile-sticky-1');
+                    }
+                    /*END: MOBILE:: leader board 1 size range and ldb_bb_1(sizeArrObj, slotDivId<optional>)*/
+
+
+                    /*START: Article Page ads Special cases*/
+                    if (dfpConfig.page == 'Article') {
+                        articlePageAds();
+                        break; // For article page we need to show only desktop and mobile leader board 1 unit and repeat the logic
+                    }
+                    /*END: Article Page ads Special cases*/
+
+
+                    /*START: For Other Section pages than article page*/
+
+                    /*START: DESKTOP::  halfpage 1 and halfpage 2 in topstories 3rd and 5th topstories component*/
+                    if (deviceType == 'DESKTOP') {
+                        section_topstories_dfp_ad();
+                    }
+                    /*END: DESKTOP::  halfpage 1 and halfpage 2 in topstories 3rd and 5th topstories component*/
+
+                    /*START: DESKTOP:: leader board 2  size range and ldb_bb_2(sizeArrObj, slotDivId<optional>)*/
+                    if (deviceType == 'DESKTOP') {
+                        if (viewportWidth >= smallDesktopMinWidth && viewportWidth <= smallDesktopMaxWidth) {
+                            console.log("ldb 2 small");
+                            ldb_bb_2([
+                                [728, 90]
+                            ]);
+                        } else {
+                            console.log("ldb 2 big");
+
+                            ldb_bb_2([
+                                [728, 90],
+                                [970, 90],
+                                [970, 250]
+                            ]);
+                        }
+                    }
+                    /*END: DESKTOP:: leader board 2  size range and ldb_bb_2(sizeArrObj, slotDivId<optional>)*/
+
+                    /*START: TABLET:: Leader Board2 - place ldb2 after bottom of every component except first comp - tablet*/
+                    if (deviceType == 'TABLET') {
+                        repeat_ldb_bb_ad_section_comp();
+                    }
+                    /*END: TABLET:: Leader Board2 - place ldb2 after bottom of every component except first comp - tablet*/
+
+                    /*START:  MOBILE:: leader board 2 mobile size range and ldb_bb_2(sizeArrObj, slotDivId<optional>)*/
+                    if (deviceType == 'MOBILE') {
+                        ldb_bb_2([
+                            [320, 50]
+                        ], 'div-gpt-ad-ldb-bb-mobile-2');
+                    }
+                    /*END:  MOBILE:: leader board 2 mobile size range and ldb_bb_2(sizeArrObj, slotDivId<optional>)*/
+
+
+
+                    /*START: DESKTOP:: show mpu() for the sidebar in all sections except homepage*/
+                    if (deviceType == 'DESKTOP') {
+                        mpu_1([
+                            [300, 250]
+                        ], 'div-gpt-ad-mpu-sidebar-desktop-1');
+                    }
+                    /*END: DESKTOP:: show mpu() for the sidebar in all sections except homepage*/
+
+                    /*START: MOBILE:: show HALFPAGE after 2nd , 4th, 5th 6th component and after 1st in sidebar compoenent*/
+                    if (deviceType == 'MOBILE') {
+                        repeat_halfpage_section_comp();
+                    }
+                    /*END: MOBILE:: show HALFPAGE after 2nd , 4th, 5th 6th component and after 1st in sidebar compoenent*/
+
+
+                    /*END: For Other Section pages than article page*/
+                    break;
+                case "world":
+
+                    /*START: DESKTOP:: leader board 1  size range and ldb_bb_1(sizeArrObj, slotDivId<optional>)*/
+                    if (deviceType == 'DESKTOP') {
+                        ldb_bb_1([
+                            [728, 90],
+                            [970, 90],
+                            [970, 250]
+                        ]);
+                    }
+                    /*END: DESKTOP:: leader board 1  size range and ldb_bb_1(sizeArrObj, slotDivId<optional>)*/
+
+                    /*START: TABLET:: leader board 1  size range and ldb_bb_1(sizeArrObj, slotDivId<optional>)*/
+                    if (deviceType == 'TABLET') {
+                        ldb_bb_1([
+                            [728, 90]
+                        ], 'div-gpt-ad-ldb-bb-tablet-1');
+                    }
+                    /*END: TABLET:: leader board 1  size range and ldb_bb_1(sizeArrObj, slotDivId<optional>)*/
+
+
+                    /*START: MOBILE:: leader board 1 size range and ldb_bb_1(sizeArrObj, slotDivId<optional>)*/
+                    if (deviceType == 'MOBILE') {
+                        ldb_bb_1([
+                            [320, 50]
+                        ], 'div-gpt-ad-ldb-bb-mobile-sticky-1');
+                    }
+                    /*END: MOBILE:: leader board 1 size range and ldb_bb_1(sizeArrObj, slotDivId<optional>)*/
+
+
+                    /*START: Article Page ads Special cases*/
+                    if (dfpConfig.page == 'Article') {
+                        articlePageAds();
+                        break; // For article page we need to show only desktop and mobile leader board 1 unit and repeat the logic
+                    }
+                    /*END: Article Page ads Special cases*/
+
+
+                    /*START: For Other Section pages than article page*/
+
+                    /*START: DESKTOP::  halfpage 1 and halfpage 2 in topstories 3rd and 5th topstories component*/
+                    if (deviceType == 'DESKTOP') {
+                        section_topstories_dfp_ad();
+                    }
+                    /*END: DESKTOP::  halfpage 1 and halfpage 2 in topstories 3rd and 5th topstories component*/
+
+                    /*START: DESKTOP:: leader board 2  size range and ldb_bb_2(sizeArrObj, slotDivId<optional>)*/
+                    if (deviceType == 'DESKTOP') {
+                        if (viewportWidth >= smallDesktopMinWidth && viewportWidth <= smallDesktopMaxWidth) {
+                            console.log("ldb 2 small");
+                            ldb_bb_2([
+                                [728, 90]
+                            ]);
+                        } else {
+                            console.log("ldb 2 big");
+
+                            ldb_bb_2([
+                                [728, 90],
+                                [970, 90],
+                                [970, 250]
+                            ]);
+                        }
+                    }
+                    /*END: DESKTOP:: leader board 2  size range and ldb_bb_2(sizeArrObj, slotDivId<optional>)*/
+
+                    /*START: TABLET:: Leader Board2 - place ldb2 after bottom of every component except first comp - tablet*/
+                    if (deviceType == 'TABLET') {
+                        repeat_ldb_bb_ad_section_comp();
+                    }
+                    /*END: TABLET:: Leader Board2 - place ldb2 after bottom of every component except first comp - tablet*/
+
+                    /*START:  MOBILE:: leader board 2 mobile size range and ldb_bb_2(sizeArrObj, slotDivId<optional>)*/
+                    if (deviceType == 'MOBILE') {
+                        ldb_bb_2([
+                            [320, 50]
+                        ], 'div-gpt-ad-ldb-bb-mobile-2');
+                    }
+                    /*END:  MOBILE:: leader board 2 mobile size range and ldb_bb_2(sizeArrObj, slotDivId<optional>)*/
+
+
+
+                    /*START: DESKTOP:: show mpu() for the sidebar in all sections except homepage*/
+                    if (deviceType == 'DESKTOP') {
+                        mpu_1([
+                            [300, 250]
+                        ], 'div-gpt-ad-mpu-sidebar-desktop-1');
+                    }
+                    /*END: DESKTOP:: show mpu() for the sidebar in all sections except homepage*/
+
+                    /*START: MOBILE:: show HALFPAGE after 2nd , 4th, 5th 6th component and after 1st in sidebar compoenent*/
+                    if (deviceType == 'MOBILE') {
+                        repeat_halfpage_section_comp();
+                    }
+                    /*END: MOBILE:: show HALFPAGE after 2nd , 4th, 5th 6th component and after 1st in sidebar compoenent*/
+
+
+                    /*END: For Other Section pages than article page*/
+                    break;
+                case "technology":
+
+                    /*START: DESKTOP:: leader board 1  size range and ldb_bb_1(sizeArrObj, slotDivId<optional>)*/
+                    if (deviceType == 'DESKTOP') {
+                        ldb_bb_1([
+                            [728, 90],
+                            [970, 90],
+                            [970, 250]
+                        ]);
+                    }
+                    /*END: DESKTOP:: leader board 1  size range and ldb_bb_1(sizeArrObj, slotDivId<optional>)*/
+
+                    /*START: TABLET:: leader board 1  size range and ldb_bb_1(sizeArrObj, slotDivId<optional>)*/
+                    if (deviceType == 'TABLET') {
+                        ldb_bb_1([
+                            [728, 90]
+                        ], 'div-gpt-ad-ldb-bb-tablet-1');
+                    }
+                    /*END: TABLET:: leader board 1  size range and ldb_bb_1(sizeArrObj, slotDivId<optional>)*/
+
+
+                    /*START: MOBILE:: leader board 1 size range and ldb_bb_1(sizeArrObj, slotDivId<optional>)*/
+                    if (deviceType == 'MOBILE') {
+                        ldb_bb_1([
+                            [320, 50]
+                        ], 'div-gpt-ad-ldb-bb-mobile-sticky-1');
+                    }
+                    /*END: MOBILE:: leader board 1 size range and ldb_bb_1(sizeArrObj, slotDivId<optional>)*/
+
+
+                    /*START: Article Page ads Special cases*/
+                    if (dfpConfig.page == 'Article') {
+                        articlePageAds();
+                        break; // For article page we need to show only desktop and mobile leader board 1 unit and repeat the logic
+                    }
+                    /*END: Article Page ads Special cases*/
+
+
+                    /*START: For Other Section pages than article page*/
+
+                    /*START: DESKTOP::  halfpage 1 and halfpage 2 in topstories 3rd and 5th topstories component*/
+                    if (deviceType == 'DESKTOP') {
+                        section_topstories_dfp_ad();
+                    }
+                    /*END: DESKTOP::  halfpage 1 and halfpage 2 in topstories 3rd and 5th topstories component*/
+
+                    /*START: DESKTOP:: leader board 2  size range and ldb_bb_2(sizeArrObj, slotDivId<optional>)*/
+                    if (deviceType == 'DESKTOP') {
+                        if (viewportWidth >= smallDesktopMinWidth && viewportWidth <= smallDesktopMaxWidth) {
+                            console.log("ldb 2 small");
+                            ldb_bb_2([
+                                [728, 90]
+                            ]);
+                        } else {
+                            console.log("ldb 2 big");
+
+                            ldb_bb_2([
+                                [728, 90],
+                                [970, 90],
+                                [970, 250]
+                            ]);
+                        }
+                    }
+                    /*END: DESKTOP:: leader board 2  size range and ldb_bb_2(sizeArrObj, slotDivId<optional>)*/
+
+                    /*START: TABLET:: Leader Board2 - place ldb2 after bottom of every component except first comp - tablet*/
+                    if (deviceType == 'TABLET') {
+                        repeat_ldb_bb_ad_section_comp();
+                    }
+                    /*END: TABLET:: Leader Board2 - place ldb2 after bottom of every component except first comp - tablet*/
+
+                    /*START:  MOBILE:: leader board 2 mobile size range and ldb_bb_2(sizeArrObj, slotDivId<optional>)*/
+                    if (deviceType == 'MOBILE') {
+                        ldb_bb_2([
+                            [320, 50]
+                        ], 'div-gpt-ad-ldb-bb-mobile-2');
+                    }
+                    /*END:  MOBILE:: leader board 2 mobile size range and ldb_bb_2(sizeArrObj, slotDivId<optional>)*/
+
+
+
+                    /*START: DESKTOP:: show mpu() for the sidebar in all sections except homepage*/
+                    if (deviceType == 'DESKTOP') {
+                        mpu_1([
+                            [300, 250]
+                        ], 'div-gpt-ad-mpu-sidebar-desktop-1');
+                    }
+                    /*END: DESKTOP:: show mpu() for the sidebar in all sections except homepage*/
+
+                    /*START: MOBILE:: show HALFPAGE after 2nd , 4th, 5th 6th component and after 1st in sidebar compoenent*/
+                    if (deviceType == 'MOBILE') {
+                        repeat_halfpage_section_comp();
+                    }
+                    /*END: MOBILE:: show HALFPAGE after 2nd , 4th, 5th 6th component and after 1st in sidebar compoenent*/
+
+
+                    /*END: For Other Section pages than article page*/
+                    break;
+                case "varieties":
+
+                    /*START: DESKTOP:: leader board 1  size range and ldb_bb_1(sizeArrObj, slotDivId<optional>)*/
+                    if (deviceType == 'DESKTOP') {
+                        ldb_bb_1([
+                            [728, 90],
+                            [970, 90],
+                            [970, 250]
+                        ]);
+                    }
+                    /*END: DESKTOP:: leader board 1  size range and ldb_bb_1(sizeArrObj, slotDivId<optional>)*/
+
+                    /*START: TABLET:: leader board 1  size range and ldb_bb_1(sizeArrObj, slotDivId<optional>)*/
+                    if (deviceType == 'TABLET') {
+                        ldb_bb_1([
+                            [728, 90]
+                        ], 'div-gpt-ad-ldb-bb-tablet-1');
+                    }
+                    /*END: TABLET:: leader board 1  size range and ldb_bb_1(sizeArrObj, slotDivId<optional>)*/
+
+
+                    /*START: MOBILE:: leader board 1 size range and ldb_bb_1(sizeArrObj, slotDivId<optional>)*/
+                    if (deviceType == 'MOBILE') {
+                        ldb_bb_1([
+                            [320, 50]
+                        ], 'div-gpt-ad-ldb-bb-mobile-sticky-1');
+                    }
+                    /*END: MOBILE:: leader board 1 size range and ldb_bb_1(sizeArrObj, slotDivId<optional>)*/
+
+
+                    /*START: Article Page ads Special cases*/
+                    if (dfpConfig.page == 'Article') {
+                        articlePageAds();
+                        break; // For article page we need to show only desktop and mobile leader board 1 unit and repeat the logic
+                    }
+                    /*END: Article Page ads Special cases*/
+
+
+                    /*START: For Other Section pages than article page*/
+
+                    /*START: DESKTOP::  halfpage 1 and halfpage 2 in topstories 3rd and 5th topstories component*/
+                    if (deviceType == 'DESKTOP') {
+                        section_topstories_dfp_ad();
+                    }
+                    /*END: DESKTOP::  halfpage 1 and halfpage 2 in topstories 3rd and 5th topstories component*/
+
+                    /*START: DESKTOP:: leader board 2  size range and ldb_bb_2(sizeArrObj, slotDivId<optional>)*/
+                    if (deviceType == 'DESKTOP') {
+                        if (viewportWidth >= smallDesktopMinWidth && viewportWidth <= smallDesktopMaxWidth) {
+                            console.log("ldb 2 small");
+                            ldb_bb_2([
+                                [728, 90]
+                            ]);
+                        } else {
+                            console.log("ldb 2 big");
+
+                            ldb_bb_2([
+                                [728, 90],
+                                [970, 90],
+                                [970, 250]
+                            ]);
+                        }
+                    }
+                    /*END: DESKTOP:: leader board 2  size range and ldb_bb_2(sizeArrObj, slotDivId<optional>)*/
+
+                    /*START: TABLET:: Leader Board2 - place ldb2 after bottom of every component except first comp - tablet*/
+                    if (deviceType == 'TABLET') {
+                        repeat_ldb_bb_ad_section_comp();
+                    }
+                    /*END: TABLET:: Leader Board2 - place ldb2 after bottom of every component except first comp - tablet*/
+
+                    /*START:  MOBILE:: leader board 2 mobile size range and ldb_bb_2(sizeArrObj, slotDivId<optional>)*/
+                    if (deviceType == 'MOBILE') {
+                        ldb_bb_2([
+                            [320, 50]
+                        ], 'div-gpt-ad-ldb-bb-mobile-2');
+                    }
+                    /*END:  MOBILE:: leader board 2 mobile size range and ldb_bb_2(sizeArrObj, slotDivId<optional>)*/
+
+
+
+                    /*START: DESKTOP:: show mpu() for the sidebar in all sections except homepage*/
+                    if (deviceType == 'DESKTOP') {
+                        mpu_1([
+                            [300, 250]
+                        ], 'div-gpt-ad-mpu-sidebar-desktop-1');
+                    }
+                    /*END: DESKTOP:: show mpu() for the sidebar in all sections except homepage*/
+
+                    /*START: MOBILE:: show HALFPAGE after 2nd , 4th, 5th 6th component and after 1st in sidebar compoenent*/
+                    if (deviceType == 'MOBILE') {
+                        repeat_halfpage_section_comp();
+                    }
+                    /*END: MOBILE:: show HALFPAGE after 2nd , 4th, 5th 6th component and after 1st in sidebar compoenent*/
+
+
+                    /*END: For Other Section pages than article page*/
+                    break;
+
+
+                default:
+
+                    /*START: Special case when there is new section*/
+                    
+                    
+                    if(getUnknownSection()){
+                        // debugger;
+                        /*START: DESKTOP:: leader board 1  size range and ldb_bb_1(sizeArrObj, slotDivId<optional>)*/
+                        if (deviceType == 'DESKTOP') {
+                            ldb_bb_1([
+                                [728, 90],
+                                [970, 90],
+                                [970, 250]
+                            ]);
+                        }
+                        /*END: DESKTOP:: leader board 1  size range and ldb_bb_1(sizeArrObj, slotDivId<optional>)*/
+
+                        /*START: TABLET:: leader board 1  size range and ldb_bb_1(sizeArrObj, slotDivId<optional>)*/
+                        if (deviceType == 'TABLET') {
+                            ldb_bb_1([
+                                [728, 90]
+                            ], 'div-gpt-ad-ldb-bb-tablet-1');
+                        }
+                        /*END: TABLET:: leader board 1  size range and ldb_bb_1(sizeArrObj, slotDivId<optional>)*/
+
+
+                        /*START: MOBILE:: leader board 1 size range and ldb_bb_1(sizeArrObj, slotDivId<optional>)*/
+                        if (deviceType == 'MOBILE') {
+                            ldb_bb_1([
+                                [320, 50]
+                            ], 'div-gpt-ad-ldb-bb-mobile-sticky-1');
+                        }
+                        /*END: MOBILE:: leader board 1 size range and ldb_bb_1(sizeArrObj, slotDivId<optional>)*/
+
+
+                        /*START: Article Page ads Special cases*/
+                        if (dfpConfig.page == 'Article') {
+                            articlePageAds();
+                            break; // For article page we need to show only desktop and mobile leader board 1 unit and repeat the logic
+                        }
+                        /*END: Article Page ads Special cases*/
+
+
+                        /*START: For Other Section pages than article page*/
+
+                        /*START: DESKTOP::  halfpage 1 and halfpage 2 in topstories 3rd and 5th topstories component*/
+                        if (deviceType == 'DESKTOP') {
+                            section_topstories_dfp_ad();
+                        }
+                        /*END: DESKTOP::  halfpage 1 and halfpage 2 in topstories 3rd and 5th topstories component*/
+
+                        /*START: DESKTOP:: leader board 2  size range and ldb_bb_2(sizeArrObj, slotDivId<optional>)*/
+                        if (deviceType == 'DESKTOP') {
+                            if (viewportWidth >= smallDesktopMinWidth && viewportWidth <= smallDesktopMaxWidth) {
+                                console.log("ldb 2 small");
+                                ldb_bb_2([
+                                    [728, 90]
+                                ]);
+                            } else {
+                                console.log("ldb 2 big");
+
+                                ldb_bb_2([
+                                    [728, 90],
+                                    [970, 90],
+                                    [970, 250]
+                                ]);
+                            }
+                        }
+                        /*END: DESKTOP:: leader board 2  size range and ldb_bb_2(sizeArrObj, slotDivId<optional>)*/
+
+                        /*START: TABLET:: Leader Board2 - place ldb2 after bottom of every component except first comp - tablet*/
+                        if (deviceType == 'TABLET') {
+                            repeat_ldb_bb_ad_section_comp();
+                        }
+                        /*END: TABLET:: Leader Board2 - place ldb2 after bottom of every component except first comp - tablet*/
+
+                        /*START:  MOBILE:: leader board 2 mobile size range and ldb_bb_2(sizeArrObj, slotDivId<optional>)*/
+                        if (deviceType == 'MOBILE') {
+                            ldb_bb_2([
+                                [320, 50]
+                            ], 'div-gpt-ad-ldb-bb-mobile-2');
+                        }
+                        /*END:  MOBILE:: leader board 2 mobile size range and ldb_bb_2(sizeArrObj, slotDivId<optional>)*/
+
+
+
+                        /*START: DESKTOP:: show mpu() for the sidebar in all sections except homepage*/
+                        if (deviceType == 'DESKTOP') {
+                            mpu_1([
+                                [300, 250]
+                            ], 'div-gpt-ad-mpu-sidebar-desktop-1');
+                        }
+                        /*END: DESKTOP:: show mpu() for the sidebar in all sections except homepage*/
+
+                        /*START: MOBILE:: show HALFPAGE after 2nd , 4th, 5th 6th component and after 1st in sidebar compoenent*/
+                        if (deviceType == 'MOBILE') {
+                            repeat_halfpage_section_comp();
+                        }
+                        /*END: MOBILE:: show HALFPAGE after 2nd , 4th, 5th 6th component and after 1st in sidebar compoenent*/
+
+
+                        /*END: For Other Section pages than article page*/
+
+                    }
+                    /*END: Special case when there is new section*/
+            }
+
+        },
+
+        $get: function() {
+            return {
+
+            };
+        }
+
+    };
+
+}]);

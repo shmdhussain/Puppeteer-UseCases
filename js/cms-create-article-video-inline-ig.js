@@ -124,12 +124,13 @@ var contentCreationPage = "/publisher/editor/article";
     /*START: Put Inline Image Gallery in article body*/
     
         /*START: Get Image Gallery from the sidebar*/
-        
+        await page.waitFor(3000);
         searchTabInSidebar = await page.$('dt#search a');
         await searchTabInSidebar.click();
         await page.click('#advanced_search');
-        await page.click('input[value="IMAGE_GALLERY"]');
-        await page.click('input[value="PUBLISHED"][name="statuses"]');
+        await page.click('#search_data input[value="VIDEO"]');
+        await page.click('#search_data input[value="IMAGE_GALLERY"]');
+        await page.click('#search_data input[value="PUBLISHED"][name="statuses"]');
         await page.click('#searchForm #search_button');
 
         await page.waitForSelector('#searchResults li.cf.enabled ')

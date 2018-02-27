@@ -1,0 +1,469 @@
+snaApp.controller("videoListController", ["$scope", "$rootScope", "$http", "appConfig", "$window", "$log", "$timeout", "$interval", "$location", "$filter", function ($scope, $rootScope, $http, appConfig, $window, $log, $timeout, $interval, $location, $filter) {
+    var offset = 0, pageSize = 14, evenLoad = true, loadMore = true, contentWindow = $(window), stories = [];
+
+    //$rootScope.pageTitle = "أخبار وتقارير فيديو | أخبار سكاي نيوز عربية";
+    $rootScope.contentTheme = "darker-theme";
+    /*START: Menu Highlighting*/
+    $rootScope.menuLocationUrl = window.location.protocol + "//" + window.location.host + window.location.pathname;
+    /**
+     * START:Remove the trailing "/" in the url
+     */
+    function removeSlashAtUrlEnd(url) {
+         while(/\/$/.test(url)){
+            url = url.replace(/\/$/, "");
+         }
+         return url;
+     } 
+    $rootScope.menuLocationUrl = removeSlashAtUrlEnd($rootScope.menuLocationUrl);
+    /*END: Remove the trailing "/" in the url*/
+    /*END: Menu Highlighting*/
+
+    $rootScope.pageDescription = 'شاهد نشرات أخبار سكاي نيوز عربية وبرامجها، إضافة إلى تقارير إخبارية بالفيديو وفيديوهات يومية منوعة بين سياسة واقتصاد ورياضة وصحة وتكنولوجيا وترفيه وغرائب وما يتم تداوله بكثرة على شبكات التواصل الاجتماعي';
+    $rootScope.pageKeywords = 'اخبار فيديو, اخبار بالفيديو, اخبار اونلاين, سكاي نيوز فيديو';
+
+    var groups = [{}, {}, {}];
+    if ($rootScope.deviceType == 'TABLET') {
+        pageSize = 12;
+    } else if ($rootScope.deviceType == 'MOBILE') {
+        pageSize = 11;
+    }
+
+    blockUI(contentWindow);
+    var sectionNames = $scope.initData.sectionUrl ? [$scope.initData.sectionUrl] : [];
+    $scope.sectionUrl = $scope.initData.sectionUrl;
+    $http.get(appConfig.apiBaseURL + '/rest/v2/video-list.json', {cache: false, params: {pageSize: pageSize, offset: offset, deviceType: $rootScope.deviceType, sectionNames: sectionNames}}).then(function(response) {
+        var data = response.data;
+        if (data.contentItems) {
+            for (var i = 0; i < data.contentItems.length; i++) {
+                stories.push(data.contentItems[i]);
+            }
+        }
+        //$('.section-check').each(function() {
+         //       $scope.selectedSections.push($(this).val());
+        //});
+        loadInitialData(data);
+        $timeout(function() {
+            $scope.contentLoaded = true;
+        }, 500);
+        unblockUI(contentWindow);
+    }, function () {
+        $log.error("Error Fetching videos");
+        unblockUI(contentWindow);
+    });
+
+
+    $('html').click(function(evt) {
+        if (evt.target.innerHTML != "حسب القسم" && evt.target.innerHTML != "") {
+            $(".tab-sections").fadeOut('fast', function () { $scope.$applyAsync(function() { $scope.dropDown = false; }) });
+            return true;
+        }
+    });
+
+
+    $scope.loadMoreContent = function(event) {
+        event && event.preventDefault();
+        if (!loadMore) {
+            return;
+        }
+        loadMore = false;
+
+        var sectionNames = $.grep($scope.selectedSections, function(value) { return value != "" }).join(","), url;
+
+        if ($scope.selectedSort == 'DATE') {
+            url = '/rest/v2/video-list.json';
+        } else {
+            url = '/rest/v2/mostpopular.json?contentType=VIDEO';
+        }
+
+        $http.get(appConfig.apiBaseURL + url, {cache: false, params: {deviceType: $rootScope.deviceType, sectionNames: sectionNames, offset: stories.length, pageSize: pageSize}}).then(function(response) {
+            var data = response.data;
+            if (data.contentItems) {
+                for (var i = 0; i < data.contentItems.length; i++) {
+                    stories.push(data.contentItems[i]);
+                }
+            } else {
+                loadMore = true;
+                return;
+            }
+            var items;
+            switch ($rootScope.deviceType) {
+            case 'DESKTOP':
+                if (pageSize != 5) {
+                    pageSize = 5;
+                    groups[2].rows.pop();
+                }
+                items = stories.slice(stories.length - pageSize);
+                if (evenLoad) {
+                    groups[2].rows.push({"columns": [{"showSummary": true, "width": 6, items: [items[0]]}, {"width": 6, "rows": [{"columns": [{"width": 6, items: [items[1]]}, {"width": 6, items: [items[2]]}]}, {"columns": [{"width": 6, items: [items[3]]}, {"width": 6, items: [items[4]]}]}]}]});
+                } else {
+                    groups[2].rows.push({"columns": [{"width": 6, "rows": [{"columns": [{"width": 6, items: [items[0]]}, {"width": 6, items: [items[2]]}]}, {"columns": [{"width": 6, items: [items[1]]}, {"width": 6, items: [items[3]]}]}]}, {"showSummary": true, "width": 6, items: [items[4]]}]});
+                }
+                break;
+            case 'TABLET':
+                if (pageSize != 6) {
+                    pageSize = 6;
+                    groups[2].rows.pop();
+                    groups[2].rows.pop();
+                }
+
+                items = stories.slice(stories.length - pageSize);
+                if (evenLoad) {
+                    groups[2].rows.push({"columns": [{"showSummary": true, "width": 8, items: [items[0]]}, {"width": 4, "rows": [{"columns": [{"width": 12, items: [items[1]]}, {"width": 12, items: [items[2]]}]}]}]});
+                } else {
+                    groups[2].rows.push({"columns": [{"width": 4, "rows": [{"columns": [{"width": 12, items: [items[0]]}, {"width": 12, items: [items[1]]}]}]}, {"showSummary": true, "width": 8, items: [items[2]]}]});
+                }
+                groups[2].rows.push({"columns": [{"width": 4, items: [items[3]]}, {"width": 4, items: [items[4]]}, {"width": 4, items: [items[5]]}]});
+                break;
+            case 'MOBILE':
+                if (pageSize != 6) {
+                    pageSize = 6;
+                    groups[2].rows.pop();
+                    groups[2].rows.pop();
+                    groups[2].rows.pop();
+
+                }
+                items = stories.slice(stories.length - pageSize);
+                groups[2].rows.push({"columns": [{"width": 6, items: [items[0]]}, {"width": 6, items: [items[1]]}]});
+                groups[2].rows.push({"columns": [{"width": 6, items: [items[2]]}, {"width": 6, items: [items[3]]}]});
+                groups[2].rows.push({"columns": [{"width": 6, items: [items[4]]}, {"width": 6, items: [items[5]]}]});
+                break;
+            }
+
+            $timeout(function() { $(document).foundation('equalizer', 'reflow'); }, 500, false);
+
+            evenLoad = !evenLoad;
+            loadMore = true;
+            offset += pageSize;
+            if (!data.hasMore) {
+                $scope.maxOffset = true;
+            } else if (items && items.length < pageSize) {
+                $scope.maxOffset = true;
+            }
+
+        }, function () {
+            $log.error("Error Fetching videos");
+        });
+    }
+
+
+    function loadInitialData(data, refresh) {
+        if (!data || !data.contentItems || data.contentItems.length == 0) {
+            $scope.groups = [];
+            $scope.maxOffset = true;
+            return;
+        }
+
+        evenLoad = true;
+        loadMore = true;
+        groups[0].rows = [];
+        groups[1].rows = [];
+        groups[2].rows = [];
+        offset += pageSize;
+
+        switch ($rootScope.deviceType) {
+        case 'DESKTOP':
+
+            groups[0].rows[0] = {"columns": [{"showSummary": true, "width": 6, items: [data.contentItems[0]]}, {"width": 6, "rows": [{"columns": [{"width": 6, items: [data.contentItems[1]]}, {"width": 6, items: [data.contentItems[2]]}]}, {"columns": [{"width": 6, items: [data.contentItems[3]]}, {"width": 6, items: [data.contentItems[4]]}]}]}]};
+
+            groups[1].rows[0] = {"columns": [{"width": 3, items: [data.contentItems[5]]}, {"width": 3, items: [data.contentItems[6]]}, {"width": 3, items: [data.contentItems[7]]}, {"width": 3, items: [data.contentItems[8]]}]};
+
+            groups[2].rows[0] = {"columns": [{"width": 6, "rows": [{"columns": [{"width": 6, items: [data.contentItems[9]]}, {"width": 6, items: [data.contentItems[11]]}]}, {"columns": [{"width": 6, items: [data.contentItems[10]]}, {"width": 6, items: [data.contentItems[12]]}]}]}, {"showSummary": true, "width": 6, items: [data.contentItems[13]]}]};
+            pageSize = 5;
+            break;
+        case 'TABLET':
+            groups[0].rows[0] = {"columns": [{"showSummary": true, "width": 8, items: [data.contentItems[0]]}, {"width": 4, "rows": [{"columns": [{"width": 12, items: [data.contentItems[1]]}, {"width": 12, items: [data.contentItems[2]]}]}]}]};
+
+            groups[1].rows[0] = {"columns": [{"width": 4, items: [data.contentItems[3]]}, {"width": 4, items: [data.contentItems[4]]}, {"width": 4, items: [data.contentItems[5]]}]};
+
+            groups[2].rows[0] = {"columns": [{"width": 4, "rows": [{"columns": [{"width": 12, items: [data.contentItems[6]]}, {"width": 12, items: [data.contentItems[7]]}]}]}, {"showSummary": true, "width": 8, items: [data.contentItems[8]]}]};
+            groups[2].rows[1] = {"columns": [{"width": 4, items: [data.contentItems[9]]}, {"width": 4, items: [data.contentItems[10]]}, {"width": 4, items: [data.contentItems[11]]}]};
+
+            pageSize = 6;
+            break;
+        case 'MOBILE':
+
+            groups[0].rows[0] = {"columns": [{"showSummary": true, "width": 12, items: [data.contentItems[0]]}]};
+            groups[0].rows[1] = {"columns": [{"width": 6, items: [data.contentItems[1]]}, {"width": 6, items: [data.contentItems[2]]}]};
+
+            groups[1].rows[0] = {"columns": [{"width": 6, items: [data.contentItems[3]]}, {"width": 6, items: [data.contentItems[4]]}]};
+
+            groups[2].rows[0] = {"columns": [{"width": 6, items: [data.contentItems[5]]}, {"width": 6, items: [data.contentItems[6]]}]};
+            groups[2].rows[1] = {"columns": [{"width": 6, items: [data.contentItems[7]]}, {"width": 6, items: [data.contentItems[8]]}]};
+            groups[2].rows[2] = {"columns": [{"width": 6, items: [data.contentItems[9]]}, {"width": 6, items: [data.contentItems[10]]}]};
+
+            pageSize = 6;
+            break;
+        }
+        $scope.groups = groups;
+        if (!data.hasMore && !refresh) {
+            $scope.maxOffset = true;
+        } else if (data.contentItems && data.contentItems.length < pageSize) {
+            $scope.maxOffset = true;
+        }
+
+        if (!refresh) {
+            $scope.$applyAsync(function() {
+                $(document).foundation({
+                    equalizer: {
+                    // Specify if Equalizer should make elements equal height once they become stacked.
+                        use_tallest: true,
+                        equalize_on_stack: true,
+                        check_window_height_width: true,
+                    }
+                });
+                registerMenuCloseEvent();
+            });
+
+            $timeout(function() { $(document).foundation('equalizer', 'reflow'); }, 500, false);
+
+            if ($rootScope.device == 'DESKTOP') {
+                $interval(function() { $(document).foundation('equalizer', 'reflow'); }, 2000, false);
+            }
+        }
+    }
+
+    /**
+     * Reresh data layout on orientation change.
+     */
+    $rootScope.$watch('deviceType', function(value, oldValue) {
+        if (value == oldValue) {
+            return;
+        }
+
+        loadInitialData({contentItems: stories}, true);
+        var initialPageSize = 14;
+        if (value == 'TABLET') {
+            initialPageSize = 12;
+            pageSize = 6;
+        } else if (value == 'MOBILE') {
+            initialPageSize = 11;
+            pageSize = 6;
+        } else {
+            initialPageSize = 14;
+            pageSize = 5;
+        }
+
+        if (stories.length < initialPageSize) {
+            pageSize = initialPageSize - stories.length;
+            evenLoad = !evenLoad;
+        }
+
+        if (stories.length <= pageSize) {
+            return
+        }
+        for (var i = initialPageSize; i < stories.length; i += pageSize) {
+            var items = stories.slice(i, i + pageSize);
+            switch ($rootScope.deviceType) {
+            case 'DESKTOP':
+                if (evenLoad) {
+                    groups[2].rows.push({"columns": [{"showSummary": true, "width": 6, items: [items[0]]}, {"width": 6, "rows": [{"columns": [{"width": 6, items: [items[1]]}, {"width": 6, items: [items[2]]}]}, {"columns": [{"width": 6, items: [items[3]]}, {"width": 6, items: [items[4]]}]}]}]});
+                } else {
+                    groups[2].rows.push({"columns": [{"width": 6, "rows": [{"columns": [{"width": 6, items: [items[0]]}, {"width": 6, items: [items[2]]}]}, {"columns": [{"width": 6, items: [items[1]]}, {"width": 6, items: [items[3]]}]}]}, {"showSummary": true, "width": 6, items: [items[4]]}]});
+                }
+                break;
+            case 'TABLET':
+                if (evenLoad) {
+                    groups[2].rows.push({"columns": [{"showSummary": true, "width": 8, items: [items[0]]}, {"width": 4, "rows": [{"columns": [{"width": 12, items: [items[1]]}, {"width": 12, items: [items[2]]}]}]}]});
+                } else {
+                    groups[2].rows.push({"columns": [{"width": 4, "rows": [{"columns": [{"width": 12, items: [items[0]]}, {"width": 12, items: [items[1]]}]}]}, {"showSummary": true, "width": 8, items: [items[2]]}]});
+                }
+                groups[2].rows.push({"columns": [{"width": 4, items: [items[3]]}, {"width": 4, items: [items[4]]}, {"width": 4, items: [items[5]]}]});
+
+                break;
+            case 'MOBILE':
+                groups[2].rows.push({"columns": [{"width": 6, items: [items[0]]}, {"width": 6, items: [items[1]]}]});
+                groups[2].rows.push({"columns": [{"width": 6, items: [items[2]]}, {"width": 6, items: [items[3]]}]});
+                groups[2].rows.push({"columns": [{"width": 6, items: [items[4]]}, {"width": 6, items: [items[5]]}]});
+                break;
+            }
+
+            if (items.length < pageSize) {
+                pageSize -= items.length;
+                break;
+            }
+            evenLoad = !evenLoad;
+        }
+
+
+        $timeout(function() { $(document).foundation('equalizer', 'reflow'); }, 500, false);
+    });
+
+    /**
+     * Tabs
+     */
+    //$scope.selectedSections = [];
+    $scope.selectedSections = ["", "", "", "", "", "", "", "", ""];
+
+    $scope.initData.sectionTabs = [{displayName: 'حسب القسم', type: 'BY_CATEGORY', "sections": $rootScope.initData.defaultSections}];
+
+    $scope.selectedTab = 'BY_CATEGORY_TAB';
+
+    $scope.selectTab = function (selectedTab, event) {
+        if (event) {
+            if ($(event.currentTarget).siblings(".tab-sections").is(":visible")) {
+                $(event.currentTarget).siblings(".tab-sections").stop()
+                $(event.currentTarget).siblings(".tab-sections").fadeOut('fast', function () { $scope.$applyAsync(function() { $scope.dropDown = false; }) });
+                return;
+            } else {
+                $(event.currentTarget).siblings(".tab-sections").stop();
+                $(event.currentTarget).siblings(".tab-sections").fadeIn('fast', function () { $scope.$applyAsync(function() { $scope.dropDown = true; }) });
+            }
+        }
+
+
+    }
+
+    $scope.showSectionFilter = function (event, tab) {
+        event && event.preventDefault();
+        var sectionList = $(event.currentTarget).siblings(".tab-sections");
+        $scope.selectTab(tab, event);
+
+        if (sectionList.length == 0) {
+            $(event.currentTarget).siblings(".tab-sections").stop();
+            $(".tab-sections").fadeOut('fast', function () { $scope.$applyAsync(function() { $scope.dropDown = false; }) });
+            $scope.dropDown = false;
+            return true;
+        }
+
+        return true;
+    }
+
+    $scope.updateSelection = function (event) {
+        if ($.grep($scope.selectedSections, function(value) { return value != "" }).join(",").length > 0) {
+            $scope.activeFilter = true;
+        } else {
+            $scope.activeFilter = false;
+        }
+        event && event.stopPropagation();
+    }
+
+
+    $scope.expandTabs = function (event) {
+        $("#mobileTabDiv").toggle("slow", function() {
+            if ($("#mobileTabsList").is(":visible")) {
+                $(event.currentTarget).addClass("icon-arrow-up");
+                $(event.currentTarget).removeClass("icon-arrow-down");
+            } else {
+                $(event.currentTarget).removeClass("icon-arrow-up");
+                $(event.currentTarget).addClass("icon-arrow-down");
+
+            }
+
+
+            $(event.currentTarget).addClass("icon-arrow-down");
+        });
+
+    }
+
+
+    $scope.selectMobileTab = function (tab) {
+        if (tab.sections) {
+            $("#mobileSectionList").toggle("slow", function () {
+                if ($("#mobileSectionList").is(":visible")) {
+                    $scope.$applyAsync(function() { $scope.dropDown = true; });
+                } else {
+                    $scope.$applyAsync(function() { $scope.dropDown = false; });
+                }
+            });
+            $scope.sectionFilters = tab.sections;
+
+
+        } else {
+            $("#mobileTabDiv").toggle("slow");
+            $("#mobileSectionList").hide();
+        }
+    }
+
+
+    $scope.hideSectionFilter = function (event) {
+        $(event.currentTarget).children(".tab-sections").fadeOut();
+    }
+
+
+    $scope.filterStoriesByCategory = function (tab) {
+     //   if (!$scope.activeFilter) {
+     //       return;
+     //   }
+        //$scope.activeFilter = false;
+
+     //   $scope.dropDown = true;
+
+     //   $(".tab-sections").fadeOut();
+   //     $("#mobileTabDiv").toggle('slow');
+    //    $("#mobileSectionList").hide();
+     //   $scope.dropDown = false;
+    //    $(".icon-arrow-up").removeClass("icon-arrow-up");
+        window.scrollTo(0, 0);
+
+        var sectionNames = $.grep($scope.selectedSections, function(value) { return value != "" }).join(",");
+
+        if ($rootScope.deviceType == 'TABLET') {
+            pageSize = 12;
+        } else if ($rootScope.deviceType == 'MOBILE') {
+            pageSize = 11;
+        } else if ($rootScope.deviceType == 'DESKTOP') {
+            pageSize = 14;
+        }
+        offset = 0;
+        stories = [];
+        $scope.maxOffset = false;
+        var url;
+        if ($scope.selectedSort == 'DATE') {
+            url = '/rest/v2/video-list.json';
+        } else {
+            url = '/rest/v2/mostpopular.json?contentType=VIDEO';
+        }
+
+        $http.get(appConfig.apiBaseURL + url, {cache: false, params: {deviceType: $rootScope.deviceType, sectionNames: sectionNames, offset: offset, pageSize: pageSize}}).then(function(response) {
+            var data = response.data;
+            if (data.contentItems) {
+                for (var i = 0; i < data.contentItems.length; i++) {
+                    stories.push(data.contentItems[i]);
+                }
+            }
+            loadInitialData(data);
+        }, function () {
+            $log.error("Error Fetching videos");
+        });
+    }
+
+    /**
+     * Sorting
+     */
+    $scope.selectedSort = "DATE";
+    $scope.updateSort = function(event, sort) {
+        if (sort == $scope.selectedSort) {
+            return;
+        }
+
+        offset = 0;
+        stories = [];
+        pageSize = 14;
+        $scope.maxOffset = false;
+        if ($rootScope.deviceType == 'TABLET') {
+            pageSize = 12;
+        } else if ($rootScope.deviceType == 'MOBILE') {
+            pageSize = 11;
+        }
+        var sectionNames = $.grep($scope.selectedSections, function(value) { return value != "" }).join(","), url;
+        event && event.preventDefault();
+        $scope.selectedSort = sort;
+
+        if ($scope.selectedSort == 'DATE') {
+            url = '/rest/v2/video-list.json';
+        } else {
+            url = '/rest/v2/mostpopular.json?contentType=VIDEO';
+        }
+        $http.get(appConfig.apiBaseURL + url, {cache: false, params: {pageSize: pageSize, offset: offset, deviceType: $rootScope.deviceType, sectionNames: sectionNames}}).then(function(response) {
+            var data = response.data;
+            if (data.contentItems) {
+                for (var i = 0; i < data.contentItems.length; i++) {
+                    stories.push(data.contentItems[i]);
+                }
+            }
+            loadInitialData(data);
+        }, function () {
+            $log.error("Error Fetching videos");
+        });
+    }
+}]);

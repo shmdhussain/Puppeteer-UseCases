@@ -1,0 +1,367 @@
+
+<!-- START: TOP Stories without AD Enabled in Desktop -->
+
+<div data-ng-if="!component.adEnabled">
+    <div class="row top-stories" data-ng-controller="topStoriesController" data-equalizer>
+        <div class=" columns large-4 medium-6" data-equalizer-watch data-ng-class="{'medium-push-6': topstoriesEven, 'large-push-4': topstoriesEven, 'large-push-0': topstoriesOdd}" data-ng-show="(deviceType == 'MOBILE' && (stories[0] || stories[1])) || deviceType != 'MOBILE'">
+            <div class="row">
+                <div class="columns small-6 medium-12 large-12 mrgn-bottom"  data-ng-if="stories[0]">
+                    <div class="content-wrapper">
+                        <a data-ng-href="{{stories[0].sectionUrl + '/' + stories[0].id + '-' + stories[0].urlFriendlySuffix}}"  title="{{ stories[0].headline }}">
+                            <div class="row">
+                                <div class="columns small-12">
+                                    <div class="article-holder">
+                                        <span class="section-name" data-ng-bind="stories[0].category"></span>
+                                        <span ng-class="{'media-type': stories[0].mediaAsset.type == 'IMAGE_GALLERY' || stories[0].mediaAsset.type == 'VIDEO','':stories[0].mediaAsset.type == 'IMAGE_SET'}"><i ng-class="{'icon-camera': stories[0].mediaAsset.type == 'IMAGE_GALLERY','icon-video-play': stories[0].mediaAsset.type == 'VIDEO'}"></i> </span>
+                                        <img src="/static/web-rev/img/default_img.jpg" style="width: 100%" alt="" role="presentation"/>
+                                        <img data-ng-src="/web/images{{stories[0].mediaAsset.imageUrl | imageAdvFilter:[ [.75, .33], [.66, .5], [1,.5] ]:0.563}}" alt="{{ stories[0].mediaAsset.caption }}" style="width: 100%;position: absolute; top: 0; left:0;height: 100%"/>
+                                        <sna-image-teaser viewport-width="{{[ [.75, .33], [.66, .5], [1,.5] ]}}" images-data="{{stories[0].mediaAsset.images}}" data-ng-if="showImageTeaserOnPage && stories[0].mediaAsset.type == 'IMAGE_GALLERY'" content-id="{{stories[0].id}}"></sna-image-teaser>
+                                    </div>
+                                    <sna-video-teaser data-ng-if="::(stories[0].type == 'VIDEO' && stories[0].teaserUrl || stories[0].mediaAsset.type == 'VIDEO' && stories[0].mediaAsset.teaserUrl)" content="stories[0]"></sna-video-teaser>
+                                </div>
+                                <div class="columns small-12">
+                                    <div class="social-copy">
+                                        <div class="social-date">
+                                            <p class="date-time">
+                                                <i class="icon-time"></i>
+                                                <span class="icon-copy" data-ng-bind="stories[0].date | contentDateFilter:stories[0].lastEditDate:'آخر تحديث ':2"></span>
+                                            </p>
+                                        </div>
+                                     </div>
+                                </div>
+                                <div class="columns small-12">
+                                    <div class="article-title-holder">
+                                        <h3 class="h5" data-ng-bind="stories[0].headline"></h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="columns small-6 medium-12 large-12"  data-ng-if="stories[1]">
+                    <div class="content-wrapper">
+                    <a data-ng-href="{{stories[1].sectionUrl + '/' + stories[1].id + '-' + stories[1].urlFriendlySuffix}}" title="{{ stories[1].headline }}">
+                        <div class="row">
+                            <div class="columns small-12">
+                                <div class="article-holder">
+                                    <span class="section-name" data-ng-bind="stories[1].category"></span>
+                                    <span ng-class="{'media-type': stories[1].mediaAsset.type == 'IMAGE_GALLERY' || stories[1].mediaAsset.type == 'VIDEO','':stories[1].mediaAsset.type == 'IMAGE_SET'}"><i ng-class="{'icon-camera': stories[1].mediaAsset.type == 'IMAGE_GALLERY','icon-video-play': stories[1].mediaAsset.type == 'VIDEO'}"></i> </span>
+                                    <img src="/static/web-rev/img/default_img.jpg" style="width: 100%" alt="" role="presentation"/>
+                                    <img data-ng-src="/web/images{{stories[1].mediaAsset.imageUrl | imageAdvFilter:[ [.75, .33], [.66, .5], [1,.5] ]:0.563}}" alt="{{ stories[1].mediaAsset.caption }}" style="width: 100%;position: absolute; top: 0; left:0;height: 100%"/>
+                                    <sna-image-teaser viewport-width="{{[ [.75, .33], [.66, .5], [1,.5] ]}}" images-data="{{stories[1].mediaAsset.images}}" data-ng-if="showImageTeaserOnPage && stories[1].mediaAsset.type == 'IMAGE_GALLERY'" content-id="{{stories[1].id}}"></sna-image-teaser>
+                                </div>
+                                <sna-video-teaser data-ng-if="::(stories[1].type == 'VIDEO' && stories[1].teaserUrl || stories[1].mediaAsset.type == 'VIDEO' && stories[1].mediaAsset.teaserUrl)" content="stories[1]"></sna-video-teaser>
+                            </div>
+                            <div class="columns small-12">
+                                <div class="social-copy">
+                                    <div class="social-date">
+                                        <p class="date-time">
+                                            <i class="icon-time"></i>
+                                            <span class="icon-copy" data-ng-bind="stories[1].date | contentDateFilter:stories[1].lastEditDate:'آخر تحديث ':2"></span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="columns small-12">
+                                <div class="article-title-holder">
+                                    <h3 class="h5" data-ng-bind="stories[1].headline"></h3>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+        </div>
+        <div class=" columns large-4 medium-6 longer" data-equalizer-watch data-ng-class="{'large-pull-4': topstoriesEven, 'large-push-4': topstoriesOdd, 'medium-pull-6': topstoriesEven}"  data-ng-if="stories[2]">
+            <a data-ng-href="{{stories[2].sectionUrl + '/' + stories[2].id + '-' + stories[2].urlFriendlySuffix}}" title="{{ stories[2].headline }}" class="longer-wrapper">
+                <div class="row">
+                    <div class="columns small-6 medium-12">
+                        <div class="article-holder">
+                            <span class="section-name" data-ng-bind="stories[2].category"></span>
+                            <span ng-class="{'media-type': stories[2].mediaAsset.type == 'IMAGE_GALLERY' || stories[2].mediaAsset.type == 'VIDEO','':stories[2].mediaAsset.type == 'IMAGE_SET'}"><i ng-class="{'icon-camera': stories[2].mediaAsset.type == 'IMAGE_GALLERY','icon-video-play': stories[2].mediaAsset.type == 'VIDEO'}"></i> </span>
+                            <img data-ng-src="/static/web-rev/img/default_img43.jpg" style="width: 100%" alt="" role="presentation"/>
+                            <img data-ng-src="/web/images{{stories[2].mediaAsset.imageUrl | imageAdvFilter:[ [.75, .33], [.66, .5], [1,.5] ]:0.75}}" alt="{{ stories[2].mediaAsset.caption }}" style="width: 100%;position: absolute; top: 0; left:0;height: 100%"/>
+                            <sna-image-teaser viewport-width="{{[ [.75, .33], [.66, .5], [1,.5] ]}}" images-data="{{stories[2].mediaAsset.images}}" data-ng-if="showImageTeaserOnPage && stories[2].mediaAsset.type == 'IMAGE_GALLERY'" aspect-ratio="0.75" content-id="{{stories[2].id}}"></sna-image-teaser>
+                        </div>
+                        <sna-video-teaser data-ng-if="::(stories[2].type == 'VIDEO' && stories[2].teaserUrl || stories[2].mediaAsset.type == 'VIDEO' && stories[2].mediaAsset.teaserUrl)" content="stories[2]"></sna-video-teaser>
+                    </div>
+                    <div class="columns small-6 hide-for-medium-up article-title-holder">
+                        <h3 class="h5 headingArticle" data-ng-bind="stories[2].headline"></h3>
+                        <p class="long">{{ stories[2].summary | addEllipsis:60 }}</p>
+                    </div>
+                    <div class="columns small-12">
+                        <div class="social-copy">
+                            <div class="social-date">
+                                <p class="date-time"><i class="icon-time"></i><span class="icon-copy" data-ng-bind="stories[2].date | contentDateFilter:stories[2].lastEditDate:'آخر تحديث ':2"></span></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="columns medium-12 hide-for-small">
+                        <div class="article-title-holder">
+                            <h3 class="h5 article-title" data-ng-bind="stories[2].headline"></h3>
+                            <p class="long" data-ng-bind="stories[2].summary"></p>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class=" columns large-4 medium-12" data-ng-class="{'large-pull-4': topstoriesOdd}">
+            <div class="row">
+                <div class="clearfix small-6 medium-6 large-12 columns mrgn-bottom" data-ng-if="stories[3]">
+                    <div class="content-wrapper">
+                        <a data-ng-href="{{stories[3].sectionUrl + '/' + stories[3].id + '-' + stories[3].urlFriendlySuffix}}" title="{{ stories[3].headline }}">
+                            <div class="row">
+                                <div class="columns small-12">
+                                    <div class="article-holder">
+                                        <span class="section-name" data-ng-bind="stories[3].category"></span>
+                                        <span ng-class="{'media-type': stories[3].mediaAsset.type == 'IMAGE_GALLERY' || stories[3].mediaAsset.type == 'VIDEO','':stories[3].mediaAsset.type == 'IMAGE_SET'}"><i ng-class="{'icon-camera': stories[3].mediaAsset.type == 'IMAGE_GALLERY','icon-video-play': stories[3].mediaAsset.type == 'VIDEO'}"></i> </span>
+                                        <img src="/static/web-rev/img/default_img.jpg" style="width: 100%" alt="" role="presentation"/>
+                                        <img data-ng-src="/web/images{{stories[3].mediaAsset.imageUrl | imageAdvFilter:[ [.75, .33], [.66, .5], [1,.5] ]:0.563}}" alt="{{ stories[3].mediaAsset.caption }}" style="width: 100%;position: absolute; top: 0; left:0;height: 100%"/>
+                                        <sna-image-teaser viewport-width="{{[ [.75, .33], [.66, .5], [1,.5] ]}}" images-data="{{stories[3].mediaAsset.images}}" data-ng-if="showImageTeaserOnPage && stories[3].mediaAsset.type == 'IMAGE_GALLERY'" content-id="{{stories[3].id}}"></sna-image-teaser>
+                                    </div>
+                                    <sna-video-teaser data-ng-if="::(stories[3].type == 'VIDEO' && stories[3].teaserUrl || stories[3].mediaAsset.type == 'VIDEO' && stories[3].mediaAsset.teaserUrl)" content="stories[3]"></sna-video-teaser>
+                                </div>
+                                <div class="columns small-12">
+                                    <div class="social-copy">
+                                        <div class="social-date">
+                                            <p class="date-time">
+                                                <i class="icon-time"></i>
+                                                <span class="icon-copy" data-ng-bind="stories[3].date | contentDateFilter:stories[3].lastEditDate:'آخر تحديث ':2"></span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="columns small-12">
+                                    <div class="article-title-holder">
+                                        <h3 class="h5" data-ng-bind="stories[3].headline"></h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="clearfix small-6 medium-6 large-12 columns test" data-info="{{ stories[4] }}" data-ng-if="stories[4]">
+                    <div class="content-wrapper">
+                        <a data-ng-href="{{stories[4].sectionUrl + '/' + stories[4].id + '-' + stories[4].urlFriendlySuffix}}" title="{{ stories[4].headline }}">
+                            <div class="row">
+                                <div class="columns small-12">
+                                    <div class="article-holder">
+                                        <span class="section-name" data-ng-bind="stories[4].category"></span>
+                                        <span ng-class="{'media-type': stories[4].mediaAsset.type == 'IMAGE_GALLERY' || stories[4].mediaAsset.type == 'VIDEO','':stories[4].mediaAsset.type == 'IMAGE_SET'}"><i ng-class="{'icon-camera': stories[4].mediaAsset.type == 'IMAGE_GALLERY','icon-video-play': stories[4].mediaAsset.type == 'VIDEO'}"></i> </span>
+                                        <img src="/static/web-rev/img/default_img.jpg" style="width: 100%" alt="" role="presentation"/>
+                                        <img data-ng-src="/web/images{{stories[4].mediaAsset.imageUrl | imageAdvFilter:[ [.75, .33], [.66, .5], [1,.5] ]:0.563}}" alt="{{ stories[4].mediaAsset.caption }}" style="width: 100%;position: absolute; top: 0; left:0;height: 100%"/>
+                                        <sna-image-teaser viewport-width="{{[ [.75, .33], [.66, .5], [1,.5] ]}}" images-data="{{stories[4].mediaAsset.images}}" data-ng-if="showImageTeaserOnPage && stories[4].mediaAsset.type == 'IMAGE_GALLERY'" content-id="{{stories[4].id}}"></sna-image-teaser>
+                                    </div>
+
+                                    <sna-video-teaser data-ng-if="::(stories[4].type == 'VIDEO' && stories[4].teaserUrl || stories[4].mediaAsset.type == 'VIDEO' && stories[4].mediaAsset.teaserUrl)" content="stories[4]"></sna-video-teaser>
+                                </div>
+                                <div class="columns small-12">
+                                    <div class="social-copy">
+                                        <div class="social-date">
+                                            <p class="date-time">
+                                                <i class="icon-time"></i>
+                                                <span class="icon-copy" data-ng-bind="stories[4].date | contentDateFilter:stories[4].lastEditDate:'آخر تحديث ':2"></span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="columns small-12">
+                                    <div class="article-title-holder">
+                                        <h3 class="h5" data-ng-bind="stories[4].headline"></h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- END: TOP Stories without AD Enabled in Desktop -->
+
+<!-- START: TOP Stories with AD Enabled in Desktop -->
+
+<div data-ng-if="component.adEnabled">
+    <div class="row top-stories  top-stories-with-ad" data-ng-controller="topStoriesController" data-equalizer>
+
+        <!--START:  Content Block-->
+        <div data-ng-class="{'large-push-4': topstoriesEven, 'large-push-0': topstoriesOdd}" data-equalizer-watch class="columns large-4 medium-6 top-stories-with-ad-col-1"   data-ng-show="(deviceType == 'MOBILE' && (stories[0] || stories[1])) || deviceType != 'MOBILE'">
+            <div   class="row top-stories-with-ad-col-inner-level-1">
+                <div class="columns small-6 medium-12 large-12 mrgn-bottom top-stories-with-ad-col-inner-level-2"  data-ng-if="stories[0]">
+                    <div class="content-wrapper">
+                        <a data-ng-href="{{stories[0].sectionUrl + '/' + stories[0].id + '-' + stories[0].urlFriendlySuffix}}"  title="{{ stories[0].headline }}">
+                            <div class="row">
+                                <div class="columns small-12">
+                                    <div class="article-holder">
+                                        <span class="section-name" data-ng-bind="stories[0].category"></span>
+                                        <span ng-class="{'media-type': stories[0].mediaAsset.type == 'IMAGE_GALLERY' || stories[0].mediaAsset.type == 'VIDEO','':stories[0].mediaAsset.type == 'IMAGE_SET'}"><i ng-class="{'icon-camera': stories[0].mediaAsset.type == 'IMAGE_GALLERY','icon-video-play': stories[0].mediaAsset.type == 'VIDEO'}"></i> </span>
+                                        <img src="/static/web-rev/img/default_img.jpg" style="width: 100%" alt="" role="presentation"/>
+                                        <img data-ng-src="/web/images{{stories[0].mediaAsset.imageUrl | imageAdvFilter:[ [.75, .33], [.66, .5], [1,.5] ]:0.563}}" alt="{{ stories[0].mediaAsset.caption }}" style="width: 100%;position: absolute; top: 0; left:0;height: 100%"/>
+                                        <sna-image-teaser viewport-width="{{[ [.75, .33], [.66, .5], [1,.5] ]}}" images-data="{{stories[0].mediaAsset.images}}" data-ng-if="showImageTeaserOnPage && stories[0].mediaAsset.type == 'IMAGE_GALLERY'" content-id="{{stories[0].id}}"></sna-image-teaser>
+                                    </div>
+                                    <sna-video-teaser data-ng-if="::(stories[0].type == 'VIDEO' && stories[0].teaserUrl || stories[0].mediaAsset.type == 'VIDEO' && stories[0].mediaAsset.teaserUrl)" content="stories[0]"></sna-video-teaser>
+                                </div>
+                                <div class="columns small-12">
+                                    <div class="social-copy">
+                                        <div class="social-date">
+                                            <p class="date-time">
+                                                <i class="icon-time"></i>
+                                                <span class="icon-copy" data-ng-bind="stories[0].date | contentDateFilter:stories[0].lastEditDate:'آخر تحديث ':2"></span>
+                                            </p>
+                                        </div>
+                                     </div>
+                                </div>
+                                <div class="columns small-12">
+                                    <div class="article-title-holder">
+                                        <h3 class="h5" data-ng-bind="stories[0].headline"></h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div  class="columns small-6 medium-12 large-12 top-stories-with-ad-col-inner-level-2"  data-ng-if="stories[1]">
+                    <div class="content-wrapper">
+                        <a data-ng-href="{{stories[1].sectionUrl + '/' + stories[1].id + '-' + stories[1].urlFriendlySuffix}}" title="{{ stories[1].headline }}">
+                            <div class="row">
+                                <div class="columns small-12">
+                                    <div class="article-holder">
+                                        <span class="section-name" data-ng-bind="stories[1].category"></span>
+                                        <span ng-class="{'media-type': stories[1].mediaAsset.type == 'IMAGE_GALLERY' || stories[1].mediaAsset.type == 'VIDEO','':stories[1].mediaAsset.type == 'IMAGE_SET'}"><i ng-class="{'icon-camera': stories[1].mediaAsset.type == 'IMAGE_GALLERY','icon-video-play': stories[1].mediaAsset.type == 'VIDEO'}"></i> </span>
+                                        <img src="/static/web-rev/img/default_img.jpg" style="width: 100%" alt="" role="presentation"/>
+                                        <img data-ng-src="/web/images{{stories[1].mediaAsset.imageUrl | imageAdvFilter:[ [.75, .33], [.66, .5], [1,.5] ]:0.563}}" alt="{{ stories[1].mediaAsset.caption }}" style="width: 100%;position: absolute; top: 0; left:0;height: 100%"/>
+                                        <sna-image-teaser viewport-width="{{[ [.75, .33], [.66, .5], [1,.5] ]}}" images-data="{{stories[1].mediaAsset.images}}" data-ng-if="showImageTeaserOnPage && stories[1].mediaAsset.type == 'IMAGE_GALLERY'" content-id="{{stories[1].id}}"></sna-image-teaser>
+                                    </div>
+                                    <sna-video-teaser data-ng-if="::(stories[1].type == 'VIDEO' && stories[1].teaserUrl || stories[1].mediaAsset.type == 'VIDEO' && stories[1].mediaAsset.teaserUrl)" content="stories[1]"></sna-video-teaser>
+                                </div>
+                                <div class="columns small-12">
+                                    <div class="social-copy">
+                                        <div class="social-date">
+                                            <p class="date-time">
+                                                <i class="icon-time"></i>
+                                                <span class="icon-copy" data-ng-bind="stories[1].date | contentDateFilter:stories[1].lastEditDate:'آخر تحديث ':2"></span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="columns small-12">
+                                    <div class="article-title-holder">
+                                        <h3 class="h5" data-ng-bind="stories[1].headline"></h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--END:  Content Block-->
+
+        
+        <!--START:  Half Page Ad Section-->
+        <div data-ng-click="clickOnSNADefaultAdBanner($event)" data-ng-class="{'large-pull-4': topstoriesEven, 'large-push-4': topstoriesOdd}" data-ng-if="deviceType == 'DESKTOP'" style="" data-equalizer-watch class="columns large-4 medium-6 longer top-stories-with-ad-col-3 inside-content-dfp-default-bg"  >
+            <!--START: DESKTOP::  halfpage 1 and halfpage 2 in topstories 3rd and 5th topstories component-->
+              <div class="text-center "  data-ng-dfp-ad-container data-ng-if="!firstSectionTopStoriesAdShown && deviceType == 'DESKTOP' && dfpConfigPresent">
+                   <div ng-dfp-ad-hide-when-empty data-lazy-load="{{true}}" data-ng-dfp-ad="div-gpt-ad-halfpage-topstories-desktop-1" ></div>
+              </div>
+            <!--END: DESKTOP::  halfpage 1 and halfpage 2 in topstories 3rd and 5th topstories component-->
+            
+
+            <!--START: DESKTOP::  halfpage 1 and halfpage 2 in topstories 3rd and 5th topstories component-->
+              <div class="text-center "  data-ng-dfp-ad-container data-ng-if="firstSectionTopStoriesAdShown && deviceType == 'DESKTOP' && dfpConfigPresent">
+                   <div ng-dfp-ad-hide-when-empty data-lazy-load="{{true}}" data-ng-dfp-ad="div-gpt-ad-halfpage-topstories-desktop-2" ></div>
+              </div>
+            <!--END: DESKTOP::  halfpage 1 and halfpage 2 in topstories 3rd and 5th topstories component-->
+
+
+        </div>
+        <!--END:  Half Page Ad Section-->
+        
+
+        <!--START:  Content Block-->
+        <div data-ng-class="{'large-pull-4': topstoriesOdd}" data-equalizer-watch class="columns large-4 medium-6 top-stories-with-ad-col-2" >
+            <div  style="" class="row top-stories-with-ad-col-inner-level-1">
+                <div  style="" class="clearfix small-6 medium-12 large-12 columns mrgn-bottom top-stories-with-ad-col-inner-level-2" data-ng-if="stories[3]">
+                    <div class="content-wrapper">
+                        <a data-ng-href="{{stories[3].sectionUrl + '/' + stories[3].id + '-' + stories[3].urlFriendlySuffix}}" title="{{ stories[3].headline }}">
+                            <div class="row">
+                                <div class="columns small-12">
+                                    <div class="article-holder">
+                                        <span class="section-name" data-ng-bind="stories[3].category"></span>
+                                        <span ng-class="{'media-type': stories[3].mediaAsset.type == 'IMAGE_GALLERY' || stories[3].mediaAsset.type == 'VIDEO','':stories[3].mediaAsset.type == 'IMAGE_SET'}"><i ng-class="{'icon-camera': stories[3].mediaAsset.type == 'IMAGE_GALLERY','icon-video-play': stories[3].mediaAsset.type == 'VIDEO'}"></i> </span>
+                                        <img src="/static/web-rev/img/default_img.jpg" style="width: 100%" alt="" role="presentation"/>
+                                        <img data-ng-src="/web/images{{stories[3].mediaAsset.imageUrl | imageAdvFilter:[ [.75, .33], [.66, .5], [1,.5] ]:0.563}}" alt="{{ stories[3].mediaAsset.caption }}" style="width: 100%;position: absolute; top: 0; left:0;height: 100%"/>
+                                        <sna-image-teaser viewport-width="{{[ [.75, .33], [.66, .5], [1,.5] ]}}" images-data="{{stories[3].mediaAsset.images}}" data-ng-if="showImageTeaserOnPage && stories[3].mediaAsset.type == 'IMAGE_GALLERY'" content-id="{{stories[3].id}}"></sna-image-teaser>
+                                    </div>
+                                    <sna-video-teaser data-ng-if="::(stories[3].type == 'VIDEO' && stories[3].teaserUrl || stories[3].mediaAsset.type == 'VIDEO' && stories[3].mediaAsset.teaserUrl)" content="stories[3]"></sna-video-teaser>
+                                </div>
+                                <div class="columns small-12">
+                                    <div class="social-copy">
+                                        <div class="social-date">
+                                            <p class="date-time">
+                                                <i class="icon-time"></i>
+                                                <span class="icon-copy" data-ng-bind="stories[3].date | contentDateFilter:stories[3].lastEditDate:'آخر تحديث ':2"></span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="columns small-12">
+                                    <div class="article-title-holder">
+                                        <h3 class="h5" data-ng-bind="stories[3].headline"></h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div  class="clearfix small-6 medium-12 large-12 columns top-stories-with-ad-col-inner-level-2" data-info="{{ stories[4] }}" data-ng-if="stories[4]">
+                    <div class="content-wrapper">
+                        <a data-ng-href="{{stories[4].sectionUrl + '/' + stories[4].id + '-' + stories[4].urlFriendlySuffix}}" title="{{ stories[4].headline }}">
+                            <div class="row">
+                                <div class="columns small-12">
+                                    <div class="article-holder">
+                                        <span class="section-name" data-ng-bind="stories[4].category"></span>
+                                        <span ng-class="{'media-type': stories[4].mediaAsset.type == 'IMAGE_GALLERY' || stories[4].mediaAsset.type == 'VIDEO','':stories[4].mediaAsset.type == 'IMAGE_SET'}"><i ng-class="{'icon-camera': stories[4].mediaAsset.type == 'IMAGE_GALLERY','icon-video-play': stories[4].mediaAsset.type == 'VIDEO'}"></i> </span>
+                                        <img src="/static/web-rev/img/default_img.jpg" style="width: 100%" alt="" role="presentation"/>
+                                        <img data-ng-src="/web/images{{stories[4].mediaAsset.imageUrl | imageAdvFilter:[ [.75, .33], [.66, .5], [1,.5] ]:0.563}}" alt="{{ stories[4].mediaAsset.caption }}" style="width: 100%;position: absolute; top: 0; left:0;height: 100%"/>
+                                        <sna-image-teaser viewport-width="{{[ [.75, .33], [.66, .5], [1,.5] ]}}" images-data="{{stories[4].mediaAsset.images}}" data-ng-if="showImageTeaserOnPage && stories[4].mediaAsset.type == 'IMAGE_GALLERY'" content-id="{{stories[4].id}}"></sna-image-teaser>
+                                    </div>
+
+                                    <sna-video-teaser data-ng-if="::(stories[4].type == 'VIDEO' && stories[4].teaserUrl || stories[4].mediaAsset.type == 'VIDEO' && stories[4].mediaAsset.teaserUrl)" content="stories[4]"></sna-video-teaser>
+                                </div>
+                                <div class="columns small-12">
+                                    <div class="social-copy">
+                                        <div class="social-date">
+                                            <p class="date-time">
+                                                <i class="icon-time"></i>
+                                                <span class="icon-copy" data-ng-bind="stories[4].date | contentDateFilter:stories[4].lastEditDate:'آخر تحديث ':2"></span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="columns small-12">
+                                    <div class="article-title-holder">
+                                        <h3 class="h5" data-ng-bind="stories[4].headline"></h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--END:  Content Block-->
+        
+
+
+    </div>
+</div>
+
+
+
+<!-- END: TOP Stories with AD Enabled in Desktop -->

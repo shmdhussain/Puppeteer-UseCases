@@ -3,13 +3,13 @@ var domainList = [
     {   no:0, 
         nickName:"local",       
         webDomain: "http://10.64.161.22:8080",
-        cmsDomain: "http://10.64.161.22:8080/"
+        cmsDomain: "http://10.64.161.22:8080"
     },
 
     {   no:1, 
         nickName:"local",       
         webDomain: "http://10.64.161.22:8181",
-        cmsDomain: "http://10.64.161.22:8181/"
+        cmsDomain: "http://10.64.161.22:8181"
     },
     {   no:2, 
         nickName:"prod",        
@@ -19,22 +19,22 @@ var domainList = [
     {   no:3, 
         nickName:"leg3",        
         webDomain: "http://snapweb.leg3.noham.webdev.skynewsarabia.com",
-        cmsDomain: "http://snapcms.leg3.noham.webdev.skynewsarabia.com"
+        cmsDomain: "https://snapcms.leg3.noham.webdev.skynewsarabia.com"
     },
     {   no:4, 
         nickName:"leg4",        
         webDomain: "http://snapweb.leg4.noham.webdev.skynewsarabia.com",
-        cmsDomain: "http://snapcms.leg4.noham.webdev.skynewsarabia.com"
+        cmsDomain: "https://snapcms.leg4.noham.webdev.skynewsarabia.com"
     },
     {   no:5, 
         nickName:"leg5",        
         webDomain: "http://snapweb.leg5.noham.webdev.skynewsarabia.com",
-        cmsDomain: "http://snapcms.leg5.noham.webdev.skynewsarabia.com"
+        cmsDomain: "https://snapcms.leg5.noham.webdev.skynewsarabia.com"
     },
     {   no:6, 
         nickName:"leg6",        
         webDomain: "http://www.leg6.webdev.skynewsarabia.com",
-        cmsDomain: "http://snapcms.leg6.webdev.skynewsarabia.com"
+        cmsDomain: "https://snapcms.leg6.webdev.skynewsarabia.com"
     },
     {   no:7, 
         nickName:"leg7",        

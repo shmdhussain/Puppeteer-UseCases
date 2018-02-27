@@ -1,0 +1,727 @@
+<!doctype html>
+
+<html class="no-js" lang="ar" dir="rtl" data-ng-app="snaApp" itemscope itemtype="https://schema.org/WebPage" xmlns:og="https://opengraphprotocol.org/schema/" prefix="og: https://ogp.me/ns#">
+    <head>
+        <meta http-equiv="cache-control" content="max-age=0">
+<meta http-equiv="cache-control" content="no-cache">
+<meta http-equiv="expires" content="0">
+<meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT">
+<meta http-equiv="pragma" content="no-cache">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, user-scalable=">
+<meta name="apple-mobile-web-app-title" content="Sky News Arabia">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="format-detection" content="telephone=no">
+<meta name="msapplication-tap-highlight" content="no">
+<meta name="fragment" content="!">
+<meta name="description" content="">
+<meta name="keywords" content="">
+<meta name="news_keywords" content="">
+
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+ <!-- Add the following three tags inside head. -->
+<meta itemprop="name" content="">
+<meta itemprop="description" content="">
+<meta itemprop="image" content="" itemtype="https://schema.org/ImageObject">
+<meta property="og:title" content="">
+<meta property="og:url" content="">
+<meta property="og:image" content="">
+<meta property="og:image:url" content="">
+<meta property="og:image:secure_url" content="">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:description" content="">
+<meta property="og:site_name" content="سكاي نيوز عربية">
+<meta property="og:type" content="">
+<meta property="fb:app_id" content="1029897510354643">
+<meta property="fb:pages" content="1591630534475384">
+
+
+<!-- twitter tags starts -->
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@skynewsarabia">
+<meta name="twitter:title" content="">
+<meta name="twitter:description" content="">
+<meta name="twitter:image" content="">
+
+<!-- twitter tags ends -->
+
+
+<!-- change the address bar color to theme color of our website(only for chrome android)-->
+<meta name="theme-color" content="#6a6f78">
+
+<!-- Verfication Tag for Bing Web Master Tools -->
+<meta name="msvalidate.01" content="5C8BEEF8D2148548C625F4CA66D2EDC1">
+<meta http-equiv="Accept-CH" content="DPR, Viewport-Width, Width">
+<title data-ng-non-bindable> </title>
+
+<link rel="canonical" href="" />
+<link rel="shortcut icon" type="image/ico" href="/asset/12.11/img/favicon.ico" />
+<link rel="stylesheet" type="text/css" href="/asset/12.11/styles/icon-font/foundation-icons.css" />
+
+<link rel="manifest" href="/manifest.json">
+
+<link href='https://www.skynewsarabia.com' rel='preconnect' crossorigin>
+<link href='https://asset1.skynewsarabia.com' rel='preconnect' crossorigin>
+<link href='https://api.skynewsarabia.com' rel='preconnect' crossorigin>
+<link href='https://media.skynewsarabia.com' rel='preconnect' crossorigin>
+<link href='https://www.googleapis.com' rel='preconnect' crossorigin>
+<link href='https://wurfl.io' rel='preconnect' crossorigin>
+<link rel="preload" href="/asset/12.11/styles/sna-font/HelveticaNeueMEforSKYW21-Rg_web.woff2"   as="font" type="font/woff2" crossorigin="anonymous">
+<link rel="script" href="/asset/12.11/js/lib/jwplayer-8.1.2/jwplayer.js" as="script" crossorigin="anonymous">
+
+<link rel="preload" href="/static/web-rev/img/default_img.jpg" as="image" crossorigin="anonymous">
+
+<!-- Push Woosh Web Notifications -->
+<script>
+  (function(){
+     var resource = document.createElement('script');
+     resource.type = 'text/javascript';
+     resource.async = true;
+     resource.src = '//cdn.pushwoosh.com/webpush/v3/pushwoosh-web-notifications.js';
+     var firstScriptTag = document.getElementsByTagName('script')[0];
+     if(window.Promise){
+      firstScriptTag.parentNode.insertBefore(resource, firstScriptTag);
+     }
+  })();
+</script>
+<script type="text/javascript">
+    var Pushwoosh = Pushwoosh || [];
+    Pushwoosh.push(['init', {
+        logLevel: 'error', // possible values: error, info, debug
+        applicationCode: '20631-D0636', // you application code from Pushwoosh Control Panel
+        safariWebsitePushID: 'web.com.skynewsarabiatv.www', //  unique reverse-domain string, obtained in you Apple Developer Portal
+        defaultNotificationTitle: 'Sky News Arabia', // sets a default title for push notifications
+        defaultNotificationImage: 'https://www.skynewsarabiatv.com/static/web-rev/img/app-banner/sna_logo_192_20_Pad.png', // URL to custom custom notification image
+        autoSubscribe: true // or false. If true, promts a user to subscribe for pushes upon SDK initialization
+    }]);
+</script>
+<script type="text/javascript" src="/asset/12.11/js/pushwooshNotification/sna-pushwoosh.js" async></script>
+<!-- Google Analytics -->
+<script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-28465200-4', 'auto');
+
+
+
+      ga('send', 'pageview');
+
+
+
+var secondAnalyticsPropertyEnabled = false;
+      </script>
+<!-- End Google Analytics -->
+
+<!-- Include the tracking code for Gemius -->
+<!-- (C)2000-2016 Gemius SA - gemiusAudience / skynewsarabia.com / Homepage & Others -->
+<script type="text/javascript">
+	<!--//--><![CDATA[//><!--
+	if(window.location.href.toString().split(window.location.host)[1] == "/web/home") {
+		var pp_gemius_identifier = 'p3Y66HM559gRbWbkeolRosVHjwzZP6b0XHOeudBWh7..p7';
+	} else {
+		var pp_gemius_identifier = 'nSCQp.uwG0DsTDZ4kJlYRbes71Z8smdF7VhonoV5Nwn.87';
+	}
+	// lines below shouldn't be edited
+	function gemius_pending(i) { window[i] = window[i] || function() {var x = window[i+'_pdata'] = window[i+'_pdata'] || []; x[x.length]=arguments;};};
+	gemius_pending('gemius_hit'); gemius_pending('gemius_event'); gemius_pending('pp_gemius_hit'); gemius_pending('pp_gemius_event');
+	(function(d,t) {try {var gt=d.createElement(t),s=d.getElementsByTagName(t)[0],l='http'+((location.protocol=='https:')?'s':''); gt.setAttribute('async','async');
+		gt.setAttribute('defer','defer'); gt.src=l+'://gamena.hit.gemius.pl/xgemius.js'; s.parentNode.insertBefore(gt,s);} catch (e) {}})(document,'script');
+	//--><!]]>
+</script>
+
+
+
+<!-- Cedexis tracking code -->
+<script>
+(function(e,c,a,g,f){function d(){var b=c.createElement("script");b.async=!0;
+b.src="//radar.cedexis.com/1/14557/radar.js";c.body.appendChild(b)}
+(function(){for(var b=[/\bMSIE (5|6)/i],a=b.length;a--;)if(b[a]
+.test(navigator.userAgent))return!1;return!0})()
+&&("complete"!==c.readyState?(a=e[a])?a(f,d,!1):(a=e[g])&&a("on"+f,d):d())})
+(window,document,"addEventListener","attachEvent","load");
+</script>
+
+
+      <!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-NKJGPTJ');</script>
+<!-- End Google Tag Manager -->
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NKJGPTJ"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<!-- START: Safe Calling of FB Pixel function -->
+<script type="text/javascript">
+    window.fbqSafeCallQueue = [];
+    window.fbqSafeCallTimerClearTimeoutId;
+    window.pushInFbqSafeCallQueue = function(callback){
+        if(window.fbq){
+            callback();
+        }else{
+            fbqSafeCallQueue.push(callback);
+        }
+    };
+
+    window.fbqSafeCall= function(){
+        if(window.fbq){
+            clearTimeout(window.fbqSafeCallTimerClearTimeoutId);
+            for (var i = 0; i < window.fbqSafeCallQueue.length; i++) {
+                window.fbqSafeCallQueue[i]();
+            }
+            window.fbqSafeCallQueue = [];
+        }else{
+            window.fbqSafeCallTimerClearTimeoutId = setTimeout(function(){
+                window.fbqSafeCall();
+            }, 3000);
+        }
+    };
+    window.fbqSafeCall();
+
+</script>
+<!-- END: Safe Calling of FB Pixel function -->
+
+
+<link rel="stylesheet" type="text/css" href="/asset/12.11/styles/app.css" />
+<link rel="preload" href="/asset/12.11/global/styles/globalcss_1518522417416.css" as="style" crossorigin="anonymous"/>
+<link rel="stylesheet" type="text/css" href="/asset/12.11/global/styles/globalcss_1518522417416.css" />
+
+<link rel="stylesheet" type="text/css" href="/asset/12.11/styles/app-split.css" />
+
+<link rel="stylesheet" type="text/css" href="/asset/12.11/styles/section.css" />
+
+<meta itemprop="url" content="">
+        <!--START: Preload the Js file and other resources needed for this page-->
+        <link rel="preload" href="/asset/12.11/styles/sna-rev-head.css?timestamp=1475934643862" as="style"/>
+
+<link rel="preload" href="/asset/12.11/styles/sna-rev-head-split.css?timestamp=1475934643862" as="style"/>
+
+<link rel="preload" href="/asset/12.11/styles/sna-notfound-head.css?timestamp=1475934643862" as="style"/>
+
+<link rel="preload" href="/asset/12.11/scripts/sna-rev-foot.js?timestamp=1475934643862" as="script"/>
+
+<!--END: Preload the Js file and other resources needed for this page-->
+    </head>
+    <body id="body" class="main-page" data-dfp-ad-unit='' data-sna-init='{"initData": "", "appAssetsUrl": "/asset/12.11", "apiBaseUrl": "http://10.64.161.22:8080", "apiHost": "http://10.64.161.22", "webContext": ""}' data-ng-class="{'f-topbar-fixed': deviceType == 'DESKTOP', 'show-breaking-news': showBreakingTicker,'show-latest-ticker':latestNewsTicker,'show-notification':notification,'mobile-device': deviceType == 'MOBILE', 'tablet-device': deviceType == 'TABLET', 'desktop-device': deviceType == 'DESKTOP'}" style="display: none">
+        <!--START:  Youtube Iframe API-->
+<script>
+  var tag = document.createElement('script');
+  tag.src = "https://www.youtube.com/iframe_api";
+  var firstScriptTag = document.getElementsByTagName('script')[0];
+  firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+  window.youtubeIframeApiLoaded = false;
+  window.onYouTubeIframeAPIReady = function () { 
+    window.youtubeIframeApiLoaded = true;
+  }
+  window.youtubePlayerInit = function(callback){
+    if(!window.youtubeIframeApiLoaded){
+      setTimeout(function(){
+        window.youtubePlayerInit(callback);
+      }, 100);
+    }else{
+      callback();
+    }
+  }
+</script>
+<!--END:  Youtube Iframe API-->
+<!--[if lte IE 9 ]> <div style="display:none" class="lte-ie9"> </div><![endif]-->
+        <div class="off-canvas-wrap" data-offcanvas="" style="overflow-x: hidden">
+            
+
+<!--  topBar = sticky-->
+
+<div  data-ng-if="(deviceType == 'MOBILE') && dfpConfigPresent" class="dfp-ad-mobile-sticky-leaderboard">
+    <div class="text-center " data-ng-dfp-ad-container>
+       <div class="" ng-dfp-ad-hide-when-empty data-ng-dfp-ad="div-gpt-ad-ldb-bb-mobile-sticky-1" ></div>
+    </div>
+</div>
+
+<div class="sticky contain-to-grid noprint" id="headerDiv">
+    <div class="header_bg">
+        <nav class="top-bar" role="navigation" data-options="">
+            <div class="row collapse">
+                <span>
+                    <div class="show-for-medium-down">
+                        <div class="small-3 columns header-icon-right">
+                            <a href="#" class="menu-button right-off-canvas-toggle menu-icon nav-icon" id="menuButton"><span class="burger-icon"></span></a>
+                        </div>
+                    </div>
+
+                    <div class="show-for-large-up large-2 columns weather-area">
+                    </div>
+                </span>
+                <div class="small-6 large-8 columns logo-area text-center">
+                    <div class="h1"><a class="logo" href="/" title="سكاي نيوز عربية"></a><span class="show-for-sr">سكاي نيوز عربية</span>
+                    </div>
+                </div>
+
+                <div class="large-2 columns show-for-large-up search-area">
+					<div class="search-input-container left">
+                        <form action="{{'/search'}}" method="get">
+                            <input maxlength="250" class="search-keyword" name="q" type="text" placeholder="البحث في المحتوى" data-ng-model="searchQuery" />
+                        </form>
+                    </div>
+                    <div class="search-button-container left">
+                        <a class="button gray postfix" data-ng-click="trackGAEvent('SEARCH',searchQuery);" data-ng-href="{{'/search?q=' + (searchQuery | encodeURIComponent)}}"><i class="icon-search"></i></a>
+                    </div>
+                </div>
+                <div class="show-for-medium-down">
+                    <div class="small-3 columns header-icon-left">
+                        <a class="nav-icon search-holder left" id="searchIcon" data-ng-click="showHeaderSearch()"><i class="icon-search"></i></a>
+                        <a class="nav-icon live-holder left" data-ng-href="{{'/livestream'}}" data-ng-class="{'play':playIcon == true}"><i class="icon-live-streaming"></i></a>
+                    </div>
+                </div>
+             </div>
+        </nav>
+        <div class="header_middle_effect">
+            <img src="/asset/12.11/img/header/Reflection_Effect.png" alt="" role="presentation">
+        </div>
+    </div>
+    <div class="search-query-area">
+        <div class="row collapse" >
+            <div class="small-12 columns">
+              <form action="{{'/search'}}" method="get" class="search-keyword-form">
+                <input maxlength="250" class="search-keyword" name="q" type="text" placeholder="البحث في المحتوى" data-ng-model="searchQuery"/>
+              </form>
+            </div>
+            <!-- <div class="small-2 columns" data-equalizer-watch>
+                <a class="button" data-ng-click="hideHeaderSearch()">
+                    <span >إغلاق</span>
+                </a>
+            </div> -->
+        </div>
+    </div>
+    <sna-breaking-news data-ng-if="webPathname.indexOf('livestream') <= -1">
+    </sna-breaking-news>
+</div>
+
+<!-- End topBar -->
+
+<div class="header-fill noprint"></div>
+
+<!-- Sky Scrapper ad -->
+
+
+
+
+
+
+<style type="text/css">
+    
+/*START:small desktop have less space for ad so give it fixed width and squeeze other */
+@media only print, screen and (min-width: 79.9377em) and (max-width: 97.25em) {
+  .top-stories-with-ad .top-stories-with-ad-col-1 {
+    width: calc( ( 100% - ( 300px + 1.25rem)) / 2); }
+    .top-stories-with-ad .top-stories-with-ad-col-1.large-push-4 {
+      right: calc(300px + 1.25rem); }
+  .top-stories-with-ad .top-stories-with-ad-col-2 {
+    width: calc( ( 100% - ( 300px + 1.25rem)) / 2); }
+    .top-stories-with-ad .top-stories-with-ad-col-2.large-pull-4 {
+      left: calc(300px + 1.25rem); }
+  .top-stories-with-ad .top-stories-with-ad-col-3 {
+    width: calc(300px + 1.25rem); }
+    .top-stories-with-ad .top-stories-with-ad-col-3.large-pull-4 {
+      left: calc( (100% - ( 300px + 1.25rem)) / 2); }
+    .top-stories-with-ad .top-stories-with-ad-col-3.large-push-4 {
+      right: calc( (100% - ( 300px + 1.25rem)) / 2); } }
+/*END:small desktop have less space for ad so give it fixed width and squeeze other */
+
+
+
+
+
+  @media only print, screen and (min-width: 79.9377em) and (max-width: 97.25em) {
+    .sna-content-list-block.sna-content-list-block-dfp .sna-content-list-block-item:nth-child(2) {
+      width: calc( ( 100% - ( 300px + 0.625rem)) * .3333333333); } }
+
+  @media only print, screen and (min-width: 79.9377em) and (max-width: 97.25em) {
+    .sna-content-list-block.sna-content-list-block-dfp .sna-content-list-block-item:nth-child(3) {
+      width: calc( ( 100% - ( 300px + 0.625rem)) * .6666666667); } }
+
+
+
+
+</style>
+
+
+
+
+<style type="text/css">
+    @media only print, screen and (min-width: 79.9377em) {   
+    .article-page sna-video #videoWrapper > #jw-icon-volume-overlay{
+            margin: .7rem .7rem 0 0;
+            width: 3rem;
+            padding-bottom: 0;
+            z-index: 2;
+            height: 3rem !important;
+            padding: 0;
+        }
+    }
+
+</style>
+
+
+
+<style type="text/css">
+    body .off-canvas-wrap .jwplayer.jw-state-error .jw-error-msg .jw-icon{
+        margin-right: 0 !important;
+    }
+
+</style>
+<div class="inner-wrap">
+                
+
+
+<div id="offCanvasDiv" class="mobile-menu-area noprint" data-ng-controller="menuController" data-ng-show="deviceType == 'MOBILE' || deviceType == 'TABLET'">
+    <aside class="right-off-canvas-menu" data-ng-class="{'menu-with-ticker': showBreakingTicker}" style="height: 200px"><!-- Height is to force iphone/ipad to show scroll bars -->
+        <div class="row side-menu right-off-canvas-menu-holder" >
+            <ul class="small-block-grid-2 icon-links menu-streaming-cont">
+                <li class="small-6 columns text-center">
+                    <a class="live-streaming" href="/livestream-البث-المباشر" data-ng-click="trackGAEvent('LIVE_STREAM','LIVESTREAMING');" title="" data-ng-class="{'play':playIcon == true}">
+                      <img class="live-stream-not-playing" data-ng-src="{{appAssetsUrl + '/img/menu-icons/Streaming_Inactive.png'}}" alt="" role="presentation">
+                      <img class="live-stream-not-playing-hover" data-ng-src="{{appAssetsUrl + '/img/menu-icons/Streaming_Active.png'}}" alt="" role="presentation">
+                      <img class="live-stream-playing" data-ng-src="{{appAssetsUrl + '/img/menu-icons/Streaming_Opened.jpg'}}" alt="" role="presentation">
+                    </a>
+                </li>
+                <li class="small-6 columns text-center">
+                    <a href="#" data-ng-click="playRadio($event);trackGAEvent('RADIO_STREAM','RADIO');"  title="" class="radio-link" data-ng-class="{'playing-on-devices': device != 'DESKTOP'}">
+                          <img class="radio-not-playing" data-ng-src="{{appAssetsUrl + '/img/menu-icons/Radio_Inactive.png'}}" alt="" role="presentation">
+                          <img class="radio-not-playing-hover" data-ng-src="{{appAssetsUrl + '/img/menu-icons/Radio_Active.png'}}" alt="" role="presentation">
+                          <img class="radio-loading" data-ng-src="{{appAssetsUrl + '/img/menu-icons/Radio_Loading.gif'}}" alt="" role="presentation">
+                          <img class="radio-playing" data-ng-src="{{appAssetsUrl + '/img/menu-icons/Radio_Playing.gif'}}" alt="" role="presentation">
+                          <img class="radio-playing-hover" data-ng-src="{{appAssetsUrl + '/img/menu-icons/Radio_Rollover_When_Playing.jpg'}}" alt="" role="presentation">
+                    </a>
+                </li>
+
+            </ul>
+            <ul class="side-nav">
+              <li class="{{'bgMenu_'+menuItem.id}}" data-ng-repeat="menuItem in menuItems" data-ng-class="{'active': menuItem.url == menuLocationUrl || (menuItem.type.toLowerCase() == 'timeline' && menuItem.timelineName == activeTimelineType), 'columns small-6': menuItem.displayType == 'ICON', 'columns small-12': menuItem.displayType == 'TEXT' || menuItem.displayType == 'TEXT_ICON', 'programs': menuItem.name == 'Programs', 'blogs': menuItem.name == 'Blogs', 'weather': menuItem.name == 'Weather'}">
+                <a data-ng-class="{'active': menuItem.url == menuLocationUrl || (menuItem.type.toLowerCase() == 'timeline' && menuItem.timelineName == activeTimelineType), 'us_election':menuItem.name=='us_election', 'us-election-dark-theme': contentTheme == 'dark-theme', 'us-election-darker-theme': contentTheme == 'darker-theme'}" title="{{menuItem.toolTip ? menuItem.toolTip : menuItem.displayName}}" target="{{menuItem.type == 'EXTERNAL_LINK' ? '_blank' : '_self'}}" data-ng-href="{{menuItem.url}}"  data-ng-if="!menuItem.imageUrl" data-ng-bind="::menuItem.displayName"> </a>
+                <a data-ng-class="{'active': menuItem.url == menuLocationUrl || (menuItem.type.toLowerCase() == 'timeline' && menuItem.timelineName == activeTimelineType), 'us_election':menuItem.name=='us_election', 'us-election-dark-theme': contentTheme == 'dark-theme', 'us-election-darker-theme': contentTheme == 'darker-theme'}" title="{{menuItem.toolTip ? menuItem.toolTip : menuItem.displayName}}" data-ng-href="{{menuItem.url}}" target="{{menuItem.type == 'EXTERNAL_LINK' ? '_blank' : '_self'}}"  data-ng-if="menuItem.displayType == 'ICON'">
+                    <img data-ng-src="{{menuItem.imageUrl}}" class="menu_social_icon" alt="{{::menuItem.toolTip ? menuItem.toolTip : menuItem.displayName}}"/>
+                    <img data-ng-if="menuItem.activeImageUrl" data-ng-src="{{menuItem.activeImageUrl}}" class="menu_social_hover_icon" alt="{{::menuItem.toolTip ? menuItem.toolTip : menuItem.displayName}}"/>
+                </a>
+                <a data-ng-class="{'active': menuItem.url == menuLocationUrl || (menuItem.type.toLowerCase() == 'timeline' && menuItem.timelineName == activeTimelineType), 'us_election':menuItem.name=='us_election', 'us-election-dark-theme': contentTheme == 'dark-theme', 'us-election-darker-theme': contentTheme == 'darker-theme'}" data-ng-href="{{menuItem.url}}" title="{{menuItem.toolTip ? menuItem.toolTip : menuItem.displayName}}" target="{{menuItem.type == 'EXTERNAL_LINK' ? '_blank' : '_self'}}"  data-ng-if="menuItem.displayType == 'TEXT_ICON'">
+                    <span data-ng-bind="::menuItem.displayName"></span>
+                    <img data-ng-show="menuItem.imageUrl && !(menuItem.url == menuLocationUrl || (menuItem.type.toLowerCase() == 'timeline' && menuItem.timelineName == activeTimelineType))"  data-ng-src="{{menuItem.imageUrl}}" class="menu-item-icon" alt="{{::menuItem.toolTip ? menuItem.toolTip : menuItem.displayName}}"/>
+                    <img data-ng-show="menuItem.activeImageUrl && (menuItem.url == menuLocationUrl || (menuItem.type.toLowerCase() == 'timeline' && menuItem.timelineName == activeTimelineType))" data-ng-src="{{menuItem.activeImageUrl}}" class="menu-item-icon" alt="{{::menuItem.toolTip ? menuItem.toolTip : menuItem.displayName}}"/>
+                </a>
+              </li>
+            </ul>
+            <div class="social-icon">
+                   <ul class="inline-list mobile-menu-social-links-inline-list">
+                       <li class="fb-icon social-icon-links" >
+                            <a data-ng-click="trackGAEvent('MENU_SOCIAL','FACEBOOK')" href="https://www.facebook.com/SkyNewsArabia" title="Facebook" class="" target="_blank">
+                                <img class="normalStateMenuSocialIcon" data-ng-src="{{appAssetsUrl + '/img/menu-icons/svg/Facebook_Inactive.svg'}}" alt="Facebook">
+                                <img  class="hoverStateMenuSocialIcon" data-ng-src="{{appAssetsUrl + '/img/menu-icons/svg/Facebook_Active.svg'}}" alt="Facebook">
+                            </a>
+                       </li>
+                       <li class="tw-icon social-icon-links">
+                            <a data-ng-click="trackGAEvent('MENU_SOCIAL','TWITTER')" href="https://twitter.com/skynewsarabia" title="Twitter" class="" target="_blank">
+                                <img class="normalStateMenuSocialIcon" data-ng-src="{{appAssetsUrl + '/img/menu-icons/svg/Twitter_Inactive.svg'}}" alt="Twitter">
+                                <img  class="hoverStateMenuSocialIcon" data-ng-src="{{appAssetsUrl + '/img/menu-icons/svg/Twitter_Active.svg'}}" alt="Twitter">
+                            </a>
+                        </li>
+                       <li class="gp-icon social-icon-links">
+                            <a data-ng-click="trackGAEvent('MENU_SOCIAL','GOOGLE-PLUS')" href="https://plus.google.com/+SkyNewsArabia/posts" title="Google Plus" class="" target="_blank">
+                                <img class="normalStateMenuSocialIcon" data-ng-src="{{appAssetsUrl + '/img/menu-icons/svg/Google_Plus_Inactive.svg'}}" alt="Google Plus">
+                                <img  class="hoverStateMenuSocialIcon" data-ng-src="{{appAssetsUrl + '/img/menu-icons/svg/Google_Plus_Active.svg'}}" alt="Google Plus">
+                            </a>
+                        </li>
+                       <li class="yt-icon social-icon-links">
+                            <a data-ng-click="trackGAEvent('MENU_SOCIAL','YOUTUBE')" href="https://www.youtube.com/user/skynewsarabia" title="YouTube" class="" target="_blank">
+                                <img class="normalStateMenuSocialIcon" data-ng-src="{{appAssetsUrl + '/img/menu-icons/svg/Youtube_Inactive.svg'}}" alt="Youtube">
+                                <img  class="hoverStateMenuSocialIcon" data-ng-src="{{appAssetsUrl + '/img/menu-icons/svg/Youtube_Active.svg'}}" alt="Youtube">
+                            </a>
+                        </li>
+                       <li class="ig-icon social-icon-links">
+                            <a data-ng-click="trackGAEvent('MENU_SOCIAL','INSTAGRAM')" href="https://instagram.com/skynewsarabia/" title="Instagram" class="" target="_blank">
+                                <img class="normalStateMenuSocialIcon" data-ng-src="{{appAssetsUrl + '/img/menu-icons/svg/Instagram_Inactive.svg'}}" alt="Instagram">
+                                <img  class="hoverStateMenuSocialIcon" data-ng-src="{{appAssetsUrl + '/img/menu-icons/svg/Instagram_Active.svg'}}" alt="Instagram">
+                            </a>
+                        </li>
+                       <li class="rs-icon social-icon-links">
+                           
+                               
+                               
+                                   <a data-ng-click="trackGAEvent('MENU_SOCIAL','RSS-FEED')" href="/web/rss.xml" title="RSS Feed" class="" target="_blank">
+                                        <img class="normalStateMenuSocialIcon" data-ng-src="{{appAssetsUrl + '/img/menu-icons/svg/RSS_Inactive.svg'}}" alt="RSS Feed">
+                                        <img  class="hoverStateMenuSocialIcon" data-ng-src="{{appAssetsUrl + '/img/menu-icons/svg/RSS_Active.svg'}}" alt="RSS Feed">
+                                   </a>
+                               
+                           
+                       </li>
+                   </ul>
+            </div>
+        </div>
+    </aside>
+
+</div><section class="main-section">
+                    <div class="row main-content">
+                        <!-- desktop menu -->
+                        
+
+
+
+<div id="megaMenuWrapper">
+  <aside data-ng-if="deviceType=='DESKTOP'" id="megaMenu" class="hide-for-medium-down main-menu-area noprint" data-ng-controller="menuController" data-ng-mouseleave="updateSelectedMenuItem()" data-ng-mousemove="menuEnabled = true;" data-ng-click="$event.stopPropagation();">
+      <div id="sideMenuDiv" class="side-menu">
+          <ul class="small-block-grid-2 icon-links radio-streaming menu-streaming-cont" data-ng-mousemove="menuItem = null">
+              <li class="medium-6 columns text-center">
+                  <a class="live-streaming" data-ng-click="trackGAEvent('LIVE_STREAM','LIVESTREAMING')" href="/livestream-البث-المباشر" data-ng-class="{'play':playIcon == true}" title="">
+                        <img class="live-stream-not-playing" data-ng-src="{{appAssetsUrl + '/img/menu-icons/Streaming_Inactive.png'}}" alt="" role="presentation">
+                        <img class="live-stream-not-playing-hover" data-ng-src="{{appAssetsUrl + '/img/menu-icons/Streaming_Active.png'}}" alt="" role="presentation">
+                        <img class="live-stream-playing" data-ng-src="{{appAssetsUrl + '/img/menu-icons/Streaming_Opened.jpg'}}" alt="" role="presentation">
+                  </a>
+              </li>
+              <li class="medium-6 columns text-center">
+                  <a data-ng-click="playRadio($event);trackGAEvent('RADIO_STREAM','RADIO');" title="" class="radio-link" data-ng-class="{'playing-on-devices': device != 'DESKTOP'}">
+                    <img class="radio-not-playing" data-ng-src="{{appAssetsUrl + '/img/menu-icons/Radio_Inactive.png'}}" alt="" role="presentation">
+                    <img class="radio-not-playing-hover" data-ng-src="{{appAssetsUrl + '/img/menu-icons/Radio_Active.png'}}" alt="" role="presentation">
+                    <img class="radio-loading" data-ng-src="{{appAssetsUrl + '/img/menu-icons/Radio_Loading.gif'}}" alt="" role="presentation">
+                    <img class="radio-playing" data-ng-src="{{appAssetsUrl + '/img/menu-icons/Radio_Playing.gif'}}" alt="" role="presentation">
+                    <img class="radio-playing-hover" data-ng-src="{{appAssetsUrl + '/img/menu-icons/Radio_Rollover_When_Playing.jpg'}}" alt="" role="presentation">
+                  </a>
+              </li>
+          </ul>
+          <ul class="ss side-nav main-links">
+              <li data-ng-repeat="menuItem in menuItems" class="{{'bgMenu_'+menuItem.id}}" data-ng-class="{'active': menuItem.url == menuLocationUrl || (menuItem.type.toLowerCase() == 'timeline' && menuItem.timelineName == activeTimelineType), 'small-6 columns': menuItem.displayType == 'ICON', 'small-12 columns': menuItem.displayType == 'TEXT' || menuItem.displayType == 'TEXT_ICON', 'programs': menuItem.name == 'Programs', 'blogs': menuItem.name == 'Blogs', 'weather': menuItem.name == 'Weather'}">
+                  <a data-ng-href="{{menuItem.url}}" target="{{menuItem.type == 'EXTERNAL_LINK' ? '_blank' : '_self'}}" title="{{::menuItem.toolTip ? menuItem.toolTip : menuItem.displayName}}" data-ng-if="menuItem.displayType == 'TEXT'" data-ng-class="{'active': menuItem.url == menuLocationUrl || (menuItem.type.toLowerCase() == 'timeline' && menuItem.timelineName == activeTimelineType), 'us_election':menuItem.name=='us_election', 'us-election-dark-theme': contentTheme == 'dark-theme', 'us-election-darker-theme': contentTheme == 'darker-theme'}" data-ng-bind="::menuItem.displayName"  data-ng-click="trackGAEvent('MEGA_MENU',menuItem.displayName);"></a>
+                  <a data-ng-href="{{menuItem.url}}" target="{{menuItem.type == 'EXTERNAL_LINK' ? '_blank' : '_self'}}" title="{{::menuItem.toolTip ? menuItem.toolTip : menuItem.displayName}}" data-ng-if="menuItem.displayType == 'ICON'" data-ng-class="{'active': menuItem.url == menuLocationUrl || (menuItem.type.toLowerCase() == 'timeline' && menuItem.timelineName == activeTimelineType), 'us_election':menuItem.name=='us_election', 'us-election-dark-theme': contentTheme == 'dark-theme', 'us-election-darker-theme': contentTheme == 'darker-theme'}"  data-ng-click="trackGAEvent('MEGA_MENU',menuItem.displayName)">
+                      <img data-ng-src="{{menuItem.imageUrl}}" class="menu_social_icon" alt="{{::menuItem.toolTip ? menuItem.toolTip : menuItem.displayName}}"/>
+                      <img data-ng-if="menuItem.activeImageUrl" data-ng-src="{{menuItem.activeImageUrl}}" class="menu_social_hover_icon" alt="{{::menuItem.toolTip ? menuItem.toolTip : menuItem.displayName}}"/>
+                  </a>
+                  <a data-ng-href="{{menuItem.url}}" target="{{menuItem.type == 'EXTERNAL_LINK' ? '_blank' : '_self'}}" title="{{::menuItem.toolTip ? menuItem.toolTip : menuItem.displayName}}" data-ng-if="menuItem.displayType == 'TEXT_ICON'" data-ng-class="{'active': menuItem.url == menuLocationUrl || (menuItem.type.toLowerCase() == 'timeline' && menuItem.timelineName == activeTimelineType), 'us_election':menuItem.name=='us_election', 'us-election-dark-theme': contentTheme == 'dark-theme', 'us-election-darker-theme': contentTheme == 'darker-theme'}"  data-ng-click="trackGAEvent('MEGA_MENU',menuItem.displayName);">
+                      <span class="" data-ng-bind="::menuItem.displayName"></span>
+                      <img data-ng-show="menuItem.imageUrl && !(menuItem.url == menuLocationUrl || (menuItem.type.toLowerCase() == 'timeline' && menuItem.timelineName == activeTimelineType))" data-ng-src="{{menuItem.imageUrl}}" class="menu-item-icon" alt="{{::menuItem.toolTip ? menuItem.toolTip : menuItem.displayName}}"/>
+                      <img data-ng-show="menuItem.activeImageUrl && (menuItem.url == menuLocationUrl || (menuItem.type.toLowerCase() == 'timeline' && menuItem.timelineName == activeTimelineType))" data-ng-src="{{menuItem.activeImageUrl}}" class="menu-item-icon" alt="{{::menuItem.toolTip ? menuItem.toolTip : menuItem.displayName}}"/>
+                  </a>
+              </li>
+          </ul>
+         <div class="social-icon">
+                 <ul class="inline-list">
+                   <li class="fb-icon social-icon-links" >
+                        <a data-ng-click="trackGAEvent('MENU_SOCIAL','FACEBOOK')" href="https://www.facebook.com/SkyNewsArabia" title="Facebook" class="" target="_blank">
+                            <img class="normalStateMenuSocialIcon" data-ng-src="{{appAssetsUrl + '/img/menu-icons/svg/Facebook_Inactive.svg'}}" alt="Facebook">
+                            <img  class="hoverStateMenuSocialIcon" data-ng-src="{{appAssetsUrl + '/img/menu-icons/svg/Facebook_Active.svg'}}" alt="Facebook">
+                        </a>
+                   </li>
+                   <li class="tw-icon social-icon-links">
+                        <a data-ng-click="trackGAEvent('MENU_SOCIAL','TWITTER')" href="https://twitter.com/skynewsarabia" title="Twitter" class="" target="_blank">
+                            <img class="normalStateMenuSocialIcon" data-ng-src="{{appAssetsUrl + '/img/menu-icons/svg/Twitter_Inactive.svg'}}" alt="Twitter">
+                            <img  class="hoverStateMenuSocialIcon" data-ng-src="{{appAssetsUrl + '/img/menu-icons/svg/Twitter_Active.svg'}}" alt="Twitter">
+                        </a>
+                    </li>
+                   <li class="gp-icon social-icon-links">
+                        <a data-ng-click="trackGAEvent('MENU_SOCIAL','GOOGLE-PLUS')" href="https://plus.google.com/+SkyNewsArabia/posts" title="Google Plus" class="" target="_blank">
+                            <img class="normalStateMenuSocialIcon" data-ng-src="{{appAssetsUrl + '/img/menu-icons/svg/Google_Plus_Inactive.svg'}}" alt="Google Plus">
+                            <img  class="hoverStateMenuSocialIcon" data-ng-src="{{appAssetsUrl + '/img/menu-icons/svg/Google_Plus_Active.svg'}}" alt="Google Plus">
+                        </a>
+                    </li>
+                   <li class="yt-icon social-icon-links">
+                        <a data-ng-click="trackGAEvent('MENU_SOCIAL','YOUTUBE')" href="https://www.youtube.com/user/skynewsarabia" title="YouTube" class="" target="_blank">
+                            <img class="normalStateMenuSocialIcon" data-ng-src="{{appAssetsUrl + '/img/menu-icons/svg/Youtube_Inactive.svg'}}" alt="YouTube">
+                            <img  class="hoverStateMenuSocialIcon" data-ng-src="{{appAssetsUrl + '/img/menu-icons/svg/Youtube_Active.svg'}}" alt="YouTube">
+                        </a>
+                    </li>
+                   <li class="ig-icon social-icon-links">
+                        <a data-ng-click="trackGAEvent('MENU_SOCIAL','INSTAGRAM')" href="https://instagram.com/skynewsarabia/" title="Instagram" class="" target="_blank">
+                            <img class="normalStateMenuSocialIcon" data-ng-src="{{appAssetsUrl + '/img/menu-icons/svg/Instagram_Inactive.svg'}}" alt="Instagram">
+                            <img  class="hoverStateMenuSocialIcon" data-ng-src="{{appAssetsUrl + '/img/menu-icons/svg/Instagram_Active.svg'}}" alt="Instagram">
+                        </a>
+                    </li>
+                   <li class="rs-icon social-icon-links">
+                       
+                           
+                           
+                               <a data-ng-click="trackGAEvent('MENU_SOCIAL','RSS-FEED')" href="/web/rss.xml" title="RSS --Feed" class="" target="_blank">
+                                    <img class="normalStateMenuSocialIcon" data-ng-src="{{appAssetsUrl + '/img/menu-icons/svg/RSS_Inactive.svg'}}" alt="RSS Feed">
+                                    <img  class="hoverStateMenuSocialIcon" data-ng-src="{{appAssetsUrl + '/img/menu-icons/svg/RSS_Active.svg'}}" alt="RSS Feed">
+                               </a>
+                           
+                       
+                   </li>
+               </ul>
+          </div>
+      </div>
+      
+  </aside>
+</div><div id="contentBlockDiv" class="content-block" role="contentinfo" data-ng-class="{'dark-theme': contentTheme == 'dark-theme', 'darker-theme': contentTheme == 'darker-theme', 'light-theme': contentTheme == 'light-theme' || !contentTheme}">
+                            <!-- Ticker -->
+                            <div class="notification-tickter-container noprint">
+	<sna-latest-news-ticker id="latestNewsTicker"></sna-latest-news-ticker>
+ 	<sna-notification></sna-notification>
+</div><div class="row collapse" data-ng-if="(deviceType == 'DESKTOP') && dfpConfigPresent">
+                                <div class="small-12 columns text-center" data-ng-dfp-ad-container>
+                                   <div class="dfp-ad" ng-dfp-ad-hide-when-empty data-ng-dfp-ad="div-gpt-ad-ldb-bb-desktop-1" ></div>
+                                </div>
+                            </div>
+                            <div  data-ng-if="(deviceType == 'TABLET') && dfpConfigPresent">
+                                <div class="text-center mLRNeg10" data-ng-dfp-ad-container>
+                                   <div class="dfp-ad" ng-dfp-ad-hide-when-empty data-ng-dfp-ad="div-gpt-ad-ldb-bb-tablet-1" ></div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                    <!-- Content -->
+                                    <div class="site-body-holder">
+                                        <!--  400 ERROR -->
+<div class="row collapse">
+	<div class="small-10 medium-8 large-4 columns error-page-container">
+		<div class="error-image-container">
+			<img data-ng-src="{{appAssetsUrl + '/img/error-pages/general-error.png'}}" alt=""> 
+		</div>
+		<div class="error-text-container">
+			<p class="heading">عذرا، لا يمكن الوصول إلى الصفحة المطلوبة</p>
+		</div>
+		<div class="text-center">
+			<a class="button" data-ng-href="{{'/' + webContext + '/home'}}" title="عودة إلى الصفحة الرئيسية">عودة إلى الصفحة الرئيسية</a>
+		</div>
+
+	</div>
+</div>
+
+
+</div>
+                            </div>
+                        </div>
+                        
+
+<!-- Footer -->
+
+<div id="footer-start" style="height: 1px; width: 100%;clear: both"></div>
+<div data-ng-show="!hideFooter" class="footer-area noprint" data-ng-controller="footerController">
+    <footer class="footer-container" >
+            <div class="row hide-for-small-only">
+                <div class="small-{{totalmenuItems}} columns middle-east right" data-ng-repeat="footerItem in footerList">
+                    <ul class="no-bullet" data-ng-repeat="menuItems in footerItem.children">
+                        <li ng-if="menuItems.url">
+                            <a class="footer_heading" data-ng-href="{{ menuItems.url }}" title="{{ menuItems.toolTip ? menuItems.toolTip : menuItems.displayName }}" target="{{menuItems.type == 'EXTERNAL_LINK' ? '_blank' : '_self'}}"><span  class="footer_heading" data-ng-bind="::menuItems.displayName"></span></a>
+                        </li>
+                        <li ng-if="!menuItems.url">
+                            <span class="footer_heading" data-ng-bind="::menuItems.displayName"></span>
+                        </li>
+                         <li data-ng-click="trackGAEvent('FOOTER',menuItemList.displayName)" data-ng-repeat="menuItemList in menuItems.children"><a data-ng-href="{{ menuItemList.url }}" title="{{ menuItems.toolTip ? menuItems.toolTip : menuItems.displayName }}" target="{{menuItemList.type == 'EXTERNAL_LINK' ? '_blank' : '_self'}}" data-ng-bind="::menuItemList.displayName"> </a></li>
+
+                    </ul>
+                </div>
+            </div>
+            <div class="footer_bg">
+                <div class="row footer_container">
+                    <div class="small-6 small-centered medium-uncentered medium-4 large-2 columns footer-logo"><a class="" href="'/'" target="_self"><img data-ng-src="{{appAssetsUrl + '/img/footer-logo.png'}}" alt="سكاي نيوز عربية"/> </a> </div>
+                    <div class="social small-12 medium-8 columns">
+                        <ul class="inline-list"> 
+                            <li data-ng-repeat="footer in footerItems" >
+                                <a data-ng-href="{{ footer.url }}" data-ng-click="trackGAEvent('FOOTER_SOCIAL',footer.displayName)" title="{{footer.toolTip ? footer.toolTip : footer.displayName}}"  target="{{footer.type == 'EXTERNAL_LINK' ? '_blank' : '_self'}}" data-ng-mouseenter="toggleFooterIcon($event)" data-ng-mouseleave="toggleFooterIcon($event)">
+                                    <img class="snaFooterIcon active" data-ng-src="{{ footer.imageUrl }}" alt="{{ footer.toolTip }}" />
+                                    <img class="snaFooterIcon" data-ng-src="{{ footer.activeImageUrl }}" alt="{{ footer.toolTip }}" />
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div class="columns show-for-small-only small-12 text-center footer-links-static-page-mobile" style="">
+
+
+                        <a class=" footer-links-mobile-item"                   href="/terms-الشروط-والأحكام"              >الشروط و الأحكام</a>
+                        <a class=" footer-links-mobile-item"                   href="/privacy-سياسة-الخصوصية"             >سياسة الخصوصية</a>
+                        <a class=" footer-links-mobile-item"   target="_blank" href="http://careers.skynewsarabia.com"  >وظائف شاغرة</a>
+
+                    </div>
+                    <div class="small-12 columns copyright">
+                       <p data-ng-bind="::copyright"></p>
+                    </div>
+                </div>
+            </div>
+    </footer>
+</div>
+<!-- Footer end --></div>
+                </section>
+            </div>
+        </div>
+        <!-- Effective measures tracking code  -->
+    <script type="text/javascript">
+      (function() {
+        var em = document.createElement('script'); em.type = 'text/javascript'; em.async = true;
+        em.src = ('https:' == document.location.protocol ? 'https://me-ssl' : 'http://me-cdn') + '.effectivemeasure.net/em.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(em, s);
+      })();
+    </script>
+    <noscript>
+        <img src="//me.effectivemeasure.net/em_image" alt="" style="position:absolute; left:-5px;" />
+    </noscript>
+    <!--[if lte IE 9]>
+            <script src="/asset/12.11/js/lib/xdomain.min.js"></script>
+            <script>
+            xdomain.slaves({
+              "http://10.64.161.22": "/proxy.jsp"
+            });
+            </script>
+        <![endif]-->
+        <script type='text/javascript' src="//wurfl.io/wurfl.js" defer></script>
+        <script type="text/javascript" src="/asset/12.11/bower_components/momentjs/min/moment-with-locales.js"></script>
+<script type="text/javascript" src="/asset/12.11/bower_components/jquery/dist/jquery.min.js"></script>
+<script type="text/javascript" src="/asset/12.11/js/lib/jquery.nicescroll/jquery.nicescroll.js"></script>
+<script type="text/javascript" src="/asset/12.11/bower_components/blockUI/jquery.blockUI.js"></script>
+<script type="text/javascript" src="/asset/12.11/bower_components/gsap/src/minified/TweenMax.min.js"></script>
+<script type="text/javascript" src="/asset/12.11/bower_components/gsap/src/minified/jquery.gsap.min.js"></script>
+<script type="text/javascript" src="/asset/12.11/js/jquery.newsTicker.js"></script>
+<script type="text/javascript" src="/asset/12.11/js/cookie.js"></script>
+<script type="text/javascript" src="/asset/12.11/bower_components/foundation/js/foundation.js"></script>
+<script type="text/javascript" src="/asset/12.11/js/lib/vticker.min.js"></script>
+<script type="text/javascript" src="/asset/12.11/js/lib/slick.min.js"></script>
+<script type="text/javascript" src="/asset/12.11/js/lib/lodash.custom.min.js"></script>
+<script type="text/javascript" src="/asset/12.11/bower_components/modernizr/modernizr.js"></script>
+<script type="text/javascript" src="/asset/12.11/bower_components/angular/angular.min.js"></script>
+<script type="text/javascript" src="/asset/12.11/bower_components/angular-classy/angular-classy.min.js"></script>
+<script type="text/javascript" src="/asset/12.11/bower_components/angular-i18n/angular-locale_ar-ae.js"></script>
+<script type="text/javascript" src="/asset/12.11/bower_components/angular-route/angular-route.min.js"></script>
+<script type="text/javascript" src="/asset/12.11/bower_components/angular-sanitize/angular-sanitize.min.js"></script>
+<script type="text/javascript" src="/asset/12.11/bower_components/angular-cookies/angular-cookies.min.js"></script>
+<script type="text/javascript" src="/asset/12.11/bower_components/angular-touch/angular-touch.min.js"></script>
+<script type="text/javascript" src="/asset/12.11/bower_components/checklist-model/checklist-model.js"></script>
+<script type="text/javascript" src="/asset/12.11/js/lib/ngDfp/angular-dfp.js"></script>
+<script type="text/javascript" src="/asset/12.11/js/lib/jquery.webticker.js"></script>
+<script type="text/javascript" src="/asset/12.11/js/app.js"></script>
+<script type="text/javascript" src="/asset/12.11/js/config/appConfig.js"></script>
+<script type="text/javascript" src="/asset/12.11/js/ngService/timeDifference.js"></script>
+<script type="text/javascript" src="/asset/12.11/js/ngService/youtubeApi.js"></script>
+<script type="text/javascript" src="/asset/12.11/js/ngService/getDeviceOSService.js"></script>
+<script type="text/javascript" src="/asset/12.11/js/ngController/menuController.js"></script>
+<script type="text/javascript" src="/asset/12.11/js/ngController/weatherController.js"></script>
+<script type="text/javascript" src="/asset/12.11/js/ngFilter/imagefilter.js"></script>
+<script type="text/javascript" src="/asset/12.11/js/ngFilter/datefilter.js"></script>
+<script type="text/javascript" src="/asset/12.11/js/ngFilter/videoDurationFilter.js"></script>
+<script type="text/javascript" src="/asset/12.11/js/ngFilter/businessNumberFilter.js"></script>
+<script type="text/javascript" src="/asset/12.11/js/ngFilter/contentDateFilter.js"></script>
+<script type="text/javascript" src="/asset/12.11/js/ngFilter/encodeURIComponent.js"></script>
+<script type="text/javascript" src="/asset/12.11/js/ngFilter/imageAdvFilter.js"></script>
+<script type="text/javascript" src="/asset/12.11/js/ngService/addEllipsisfilter.js"></script>
+<script type="text/javascript" src="/asset/12.11/js/ngDirective/snaImageSrc.js"></script>
+<script type="text/javascript" src="/asset/12.11/js/ngService/foundationCarousel.js"></script>
+<script type="text/javascript" src="/asset/12.11/js/ngService/cookieservice.js"></script>
+<script type="text/javascript" src="/asset/12.11/js/ngService/ImageDimensionForMobileService.js"></script>
+<script type="text/javascript" src="/asset/12.11/js/ngService/viewPortInfo.js"></script>
+<script type="text/javascript" src="/asset/12.11/js/ngService/navigatorConnectionType.js"></script>
+<script type="text/javascript" src="/asset/12.11/js/ngService/imageViewPortWidth.js"></script>
+<script type="text/javascript" src="/asset/12.11/js/ngDirective/breakingNewsTicker.js"></script>
+<script type="text/javascript" src="/asset/12.11/js/ngDirective/notification.js"></script>
+<script type="text/javascript" src="/asset/12.11/js/ngDirective/latestNewsTicker.js"></script>
+<script type="text/javascript" src="/asset/12.11/js/ngDirective/snaComments.js"></script>
+<script type="text/javascript" src="/asset/12.11/js/ngDirective/snaAdMarvel.js"></script>
+<script type="text/javascript" src="/asset/12.11/js/ngDirective/snaShare.js"></script>
+<script type="text/javascript" src="/asset/12.11/js/ngDirective/snaAdvImageTag.js"></script>
+<script type="text/javascript" src="/asset/12.11/js/ngController/footerController.js"></script>
+<script type="text/javascript" src="/asset/12.11/js/ngFilter/setDecimalFilter.js"></script>
+<script type="text/javascript" src="/asset/12.11/js/ngService/snaDFPConfigurer.js"></script>
+
+</body>
+</html>

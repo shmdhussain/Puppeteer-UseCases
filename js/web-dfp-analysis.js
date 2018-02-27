@@ -54,8 +54,9 @@ switch (deviceTypeCode) {
     const browser = await puppeteer.launch({
 
         headless: false,
-        executablePath: '/Applications/Google\ Chrome\ Canary.app/Contents/MacOS/Google\ Chrome\ Canary',
-        args: ["--window-size=2400,1239"]
+        executablePath: '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',
+        args: ["--window-size=2400,1239"],
+        userDataDir: "/Users/Mohamed_Hussain_SH/Library/Application Support/Google/Chrome/Default"
 
 
     });

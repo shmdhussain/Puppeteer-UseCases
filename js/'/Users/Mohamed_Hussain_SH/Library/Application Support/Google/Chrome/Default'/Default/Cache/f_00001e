@@ -1,0 +1,533 @@
+snaApp.config(function($locationProvider) {
+    var ua = navigator.userAgent.toLowerCase();
+    if (ua.indexOf("msie 9.0") == -1) {
+        $locationProvider.html5Mode({ enabled: true, requireBase: false, rewriteLinks: false });
+    }
+});
+if (!!Modernizr.history && 'scrollRestoration' in history) {
+    history.scrollRestoration = 'manual';
+}
+snaApp.controller("videoWidgetModalController", ["$scope", "$http", "appConfig", "$window", "$log", "$location", 'timeDifference', '$sce', 'getDeviceOSService', '$timeout', '$compile', '$q', '$filter', function($scope, $http, appConfig, $window, $log, $location, timeDifference, $sce, deviceOSService, $timeout, $compile, $q, $filter) {
+    window.scrollPosBeforeVdoWidgetModalOpen = 0;
+    window.videowidgetJWPlayer;
+    var videoWidgetModal = $("#videoWidgetModal"),
+        listenToBrowserHistory = true,
+        videoWidgetOpenDirectFromUrl,
+        height_of_video_wgt_list = 0,
+        timeoutForVideoListHeightCalc,
+        videoWidgetPlayList = [],
+        nextVideoToBePlayed,
+        nextIndextoBePlayed,
+        DELAY_TO_PLAY_NEXT_VIDEO = 5000,
+        timeoutFnForNextVideoInPlaylist,
+        jwPlayerReadyDeferred = $q.defer(),
+        jwPlayerReady = false,
+        listenForBrowserUrlHistoryChange;
+
+    $scope.browserNavButtonAction = false;
+    $scope.videoWidgetModal = {};
+    $scope.isIOSDevice = !!(deviceOSService.getDeviceOS == 'iOS');
+    /*START: Initialize code for video Widget*/
+    $rootScope.openVideoModalFromDOM = function(event, video, index, playCurrentVideo) {
+        !!event && event.preventDefault();
+        !!event && event.stopPropagation();
+        playCurrentVideo = !!playCurrentVideo;
+        updateScrollPosBeforeModalOpen();
+        openVideoWidgetModal(video, index, playCurrentVideo);
+        pushHistoryInBrowser();
+
+    };
+
+    function changeCurrentVideoInView() {
+        $scope.videoWidgetModalCurrentVideo = $rootScope.videoWidgetModalCurrentVideo;
+        var currVideo = $scope.videoWidgetModalCurrentVideo
+        $rootScope.Sheadline = currVideo.headline;
+        $rootScope.Ssummary = currVideo.summary;
+        $rootScope.shareMainMediaUrl = currVideo.mediaAsset.imageUrl;
+        $rootScope.Surl = 'http://' + appConfig.sharingHost + '/' + currVideo.type.toLowerCase() + '/' + currVideo.id;
+        $rootScope.shareEmailUrl = 'http://' + appConfig.sharingHost + '/' + currVideo.type.toLowerCase() + '/' + currVideo.id + '/';
+        sendGoogleAnalytics(currVideo);
+    }
+
+    function sendGoogleAnalytics(currVideo) {
+        sendGAPageView(appConfig.webContext, currVideo.type.toLowerCase(), currVideo.id, currVideo.urlFriendlySuffix, currVideo.headline);
+    }
+
+    function playVideoInJwPlayer(currVideo) {
+        var imageUrl = constructAbsImageUrl(currVideo);
+
+        //console.log('currVideo', currVideo);
+        var tracks = [];
+
+        if (!!currVideo.thumbnailUrl) {
+            var tracks = [{
+                file: currVideo.thumbnailUrl,
+                kind: "thumbnails"
+            }];
+            if (document.location.protocol == 'https:' && typeof tracks[0].file != "undefined") {
+                    tracks[0].file = tracks[0].file.replace("http://", "https://");
+            }
+        }
+
+        jwplayer('videoPlayerContainer0').load([{ file: currVideo.videoUrl[0].url, image: imageUrl, autostart: true, tracks: tracks, mediaid: currVideo.jwPlayerMediaId, title: currVideo.headline}]).play(true);
+    }
+
+    function setCurrentVideoInRoot(videoObj) {
+        $rootScope.videoWidgetModalCurrentVideo = videoObj;
+    }
+
+    function getCurrentVideoInRoot() {
+        return $rootScope.videoWidgetModalCurrentVideo;
+    }
+
+    function setNextVideoInScope(videoObj) {
+        $scope.$applyAsync(function(){
+            $scope.videoWidgetModal.nextVideo = videoObj;
+        });
+    }
+
+    function getNextVideoInScope() {
+        return $scope.videoWidgetModal.nextVideo;
+    }
+
+    function updatePlayList(playList) {
+        videoWidgetPlayList = playList;
+    }
+
+    function setNextVideoToBePlayed(index) {
+        nextVideoToBePlayed = videoWidgetPlayList.pop();
+    }
+    $scope.clickVideoWidgetListItemFromDOM = function(video, index) {
+        setCurrentVideoInRoot(video);
+        changeCurrentVideoInView();
+        changeScrollPosOfVideoListDesktop(getCurrentVideoInRoot().posInVideoWidgetListDom);
+        updatePlayList($scope.videoWidgetVideos.slice(index));
+        $timeout.cancel(timeoutFnForNextVideoInPlaylist); //stop the timer
+        hideNextVideoBreakInterstitial();
+        scrollTopAfterClickOnVideoItem();
+        playVideoInJwPlayer(video);
+
+    }
+
+    $scope.playNextVideoInPlayListImmediate = function($event) {
+        $timeout.cancel(timeoutFnForNextVideoInPlaylist); //stop the timer
+        playNextVideoInPlayList();
+    }
+    $scope.videoCompleted = function() {
+
+        videoWidgetPlayList.splice(0, 1);
+        updatePlayList(videoWidgetPlayList);
+        exitFullscreen();
+        if ( isEndOfPlaylist() ) {
+            resetPlaylist();
+        }
+        //play next in play list
+        if (!!videoWidgetPlayList && videoWidgetPlayList.length > 0) {
+            showNextVideoBreakInterstitial();
+            setNextVideoInScope(videoWidgetPlayList[0]);
+            timeoutFnForNextVideoInPlaylist = $timeout(function() {
+                playNextVideoInPlayList();
+            }, DELAY_TO_PLAY_NEXT_VIDEO);
+
+        }
+
+    }
+
+    function isEndOfPlaylist () {
+        return (!!videoWidgetPlayList && videoWidgetPlayList.length == 0);
+    }
+    function resetPlaylist() {
+        updatePlayList($scope.videoWidgetVideos.slice());
+    }
+    function playNextVideoInPlayList() {
+        setCurrentVideoInRoot(videoWidgetPlayList[0]);
+        changeScrollPosOfVideoListDesktop(videoWidgetPlayList[0].posInVideoWidgetListDom);
+        changeCurrentVideoInView();
+        playVideoInJwPlayer(getCurrentVideoInRoot());
+        hideNextVideoBreakInterstitial();
+    }
+
+    function changeScrollPosOfVideoListDesktop(posInVideoWidgetListDom) {
+        if ($rootScope.deviceType != 'DESKTOP') {
+            return;
+        }
+        var bufferScrollFromTopforCurentVideo = 20;
+        var videoListElem = videoWidgetModal.find('.vdo-wgt-list');
+        var currentVideoElem = videoListElem.find('.vdo-wgt-list-item').eq(posInVideoWidgetListDom)[0];
+        var posOfCurrentVideoFromParent = currentVideoElem.offsetTop;
+        videoListElem[0].scrollTop = posOfCurrentVideoFromParent - bufferScrollFromTopforCurentVideo;
+
+    }
+
+    function showNextVideoBreakInterstitial() {
+        $(".vdo-wgt-current-vdo-break-to-next-video").show();
+        setTimeout(function(){
+            $(".vdo-wgt-current-vdo-break-to-next-video .progress-fill").addClass('start-progress-to-next-vdo');
+        }, 100)
+    }
+
+    function hideNextVideoBreakInterstitial() {
+        $(".vdo-wgt-current-vdo-break-to-next-video").hide();
+        $(".vdo-wgt-current-vdo-break-to-next-video .progress-fill").removeClass('start-progress-to-next-vdo');
+    }
+
+    function scrollTopAfterClickOnVideoItem() {
+        if ($rootScope.deviceType == 'DESKTOP') {
+            return;
+        }
+        var elemToScroll = document.querySelectorAll("body > #videoWidgetModal .feed-wrap.full-screen-modal")[0];
+        setTimeout(function() {
+            elemToScroll.scrollTop = 0;
+        }, 500)
+    }
+    $rootScope.closeVideoModalFromDOM = function(event) {
+        !!event && event.preventDefault();
+        !!event && event.stopPropagation();
+        goBackBrowserHistory();
+        closeVideoWidgetModal();
+    };
+
+    $rootScope.videoWidgetVideosDeferredObj.promise.then(function(data) {
+        initLoadvideoWidget(data);
+        eventHandlerForModal();
+    });
+
+    function initLoadvideoWidget(videos) {
+        // height_of_video_wgt_list = heightApproxForVideoWgtList();
+        videoWidgetModal = $("#videoWidgetModal")
+        $rootScope.videoWidgetVideos = addPosOfVideoObjInVideoWidgetListDom(videos);
+        if (window.location.hash.indexOf('#videoplaylist') > -1) {
+            var hash_index = window.location.hash.split("-")[1];
+
+            videoWidgetOpenDirectFromUrl = true;
+            pushHistoryInBrowser();
+            openVideoWidgetModal($rootScope.videoWidgetVideos[hash_index]);
+        }else{
+            $location.state({ "videoWidgetOpen": false });
+            $location.replace();
+        }
+        // window.addEventListener('popstate', historyPopState, false);
+        bindRouteChangeSuccess();
+        $(document).foundation('reveal', { animation: 'none' }); //turn off animation for the modal
+    }
+    
+    function addPosOfVideoObjInVideoWidgetListDom(videos) {
+        for (var i = 0; i < videos.length; i++) {
+            videos[i].posInVideoWidgetListDom = i;
+        }
+        return videos;
+    }
+
+    function eventHandlerForModal(argument) {
+        videoWidgetModal.on('close.fndtn.reveal', function(e) {
+            if (e.namespace != 'fndtn.reveal') {
+                return;
+            } // fix foundation bug
+
+            iosCloseModalTreatment();
+        });
+
+        videoWidgetModal.on('opened.fndtn.reveal', function(e) {
+            if (e.namespace != 'fndtn.reveal') {
+                return;
+            } // fix foundation bug
+            iosOpenModalTreatment();
+            resetScrollPosOfPlaylistInDesktop();
+            resetScrollPosOfVideoWidgetInMobile();
+            if (getIEVersion() != 9) {
+                changeCurrentVideoInView();
+            }
+        });
+
+    }
+    /*END: Initialize code for video Widget*/
+
+    function openVideoWidgetModal(video, index, playCurrentVideo) {
+        $('body').css('overflow', 'hidden');
+        $('body').css('overflow-y', 'hidden');
+        $('body').addClass('modal-opened video-widget-modal-opened');
+
+        // setHeightforVideoListDesktop(height_of_video_wgt_list);
+        // heightAdjustmentCalcForVideoListDesktop();
+        initVideoWidgetPlayer(video, playCurrentVideo);
+        updatePlayList($scope.videoWidgetVideos.slice(index));
+        $timeout(function() {
+            videoWidgetModal.foundation('reveal', 'open', { 'close_on_esc': false });
+            bindEscapeKeyHandler();
+            ie9ChangeCurrentVideoInView();
+        }, 100, false);
+    }
+    function resetScrollPosOfPlaylistInDesktop(argument) {
+        if ($rootScope.deviceType != 'DESKTOP') {
+            return;
+        }
+        videoWidgetModal.find(".vdo-wgt-list")[0].scrollTop = 0;
+    }
+    function resetScrollPosOfVideoWidgetInMobile(argument) {
+        if ($rootScope.deviceType == 'DESKTOP') {
+            return;
+        }
+        videoWidgetModal.find(".feed-wrap.full-screen-modal")[0].scrollTop = 0;
+    }
+    function ie9ChangeCurrentVideoInView() {
+        if (getIEVersion() == 9) {
+            changeCurrentVideoInView();
+        }
+    }
+    function initVideoWidgetPlayer(video, playCurrentVideo) {
+        var imageUrl;
+        if (!$rootScope.videoWidgetVideos || $rootScope.videoWidgetVideos.length == 0) {
+            return;
+        }
+        video = video || $rootScope.videoWidgetVideos[0];
+        $scope.videoWidgetVideos = $rootScope.videoWidgetVideos;
+        setCurrentVideoInRoot(video);
+        if (!!jwPlayerReady) {
+            imageUrl = constructAbsImageUrl(video);
+
+            var tracks = [];
+
+            if (!!video.thumbnailUrl) {
+                var tracks = [{
+                    file: video.thumbnailUrl,
+                    kind: "thumbnails"
+                }];
+                
+                if (document.location.protocol == 'https:' && typeof tracks[0].file != "undefined") {
+                    tracks[0].file = tracks[0].file.replace("http://", "https://");
+                }
+            }
+
+            jwplayer('videoPlayerContainer0').load([{ file: video.videoUrl[0].url, image: imageUrl, autostart: false, tracks: tracks, mediaid: video.videoUrl[0].jwPlayerMediaId, title: video.headline }]);
+        } else {
+            $scope.currentVideoContent = { details: video, id: new Date().getTime(), mediaAsset: { imageUrl: video.mediaAsset.imageUrl }, videoUrl: [{ url: video.videoUrl[0].url }], thumbnailUrl : video.thumbnailUrl, headline: video.headline }
+        }
+        if (!!playCurrentVideo) {
+            autoPlayForDesktop();
+        }
+        hideNextVideoBreakInterstitial();
+
+    }
+
+    function constructAbsImageUrl(videoObj) {
+        return "/" + $rootScope.webContext + "/images" + $filter('imageAdvFilter')(videoObj.mediaAsset.imageUrl, [ [.94, .77], [1, 1], [1, 1] ], 0.563, true, [1600, 768]);
+        // return "http://www.leg7.webdev.skynewsarabia.com/web/images/2016/11/09/890930/400/225/1-890930.jpg";
+    }
+
+
+    $scope.jwPlayerReady = function() {
+        jwPlayerReadyDeferred.resolve("jwPlayerReady");
+        jwPlayerReady = true;
+        turnOffIPhoneInlinePlay();
+    }   
+
+    function turnOffIPhoneInlinePlay(argument) {
+        videoWidgetModal.find('sna-video video').removeAttr('playsinline').removeAttr('webkit-playsinline')
+    }
+
+    function autoPlayForDesktop() {
+        if ($rootScope.deviceType != 'DESKTOP') {
+            return;
+        }
+        if (!!jwPlayerReady) {
+            jwplayer('videoPlayerContainer0').play(true);
+        } else {
+            jwPlayerReadyDeferred.promise.then(function(data) {
+                jwplayer('videoPlayerContainer0').play(true);
+            }, function() {
+
+            });
+        }
+    }
+
+    function closeVideoWidgetModal() {
+        $('body').css('overflow', '');
+        $('body').css('overflow-y', 'scroll');
+        $('body').removeClass('modal-opened video-widget-modal-opened');
+        cleanUpVideoWidgetModalBeforeClose();
+        videoWidgetModal.foundation('reveal', 'close');
+        // cancelHeightAdjustmentCalcForVideoListDesktop();
+    };
+
+    function cleanUpVideoWidgetModalBeforeClose() {
+        if (!!jwplayer('videoPlayerContainer0')) {
+            jwplayer('videoPlayerContainer0').pause(true);
+            try {
+                jwplayer('videoPlayerContainer0').stop();
+            } catch (e) {
+                try {
+                    jwplayer('videoPlayerContainer0').stop();
+                } catch (error) {}
+            }
+        }
+        $timeout.cancel(timeoutFnForNextVideoInPlaylist);
+        unBindEscapeKeyHandler();
+        hideNextVideoBreakInterstitial();
+        exitFullScreenOnCloseVideoWidgetModal();
+    }
+
+
+
+
+
+
+    function exitFullScreenOnCloseVideoWidgetModal(argument) {
+        // if(getIEVersion() != 10){
+        //     return;
+        // }
+        videoWidgetModal.find('#videoPlayerContainer0').removeClass('jw-flag-fullscreen');
+        setTimeout(function() {
+            $("body").removeClass('fullscreen-video');
+            if($rootScope.device == 'DESKTOP' && !(isVideoWidgetModalOpened()) ){
+                $('body').css('overflow', '');
+                $('body').css('overflow-y', 'scroll');
+            }
+        }, 1000);
+        exitFullscreen();
+    }
+
+    function isVideoWidgetModalOpened(){
+        return $('body').hasClass('modal-opened video-widget-modal-opened');
+    }
+    function bindEscapeKeyHandler() {
+        $('body').off('keyup.cardmodal').on('keyup.cardmodal', function(event) {
+            if (event.which === 27) {
+                if ($("body").hasClass('fullscreen-video')) {
+                    return;
+                }
+                $rootScope.closeVideoModalFromDOM();
+            }
+        });
+    }
+
+    function unBindEscapeKeyHandler() {
+        $('body').off('keyup.cardmodal');
+    }
+
+    function pushHistoryInBrowser() {
+        if (!!Modernizr.history) {
+            if (!!videoWidgetOpenDirectFromUrl) {
+                $location.path("/" + appConfig.webContext + $rootScope.initData.url);
+                $location.state({ "videoWidgetOpen": false });
+                $location.hash("");
+                $location.replace();
+                stoplistenForBrowserUrlHistoryChange();
+            }
+            setTimeout(function(){
+                $scope.$applyAsync(function(){
+                    $location.path("/" + appConfig.webContext + $rootScope.initData.url);
+                    $location.hash("videoplaylist");
+                    $location.state({ "videoWidgetOpen": true });
+                    stoplistenForBrowserUrlHistoryChange();
+                });
+
+            }, 50);
+            
+        }
+    }
+    function stoplistenForBrowserUrlHistoryChange() {
+       listenForBrowserUrlHistoryChange = false;
+    }
+    function startlistenForBrowserUrlHistoryChange() {
+       listenForBrowserUrlHistoryChange = true;
+    }
+    function goBackBrowserHistory() {
+        if (!!Modernizr.history) {
+            window.history.go(-1);
+        }
+    }
+
+    function historyPopState(state) {
+        if(!state){
+           return; 
+        } //webkit fix, popstate is triggered on pageload
+        if (!!state && !!state.videoWidgetOpen) {
+            openVideoWidgetModal();
+            return;
+        }
+
+        /*START: Prevent scroll hijacing when popstate is triggered*/
+        var updateScrollafterPopstate = function(e) {
+            window.scrollTo(0, window.scrollPosBeforeVdoWidgetModalOpen);
+            window.removeEventListener('scroll', updateScrollafterPopstate);
+        };
+        if((getIEVersion() == 11 || isIEEdge())) {
+            window.addEventListener('scroll', updateScrollafterPopstate, '', true);
+        }else{
+             window.addEventListener('scroll', updateScrollafterPopstate);
+        }
+        /*END: Prevent scroll hijacing when popstate is triggered*/
+        closeVideoWidgetModal();
+    }
+
+    function iosOpenModalTreatment() {
+        if (deviceOSService.getDeviceOS == 'iOS') {
+            scrollTop = (document.documentElement && document.documentElement.scrollTop) || document.body.scrollTop;
+            $('.reveal-modal-bg').css({ 'background': '#000000' });
+        }
+    }
+
+    function iosCloseModalTreatment() {
+        if (deviceOSService.getDeviceOS == 'iOS') {
+            $('html').css('overflow', '');
+            $('.reveal-modal-bg').css({ 'background': '' });
+
+            $timeout(function() {
+                if (document.documentElement) {
+                    document.documentElement.scrollTop = scrollTop;
+                }
+                document.body.scrollTop = scrollTop;
+            }, 100, false);
+        }
+    }
+
+    function updateScrollPosBeforeModalOpen() {
+        window.scrollPosBeforeVdoWidgetModalOpen = document.body.scrollTop || document.documentElement.scrollTop || window.pageYOffset;
+
+    }
+    /*START: Exit Full screen*/
+    function exitFullscreen() {
+      if(document.exitFullscreen) {
+        document.exitFullscreen();
+      } else if(document.mozCancelFullScreen) {
+        document.mozCancelFullScreen();
+      } else if(document.webkitExitFullscreen) {
+        document.webkitExitFullscreen();
+      }
+    }
+    /*END: Exit Full screen*/
+
+    function bindRouteChangeSuccess(){
+        var ua = navigator.userAgent.toLowerCase();
+        $rootScope.$on('$locationChangeSuccess', function(event, newUrl, oldUrl, newState, oldState) {
+            if (ua.indexOf("msie 9.0") == -1) {
+               
+                if(!!listenForBrowserUrlHistoryChange){
+                    historyPopState(newState);
+                }
+                else{
+                    startlistenForBrowserUrlHistoryChange();
+                }
+            }
+        });
+    }
+
+}]);
+
+/*START: Utility function for debounce*/
+function debounce(func, wait, immediate) {
+    var timeout;
+    return function() {
+        var context = this,
+            args = arguments;
+        var later = function() {
+            timeout = null;
+            if (!immediate) func.apply(context, args);
+        };
+        var callNow = immediate && !timeout;
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+        if (callNow) func.apply(context, args);
+    };
+};
+/*END: Utility function for debounce*/
