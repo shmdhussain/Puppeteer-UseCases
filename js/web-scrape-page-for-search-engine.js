@@ -135,6 +135,8 @@ switch (deviceTypeCode) {
                     console.log(`${assetDomain}/${linkHref}`)
                 }
             });
+
+            
             var pageHTML = $("html")[0].outerHTML;
 
 
@@ -154,13 +156,13 @@ switch (deviceTypeCode) {
         // /*END: console output beautifier*/
 
         del.sync([
-            `./html-scrape/data.html`,
+            `./html-scrape/*.html`,
         ], { force: true });
 
 
         if (!fs.existsSync('./html-scrape')) fs.mkdirSync('./html-scrape');
 
-        fs.writeFile("./html-scrape/data.html", pageHTML, function(err) {
+        fs.writeFile(`./html-scrape/${paths[i].title}.html`, pageHTML, function(err) {
             if (err) {
                 return console.log(err);
             }
