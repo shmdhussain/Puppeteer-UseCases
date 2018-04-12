@@ -47,31 +47,36 @@ var domainList = [
         cmsDomain: "https://snapcms.leg8.webdev.skynewsarabia.com"
     },
     {   no:9, 
+        nickName:"leg9",        
+        webDomain: "http://www.leg9.webdev.skynewsarabia.com",
+        cmsDomain: "https://snapcms.leg9.webdev.skynewsarabia.com"
+    },
+    {   no:10, 
         nickName:"webdevtest",  
         webDomain: "http://webdevtest.skynewsarabia.com",
         cmsDomain: "https://snapcms.leg7.webdev.skynewsarabia.com"
     },
-    {   no:10, 
+    {   no:111, 
         nickName:"fshwebt",     
         webDomain: "http://fshwebt.skynewsarabia.com",
         cmsDomain: "http://snapcms.leg7.webdev.skynewsarabia.com"
     },
-    {   no:11, 
+    {   no:112, 
         nickName:"snatv",       
         webDomain: "https://www.skynewsarabiatv.com",
         cmsDomain: "https://snapcms.leg4.noham.webdev.skynewsarabia.com"
     },
-    {   no:12, 
+    {   no:113, 
         nickName:"offlineLeg1", 
         webDomain: "http://www.leg1.kgham.webdev.skynewsarabia.com",
         cmsDomain: "https://snapcms.leg1.kgham.webdev.skynewsarabia.com"
     },
-    {   no:13, 
+    {   no:114, 
         nickName:"offlineLeg2", 
         webDomain: "http://www.leg2.kgham.webdev.skynewsarabia.com",
         cmsDomain: "https://snapcms.leg2.kgham.webdev.skynewsarabia.com"
     },
-    {   no:14, 
+    {   no:115, 
         nickName:"local different port", 
         webDomain: "http://10.64.161.22:8083",
         cmsDomain: "http://10.64.161.22:8083/"
